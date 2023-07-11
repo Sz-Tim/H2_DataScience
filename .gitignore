@@ -1,3 +1,12 @@
+# Microsoft files
+*.doc*
+*.ppt*
+
+# Practical bookdown book
+/practicals/H2_DS_practicals
+/practicals/2022
+
+
 # History files
 .Rhistory
 .Rapp.history
