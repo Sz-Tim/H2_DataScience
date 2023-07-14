@@ -1,0 +1,305 @@
+---
+title: "Exploring the tidyverse"
+author: "Tim Szewczyk"
+date: "2023-06-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction to the *tidyverse*
+
+Throughout much of your coursework, you will receive clean, compact datasets that contain all of the data and only the data that you need. This, of course, does not reflect the experience of research. In reality, [a typical data scientist spends the majority of their time wrangling data](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html). Inevitably, your data will come from several sources, be collected by different people, entered into a spreadsheet by even different people, and arrive on your computer in multiple arrangements. There may be missing or incorrect values, or multiple labels for the same treatment.
+
+Even with perfectly cleaned datasets, you should spend a good amount of time *looking* at your data in different ways. This is known as Exploratory Data Analysis (EDA). These quick, messy plots and summaries are a great way to identify potential errors in your data and will help you develop an intuitive sense of the structure of and patterns within complex datasets.
+
+The [*tidyverse*](https://www.tidyverse.org) is "an opinionated collection of R packages designed for data science" that is commonly used in the R-based data science world. They share a core design philosophy with a distinct coding grammar and distinct data structures. These packages work collaboratively to make data wrangling, analysis, and visualization easier, cleaner, and more reproducible.
+
+We will just dip our toes into the *tidyverse* -- there is much, much more that we will not cover.
+
+# What makes a dataset tidy vs. messy?
+
+Hadley Wickham (R legend and person largely behind the *tidyverse*) has said that "tidy datsets are all alike, but every messy dataset is messy in its own way." Within the *tidyverse* framework, [a tidy dataset](https://www.jstatsoft.org/article/view/v059i10) will have the following characteristics:
+
+1.  Each variable is a single column.
+2.  Each observation is a single row.
+3.  Each type of observational unit is a single table.
+
+If you have multiple spreadsheets, each should have a column with the same name that allows them to be joined or merged appropriately.
+
+### Guidelines for data entry
+
+When entering your data, try to keep to the following [guidelines](https://doi.org/10.1080/00031305.2017.1375989):
+
+**1. Be consistent**
+
+Stick with a single way of entering variables (e.g., use 'M'/'F' or 'male'/'female', but don't mix them)
+
+**2. Choose good names for things**
+
+Avoid spaces where possible (use underscores or somethingLikeCamelCase). Names should be descriptive but not overly long. In R, objects can't start with numbers or special characters, so try to avoid that in your variable levels as well.
+
+**3. Write dates as YYYY-MM-DD**
+
+This is the global ISO 8601 standard. It sorts well and keeps Excel from [seriously mangling your data](https://www.nature.com/articles/d41586-021-02211-4).
+
+**4. No empty cells**
+
+Enter NA instead.
+
+**5. Put just one thing in a cell**
+
+For example, have a column `weight_kg` filled with numbers rather than a column called `weight` filled with values like "5.5 kg".
+
+**6. Don't use font color or highlighting as data**
+
+Sometimes used to flag values. If needed, create a new column to mark observations needing extra attention.
+
+**7. Save the data as plain text files**
+
+Proprietary formats like .xlsx can be handy, but plain text (.csv, .txt, .tsv, etc) does not require special software and can be read by anyone on any machine.
+
+------------------------------------------------------------------------
+
+# Key packages in the *tidyverse*
+
+There are many packages associated with the tidyverse. We will cover **aspects** of only these select few:
+
+-   `dplyr`: data manipulation
+-   `tidyr`: tidying data
+-   `tibble`: a re-imagining of the dataframe
+-   `stringr`: working with strings
+-   `lubridate`: working with dates and date-times
+-   `ggplot2`: visualization
+
+When you install the *tidyverse* package, all of these are installed (and more).
+
+```{r eval=FALSE}
+install.packages("tidyverse")
+```
+
+```{r}
+library(tidyverse)
+```
+
+------------------------------------------------------------------------
+
+# But first: Piping
+
+Piping is a useful technique to keep your code legible. The 'pipe operator\` allows you to string together functions by taking the output of one and sending it as input to the next. Many functions in the *tidyverse* are designed to work nicely in pipes.
+
+The native R pipe is `|>` and was introduced in R 4.1.0. Prior to this, piping required the *magrittr* package. You will still see the *magrittr* pipe `%>%`. There are a few differences and the *magrittr* pipe has a few extra capabilities. We will stick with the native `|>` here.
+
+```{r}
+summary(iris)
+
+iris |>
+  summary()
+```
+
+------------------------------------------------------------------------
+
+# Tibbles
+
+[Tibbles](https://tibble.tidyverse.org/) are dataframes, but with a few extra tweaks. See [the Tibbles chapter in R for Data Science](https://r4ds.had.co.nz/tibbles.html) for a more comprehensive overview.
+
+```{r echo=TRUE}
+data("msleep")
+?msleep
+class(msleep)
+msleep
+```
+
+```{r}
+fieldData.df <- read_csv("fieldData.csv")
+
+class(fieldData.df)
+
+fieldData.df
+
+
+str(fieldData.df)
+glimpse(fieldData.df)
+```
+
+------------------------------------------------------------------------
+
+# Munging data
+
+It is best to keep your data file as it is, and do all of your cleaning, filtering, transforming, etc. in R for full transparency and reproducibility. Editing by hand (e.g., in Excel) leaves no clear trail of what you did and also makes mistakes easy to make but difficult to find.
+
+The [dplyr](https://dplyr.tidyverse.org/) package provides a set of functions that make munging your data simple and easy. See [the Data Transformation chapter in R for Data Science](https://r4ds.had.co.nz/transform.html) for a more comprehensive overview.
+
+**Key functions:**
+
+-   `filter()` filters **rows** based on a `TRUE/FALSE` logical statement
+-   `select()` selects **columns** by name, number, or a *tidyselect* helper function
+-   `arrange()` reorders the tibble according to the column(s) provided
+-   `mutate()` creates new columns
+-   `group_by()` groups the tibble by the column(s) provided
+-   `summarise()` creates summaries, either for the whole tibble or by group
+
+```{r}
+# filter()
+msleep |>
+  filter(vore=="herbi")
+
+# select()
+msleep |>
+  select(-conservation)
+msleep |>
+  select(1, 9:11)
+msleep |>
+  select(name, order, starts_with("sleep"))
+
+# arrange()
+msleep |>
+  filter(vore=="herbi") |>
+  arrange(bodywt)
+
+# mutate()
+msleep |>
+  filter(!is.na(brainwt) & !is.na(bodywt)) |>
+  mutate(brain_pct=brainwt/bodywt*100) |>
+  arrange(desc(brain_pct))
+
+# summarise()
+msleep |>
+  filter(!is.na(awake)) |>
+  summarise(nSpp=n_distinct(name),
+            nGenera=n_distinct(genus),
+            awake_mean=mean(awake),
+            awake_sd=sd(awake))
+msleep |>
+  filter(!is.na(awake)) |>
+  group_by(vore) |>
+  summarise(nSpp=n_distinct(name),
+            nGenera=n_distinct(genus),
+            awake_mean=mean(awake),
+            awake_sd=sd(awake))
+
+```
+
+------------------------------------------------------------------------
+
+# Reshaping data
+
+The [tidyr](https://tidyr.tidyverse.org/) package has many functions for tidying your datasets. We will cover just two that tend to be particularly useful.
+
+**Key functions:**
+
+-   `pivot_longer()` takes a series of columns and stacks them into one
+-   `pivot_wider()` takes a single column and spreads them into several
+
+```{r}
+# pivot_longer
+msleep |>
+  select(name, genus, order, brainwt, bodywt) |>
+  pivot_longer(cols=contains("wt"), names_to="structure", values_to="weight")
+
+# pivot_wider
+iris |>
+  group_by(Species) |>
+  mutate(Plant_id=row_number()) |>
+  ungroup() |>
+  select(Plant_id, Species, Petal.Width) |>
+  pivot_wider(names_from="Species", values_from="Petal.Width")
+
+```
+
+------------------------------------------------------------------------
+
+# Working with strings
+
+The [stringr](https://stringr.tidyverse.org/) package has many convenient functions for working with strings (text). They generally follow the naming form of `str_verb()`. See [the Strings chapter in R for Data Science](https://r4ds.had.co.nz/strings.html) for a more comprehensive overview.
+
+**Key functions:**
+
+-   `str_remove()` removes a *pattern* from each element in the vector
+-   `str_replace()` replaces a *pattern* from each element in the vector
+-   `str_sub()` extracts a subset of characters from each element in the vector
+-   `str_split()` splits each element in the vector based on a *pattern*
+
+```{r}
+# str_remove / str_remove_all
+msleep |>
+  select(name, genus, order) |>
+  mutate(nameNoSpace=str_remove(name, " "))
+msleep |>
+  select(name, genus, order) |>
+  mutate(nameNoSpace=str_remove_all(name, " "))
+
+# str_replace / str_replace_all
+msleep |>
+  select(name, genus, order) |>
+  mutate(nameNoSpace=str_replace(name, " ", "_"))
+msleep |>
+  select(name, genus, order) |>
+  mutate(nameNoSpace=str_replace_all(name, " ", "_"))
+
+# str_sub()
+msleep |>
+  select(name, genus, order) |>
+  mutate(order_abbr=str_sub(order, 1, 4))
+
+msleep |>
+  select(name, genus, order) |>
+  mutate(nameSplit=str_split(name, " "))
+str_split(msleep$name, " ")
+str_split_fixed(msleep$name, " ", 3)
+str_split_fixed(msleep$name, " ", 3)[,1]
+```
+
+------------------------------------------------------------------------
+
+# Working with dates
+
+Date-time data are notoriously prickly, particularly in R. The [lubridate](https://lubridate.tidyverse.org/) package makes them much less so. See [the Dates and Times chapter in R for Data Science](https://r4ds.had.co.nz/dates-and-times.html) for a more comprehensive overview.
+
+`ymd()`, `mdy()`, `dmy()`, `ymd_hms()`, `year()`, `month()`, `mday()`, `yday()`, `week()`, adding, subtracting
+
+------------------------------------------------------------------------
+
+# ggplot2
+
+The *ggplot2* package is fantastic for exploratory data analysis.
+
+```{r}
+msleep |>
+  ggplot(aes(brainwt, bodywt)) + 
+  geom_point()
+msleep |>
+  ggplot(aes(brainwt, bodywt)) + 
+  geom_point() + 
+  scale_x_log10("Brain weight (kg)") + 
+  scale_y_log10("Body weight (kg)")
+
+msleep |> 
+  ggplot(aes(sleep_cycle)) + 
+  geom_histogram()
+
+msleep |> 
+  ggplot(aes(sleep_cycle)) + 
+  geom_density()
+
+iris |>
+  ggplot(aes(Sepal.Length, Petal.Length, colour=Species)) + 
+  geom_point() +
+  stat_smooth(method="lm")
+
+iris |>
+  ggplot(aes(Sepal.Length, Petal.Length)) + 
+  geom_point(aes(colour=Species)) +
+  stat_smooth(method="lm") + 
+  stat_smooth(aes(colour=Species), method="lm")
+
+iris |>
+  mutate(Sepal.Area=Sepal.Length*Sepal.Width) |>
+  ggplot(aes(Petal.Length, Petal.Width, colour=Sepal.Width)) + 
+  geom_point() + 
+  scale_colour_viridis_c() + 
+  facet_wrap(~Species)
+
+```
