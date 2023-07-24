@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Practical 4 t-tests &amp; confidence intervals | H2 Data Science Practical Series</title>
+  <meta name="description" content="Handbook for the H2 Data Science practicals." />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Practical 4 t-tests &amp; confidence intervals | H2 Data Science Practical Series" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://brightspace.uhi.ac.uk/d2l/home/341332/figs/cover_short.png" />
+  <meta property="og:description" content="Handbook for the H2 Data Science practicals." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical 4 t-tests &amp; confidence intervals | H2 Data Science Practical Series" />
+  
+  <meta name="twitter:description" content="Handbook for the H2 Data Science practicals." />
+  <meta name="twitter:image" content="https://brightspace.uhi.ac.uk/d2l/home/341332/figs/cover_short.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="normal.html"/>
+<link rel="next" href="glm.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">H2 Data Science Practical Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i>Overview</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="overview.html"><a href="overview.html#practical-sessions"><i class="fa fa-check"></i><b>0.1</b> Practical sessions</a></li>
+<li class="chapter" data-level="0.2" data-path="overview.html"><a href="overview.html#assessments"><i class="fa fa-check"></i><b>0.2</b> Assessments</a></li>
+<li class="chapter" data-level="0.3" data-path="overview.html"><a href="overview.html#R_intro"><i class="fa fa-check"></i><b>0.3</b> Getting started in R</a>
+<ul>
+<li class="chapter" data-level="0.3.1" data-path="overview.html"><a href="overview.html#rstudio-project"><i class="fa fa-check"></i><b>0.3.1</b> RStudio Project</a></li>
+<li class="chapter" data-level="0.3.2" data-path="overview.html"><a href="overview.html#rstudio-settings"><i class="fa fa-check"></i><b>0.3.2</b> RStudio Settings</a></li>
+<li class="chapter" data-level="0.3.3" data-path="overview.html"><a href="overview.html#r-packages-and-libraries"><i class="fa fa-check"></i><b>0.3.3</b> R packages and libraries</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="EDA.html"><a href="EDA.html"><i class="fa fa-check"></i><b>1</b> Displaying and summarising data</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="EDA.html"><a href="EDA.html#basic-data-exploration"><i class="fa fa-check"></i><b>1.1</b> Basic data exploration</a></li>
+<li class="chapter" data-level="1.2" data-path="EDA.html"><a href="EDA.html#graphical-methods-for-displaying-data"><i class="fa fa-check"></i><b>1.2</b> Graphical methods for displaying data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="EDA.html"><a href="EDA.html#scatter-plot"><i class="fa fa-check"></i><b>1.2.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="1.2.2" data-path="EDA.html"><a href="EDA.html#boxplots"><i class="fa fa-check"></i><b>1.2.2</b> Boxplots</a></li>
+<li class="chapter" data-level="1.2.3" data-path="EDA.html"><a href="EDA.html#line-plots"><i class="fa fa-check"></i><b>1.2.3</b> Line plots</a></li>
+<li class="chapter" data-level="1.2.4" data-path="EDA.html"><a href="EDA.html#histograms"><i class="fa fa-check"></i><b>1.2.4</b> Histograms</a></li>
+<li class="chapter" data-level="1.2.5" data-path="EDA.html"><a href="EDA.html#bar-graphs"><i class="fa fa-check"></i><b>1.2.5</b> Bar graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="EDA.html"><a href="EDA.html#summary-statistics"><i class="fa fa-check"></i><b>1.3</b> Summary statistics</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="EDA.html"><a href="EDA.html#which-measure-of-central-tendency-to-use"><i class="fa fa-check"></i><b>1.3.1</b> Which measure of central tendency to use</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="EDA.html"><a href="EDA.html#conclusions"><i class="fa fa-check"></i><b>1.4</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bin_pois.html"><a href="bin_pois.html"><i class="fa fa-check"></i><b>2</b> Binomial &amp; Poisson distributions</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution"><i class="fa fa-check"></i><b>2.1</b> The Binomial distribution</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="bin_pois.html"><a href="bin_pois.html#bernoulli-trials"><i class="fa fa-check"></i><b>2.1.1</b> Bernoulli trials</a></li>
+<li class="chapter" data-level="2.1.2" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution-1"><i class="fa fa-check"></i><b>2.1.2</b> The binomial distribution</a></li>
+<li class="chapter" data-level="2.1.3" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-by-hand"><i class="fa fa-check"></i><b>2.1.3</b> Binomial distributions by hand</a></li>
+<li class="chapter" data-level="2.1.4" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-in-r"><i class="fa fa-check"></i><b>2.1.4</b> Binomial distributions in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-distribution"><i class="fa fa-check"></i><b>2.2</b> The Poisson distribution</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-by-hand"><i class="fa fa-check"></i><b>2.2.1</b> Poisson distributions by hand</a></li>
+<li class="chapter" data-level="2.2.2" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-in-r"><i class="fa fa-check"></i><b>2.2.2</b> Poisson distributions in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-approximation-of-the-binomial-model"><i class="fa fa-check"></i><b>2.3</b> The Poisson approximation of the binomial model</a></li>
+<li class="chapter" data-level="2.4" data-path="bin_pois.html"><a href="bin_pois.html#conclusions-1"><i class="fa fa-check"></i><b>2.4</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="normal.html"><a href="normal.html"><i class="fa fa-check"></i><b>3</b> Normal distribution</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="normal.html"><a href="normal.html#using-the-normal-probability-distributions"><i class="fa fa-check"></i><b>3.1</b> Using the normal probability distributions</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="normal.html"><a href="normal.html#using-r-to-calculate-areas-under-the-normal-curve"><i class="fa fa-check"></i><b>3.1.1</b> Using R to calculate areas under the normal curve</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="normal.html"><a href="normal.html#normal-model-adequacy"><i class="fa fa-check"></i><b>3.2</b> Normal model adequacy</a></li>
+<li class="chapter" data-level="3.3" data-path="normal.html"><a href="normal.html#calculating-quantiles-in-the-normal-distribution"><i class="fa fa-check"></i><b>3.3</b> Calculating quantiles in the normal distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="normal.html"><a href="normal.html#testing-for-normality"><i class="fa fa-check"></i><b>3.4</b> Testing for normality</a></li>
+<li class="chapter" data-level="3.5" data-path="normal.html"><a href="normal.html#transformations"><i class="fa fa-check"></i><b>3.5</b> Data transformations</a></li>
+<li class="chapter" data-level="3.6" data-path="normal.html"><a href="normal.html#functions-in-r"><i class="fa fa-check"></i><b>3.6</b> Functions in R</a></li>
+<li class="chapter" data-level="3.7" data-path="normal.html"><a href="normal.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.7</b> The central limit theorem</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="normal.html"><a href="normal.html#the-distribution-of-means-from-various-data-distributions"><i class="fa fa-check"></i><b>3.7.1</b> The distribution of means from various data distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="normal.html"><a href="normal.html#the-standard-error-of-the-mean"><i class="fa fa-check"></i><b>3.8</b> The standard error of the mean</a></li>
+<li class="chapter" data-level="3.9" data-path="normal.html"><a href="normal.html#normal-approximations-for-other-distributions"><i class="fa fa-check"></i><b>3.9</b> Normal approximations for other distributions</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="normal.html"><a href="normal.html#the-normal-approximation-of-the-poisson-distribution"><i class="fa fa-check"></i><b>3.9.1</b> The Normal approximation of the Poisson distribution</a></li>
+<li class="chapter" data-level="3.9.2" data-path="normal.html"><a href="normal.html#the-normal-approximation-of-the-binomial-distribution"><i class="fa fa-check"></i><b>3.9.2</b> The normal approximation of the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="normal.html"><a href="normal.html#conclusions-2"><i class="fa fa-check"></i><b>3.10</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="t-test.html"><a href="t-test.html"><i class="fa fa-check"></i><b>4</b> t-tests &amp; confidence intervals</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="t-test.html"><a href="t-test.html#single-sample-t-tests"><i class="fa fa-check"></i><b>4.1</b> Single sample t-tests</a></li>
+<li class="chapter" data-level="4.2" data-path="t-test.html"><a href="t-test.html#confidence-intervals"><i class="fa fa-check"></i><b>4.2</b> Confidence Intervals</a></li>
+<li class="chapter" data-level="4.3" data-path="t-test.html"><a href="t-test.html#comparing-means-two-sample-t-tests"><i class="fa fa-check"></i><b>4.3</b> Comparing means (two-sample t tests)</a></li>
+<li class="chapter" data-level="4.4" data-path="t-test.html"><a href="t-test.html#non-parametric-tests"><i class="fa fa-check"></i><b>4.4</b> Non-parametric Tests</a></li>
+<li class="chapter" data-level="4.5" data-path="t-test.html"><a href="t-test.html#conclusions-3"><i class="fa fa-check"></i><b>4.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="glm.html"><a href="glm.html"><i class="fa fa-check"></i><b>5</b> General Linear Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="glm.html"><a href="glm.html#analysis-of-variance-anova"><i class="fa fa-check"></i><b>5.1</b> Analysis of variance (ANOVA)</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="glm.html"><a href="glm.html#anova-in-r"><i class="fa fa-check"></i><b>5.1.1</b> ANOVA in R</a></li>
+<li class="chapter" data-level="5.1.2" data-path="glm.html"><a href="glm.html#one-way-anova"><i class="fa fa-check"></i><b>5.1.2</b> One-way ANOVA</a></li>
+<li class="chapter" data-level="5.1.3" data-path="glm.html"><a href="glm.html#two-way-anova"><i class="fa fa-check"></i><b>5.1.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="glm.html"><a href="glm.html#regression"><i class="fa fa-check"></i><b>5.2</b> Regression</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="glm.html"><a href="glm.html#overview-1"><i class="fa fa-check"></i><b>5.2.1</b> Overview</a></li>
+<li class="chapter" data-level="5.2.2" data-path="glm.html"><a href="glm.html#linear-regression-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Linear regression in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="glm.html"><a href="glm.html#plotting-the-regression-line-and-confidence-intervals"><i class="fa fa-check"></i><b>5.2.3</b> Plotting the regression line and confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="glm.html"><a href="glm.html#conclusions-4"><i class="fa fa-check"></i><b>5.3</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="multivariate.html"><a href="multivariate.html"><i class="fa fa-check"></i><b>6</b> Multivariate analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="multivariate.html"><a href="multivariate.html#multivariate-analysis-in-r"><i class="fa fa-check"></i><b>6.1</b> Multivariate analysis in R</a></li>
+<li class="chapter" data-level="6.2" data-path="multivariate.html"><a href="multivariate.html#diversity-indices"><i class="fa fa-check"></i><b>6.2</b> Diversity indices</a></li>
+<li class="chapter" data-level="6.3" data-path="multivariate.html"><a href="multivariate.html#nmds-on-real-data"><i class="fa fa-check"></i><b>6.3</b> NMDS on real data</a></li>
+<li class="chapter" data-level="6.4" data-path="multivariate.html"><a href="multivariate.html#principal-components-analysis-pca"><i class="fa fa-check"></i><b>6.4</b> Principal components analysis (PCA)</a></li>
+<li class="chapter" data-level="6.5" data-path="multivariate.html"><a href="multivariate.html#conclusions-5"><i class="fa fa-check"></i><b>6.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#probability"><i class="fa fa-check"></i><b>7.1</b> Probability</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#probability-for-equally-likely-outcomes"><i class="fa fa-check"></i><b>7.1.1</b> Probability for equally likely outcomes</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#multiplication-and-addition"><i class="fa fa-check"></i><b>7.1.2</b> Multiplication and addition</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#bayes-theorem"><i class="fa fa-check"></i><b>7.1.3</b> Bayes’ theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="appendix.html"><a href="appendix.html#univariate-statistics"><i class="fa fa-check"></i><b>7.2</b> Univariate statistics</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="appendix.html"><a href="appendix.html#mean"><i class="fa fa-check"></i><b>7.2.1</b> Mean</a></li>
+<li class="chapter" data-level="7.2.2" data-path="appendix.html"><a href="appendix.html#median-quartiles-and-adjacent-values"><i class="fa fa-check"></i><b>7.2.2</b> Median, quartiles and adjacent values</a></li>
+<li class="chapter" data-level="7.2.3" data-path="appendix.html"><a href="appendix.html#the-sum-of-squares"><i class="fa fa-check"></i><b>7.2.3</b> The sum of squares</a></li>
+<li class="chapter" data-level="7.2.4" data-path="appendix.html"><a href="appendix.html#measures-of-dispersion"><i class="fa fa-check"></i><b>7.2.4</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="appendix.html"><a href="appendix.html#the-binomial-distribution-2"><i class="fa fa-check"></i><b>7.3</b> The Binomial distribution</a></li>
+<li class="chapter" data-level="7.4" data-path="appendix.html"><a href="appendix.html#the-poisson-distribution-1"><i class="fa fa-check"></i><b>7.4</b> The Poisson distribution</a></li>
+<li class="chapter" data-level="7.5" data-path="appendix.html"><a href="appendix.html#z-scores"><i class="fa fa-check"></i><b>7.5</b> Z scores</a></li>
+<li class="chapter" data-level="7.6" data-path="appendix.html"><a href="appendix.html#samples-taken-from-a-population"><i class="fa fa-check"></i><b>7.6</b> Samples taken from a population</a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="appendix.html"><a href="appendix.html#standard-error-of-the-mean"><i class="fa fa-check"></i><b>7.6.1</b> Standard error of the mean</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="appendix.html"><a href="appendix.html#the-t-distribution"><i class="fa fa-check"></i><b>7.7</b> The t distribution</a>
+<ul>
+<li class="chapter" data-level="7.7.1" data-path="appendix.html"><a href="appendix.html#the-one-sample-t-test"><i class="fa fa-check"></i><b>7.7.1</b> The one sample t-test</a></li>
+<li class="chapter" data-level="7.7.2" data-path="appendix.html"><a href="appendix.html#confidence-intervals-for-sample-means"><i class="fa fa-check"></i><b>7.7.2</b> Confidence intervals for sample means</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="appendix.html"><a href="appendix.html#anova"><i class="fa fa-check"></i><b>7.8</b> ANOVA</a></li>
+<li class="chapter" data-level="7.9" data-path="appendix.html"><a href="appendix.html#regression-correlation"><i class="fa fa-check"></i><b>7.9</b> Regression &amp; correlation</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">H2 Data Science Practical Series</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="t-test" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Practical 4</span> t-tests &amp; confidence intervals<a href="t-test.html#t-test" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The goal of science is to understand nature (i.e. everything!). In order to do that, we want to know the values of population parameters (e.g. the mean size of barnacles on the back-beach, the variance in fail-rate of a machine component, the maximum satelite signal strength per satelite transect, the mean size of a fisher’s catch). However, we are usually limited in our capacity to measure entire populations due to logistical/time/money constraints so we take a (random) sample, and infer from that sample to our population of interest. This is statistical inference and it’s based on our statistical models of the world.</p>
+<p>When we take a random sample we can never know how well it reflects the population. For example, our random sample of barnacles might contain (by chance alone) mostly big ones, or barnacles that varied considerably (or negligibly) in size. The t-distribution is similar to the normal distribution, but it accounts for this added uncertainty. This enables us to estimate the probability that a given sample came from a population with any given mean (with caveats). The t-distribution also enables us to put confidence intervals around the mean of our sample, and gives us some idea of the range of values of the mean that are likely.</p>
+<p>The t-distribution models the chances of making observations from a given population where the population parameters are estimated from your random sample. The t statistic is calculated in the same way as the Z score for samples, but the expected scores follow the t-distribution (instead of the normal distribution) which accounts for sampling uncertainty. As the sample size gets smaller we get increasingly less confident about the reliability of the population parameter estimates and the t-distribution becomes less like the normal distribution (Fig. <a href="t-test.html#fig:t-vs-norm">4.1</a>). The shape of the t-distribution depends on the <em>degrees of freedom</em> (<span class="math inline">\(df = \nu = N-1\)</span>). There is more guidance on the t-distribution, and links to other sources on Brightspace.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:t-vs-norm"></span>
+<img src="_main_files/figure-html/t-vs-norm-1.png" alt="Comparison of different t-distributions (note that t with 30 df is nearly identical to the normal distribution)." width="50%" height="50%" />
+<p class="caption">
+Figure 4.1: Comparison of different t-distributions (note that t with 30 df is nearly identical to the normal distribution).
+</p>
+</div>
+<p><em>Q116. Would you feel as confident about basing an estimate of the heights of the lab population on a sample of 2 compared with a sample of 50?</em></p>
+<p><em>Q117. How does sample size affect the reliability of our population parametr estimates?</em></p>
+<div id="single-sample-t-tests" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Single sample t-tests<a href="t-test.html#single-sample-t-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This is analogous to the calculation of Z scores and enables us to determine how unlikely our sample mean is, given any hypothesised mean. However, before using any parametric tests such as t-tests, we need to assure ourselves that the model assumptions are reasonably met. Note that t-tests, as illustrated here, are not testing null-hypotheses.</p>
+<p>Imagine we are fisheries inspectors and have sampled the cod landed by a fishing boat called the ‘The Evening Star’. We know that the mean size of the cod landed should be greater than 36.6 cm. We need to assess how likely it is that our sampled cod come from a population (of landed fish) where the mean actually is <span class="math inline">\(\geq\)</span> 36.6 cm. We are testing the hypothesis that there is one ‘population’ of legally landed cod, and the Evening Star’s cod are a part of that population. We use the t-distribution to assess the probability the Evening Star cod are drawn from the legally-landed cod population. If this probability is low then we might speculate that the cod are, in fact, drawn from a different population (i.e., that the boat is using illegal gear).</p>
+<p>We do not know the population mean or standard deviation of the population from which the cod were caught and hence cannot use a normal distribution to model the likelihood of observing any particular value.</p>
+<p>Before starting problems like this always state your hypotheses. You should (unless instructed otherwise) state both the null and alternative hypothesis. Here we are wondering whether the mean cod size on the Evening Star is <span class="math inline">\(&lt;\)</span> 36.6 cm. The hypothesis should be worded thus:</p>
+<p><strong>H<sub>0</sub> (the null hypothesis):</strong> The true value of the mean of the Evening Star cod is <span class="math inline">\(\geq\)</span> 36.6 cm (<span class="math inline">\(\mu \geq\)</span> 36.6 cm).</p>
+<p><strong>H<sub>1</sub> (the alternative hypothesis):</strong> The true value of the mean Evening Star cod is less than 36.6 cm (<span class="math inline">\(\mu &lt;\)</span> 36.6 cm).</p>
+<p>We use the t-test to determine the probability of drawing the Evening Star sample from a population where the true mean is 36.6 cm or greater.</p>
+<p><em>Q118. Given the hypothesis, is this one or two tailed test?</em></p>
+<p>We collect a sample of 20 fish (found in the worksheet ‘Cod lengths’). The sample size is <span class="math inline">\(&lt;\)</span> 30 so we can’t assume that the means will be normally distributed under the CLT. We can check the normality assumption by plotting the data using a ‘normality’ plot or ‘QQ-plot’ (Fig. <a href="t-test.html#fig:cod-qq">4.2</a>).</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb163-1"><a href="t-test.html#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb163-2"><a href="t-test.html#cb163-2" aria-hidden="true" tabindex="-1"></a>cod_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_3_4.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Cod lengths&quot;</span>)</span>
+<span id="cb163-3"><a href="t-test.html#cb163-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cod_df)</span></code></pre></div>
+<pre><code>## tibble [20 × 1] (S3: tbl_df/tbl/data.frame)
+##  $ CodLength_cm: num [1:20] 34.1 35.6 36.1 34.6 38.3 35 36.8 38 34.4 35.5 ...</code></pre>
+<div class="sourceCode" id="cb165"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb165-1"><a href="t-test.html#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qqnorm</span>(cod_df<span class="sc">$</span>CodLength_cm, <span class="at">main =</span> <span class="cn">NULL</span>)</span>
+<span id="cb165-2"><a href="t-test.html#cb165-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qqline</span>(cod_df<span class="sc">$</span>CodLength_cm)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:cod-qq"></span>
+<img src="_main_files/figure-html/cod-qq-1.png" alt="QQ-plot for the sample of code from the Evening Star." width="50%" height="50%" />
+<p class="caption">
+Figure 4.2: QQ-plot for the sample of code from the Evening Star.
+</p>
+</div>
+<p><em>Q119. Do you think the normality assumption reasonable?</em></p>
+<p><em>Q120. What parameter are we actually trying to understand/model? How does the distribution of this parameter change with sample size (think CLT)?</em></p>
+<p>Now we wish to assess how likely our sample is to have been drawn from a population where the mean actually is 36.6 cm. If the ES mean is less than the ‘legal’ mean and it is ‘unlikely’ to have been drawn from the legal population we might wonder if the mean of true Evening Star landed cod population is &lt;36.6 cm and decide to prosecute the skipper.</p>
+<p><em>Q121. Use R to calculate summary statistics (mean and standard deviation/standard error of the mean) for the cod sample data (as per results below).</em></p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb166-1"><a href="t-test.html#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Mean:&quot;</span>, <span class="fu">mean</span>(cod_df<span class="sc">$</span>CodLength_cm))</span>
+<span id="cb166-2"><a href="t-test.html#cb166-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;SD:&quot;</span>, <span class="fu">sd</span>(cod_df<span class="sc">$</span>CodLength_cm))</span>
+<span id="cb166-3"><a href="t-test.html#cb166-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Var:&quot;</span>, <span class="fu">var</span>(cod_df<span class="sc">$</span>CodLength_cm))</span>
+<span id="cb166-4"><a href="t-test.html#cb166-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;N:&quot;</span>, <span class="fu">length</span>(cod_df<span class="sc">$</span>CodLength_cm))</span></code></pre></div>
+<pre><code>## Mean: 35.785SD: 1.549966Var: 2.402395N: 20</code></pre>
+<p><em>Q122. Determine the standard error of the mean (see Chapter <a href="appendix.html#appendix">7</a> if necessary)</em></p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb168-1"><a href="t-test.html#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(cod_df<span class="sc">$</span>CodLength_cm) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(cod_df<span class="sc">$</span>CodLength_cm))</span></code></pre></div>
+<pre><code>## [1] 0.3465829</code></pre>
+<p><em>Q123. Now manually calculate the t statistic for this sample and determine the probablity of observing your data assuming that the mean of the population was actually 36.6 cm.</em></p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb170-1"><a href="t-test.html#cb170-1" aria-hidden="true" tabindex="-1"></a>T_stat <span class="ot">&lt;-</span> (<span class="fu">mean</span>(cod_df<span class="sc">$</span>CodLength_cm) <span class="sc">-</span> <span class="fl">36.6</span>) <span class="sc">/</span> </span>
+<span id="cb170-2"><a href="t-test.html#cb170-2" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">sd</span>(cod_df<span class="sc">$</span>CodLength_cm) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">length</span>(cod_df<span class="sc">$</span>CodLength_cm)))</span></code></pre></div>
+<p><em>Q124. How does this value compare to the expectation under the null hypothesis? Use <code>pt()</code>.</em></p>
+<p>Remember you are conducting a single-tailed test here, so you need to look-up your t-statistic at an <span class="math inline">\(\alpha\)</span> rate of double your P value of interest (so if you are setting a 95% CI you need to look-up <span class="math inline">\(\alpha\)</span> value of 0.100).</p>
+<p><em>Q125. Check you answer against that given by R.</em></p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb171-1"><a href="t-test.html#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(cod_df<span class="sc">$</span>CodLength_cm, <span class="at">mu =</span> <span class="fl">36.6</span>, <span class="at">alternative =</span> <span class="st">&quot;less&quot;</span>,</span>
+<span id="cb171-2"><a href="t-test.html#cb171-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">conf.level =</span> <span class="fl">0.95</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  cod_df$CodLength_cm
+## t = -2.3515, df = 19, p-value = 0.01482
+## alternative hypothesis: true mean is less than 36.6
+## 95 percent confidence interval:
+##      -Inf 36.38429
+## sample estimates:
+## mean of x 
+##    35.785</code></pre>
+<p>Hopefully your manually calculated t statistic and the one generated by R match. The p-value given by R is exact i.e. there is a probability of 0.014819 that a sample of 20 cod with mean of 35.785 cm would be drawn from a legally landed cod population where the true mean was 36.6 cm or more (assuming model assumptions are met).</p>
+<p><em>Q126. Can we now confidently send the skipper to jail?</em></p>
+<p>Remember the confidence interval relates to future (often hypothetical) observations, not an observation that has been made. Confidence intervals are notoriously difficult to define and and are often incorrectly used. BrightSpace has numerous resources to help you.</p>
+<p>Evaluating evidence is a central part of statistcal analysis/modelling. In this example, assume you are evaluating whether a fishers catch is ‘surprisingly’ small (e.g. that the fisher is using an illegal net). If you don’t believe the fisher (i.e that the fish sample was not drawn from a population of fish with a mean of 36.6 cm) then she goes to jail. If you do believe her, but she was fishing illegally, she avoids jail. In these circumstances you should set-out your P-value thresholds ahead of getting the data. For the moment, assume we set the P-value (<span class="math inline">\(\alpha\)</span> value) threshold at 0.05. In this scenario, where we have two clear competing hypotheses, we are in the realm of ‘Neyman-Pearson’s’ decision theory (not in Fisher’s hypothesis significance testing approach; see P-value lecture).</p>
+<p><em>Q127. Given the P value, do you reject the null hypothesis?</em></p>
+<p><em>Q128. If you had set alpha at 0.01 would you reject the null hypothesis?</em></p>
+<p><em>Q129. If you set alpha at 0.01, rather than 0.05, what type of error are you reducing and what type of error are you increasing?</em></p>
+<p>Now to play around with some random data that you generate yourself. We generate 100 random numbers drawn from X, where <span class="math inline">\(X \sim Norm(100, 10)\)</span>.</p>
+<p><em>Q130. What is your standard deviation in this model?</em></p>
+<p><em>Q131. What does the symbol ‘~’ mean?</em></p>
+<p>We calculate summary statistics for this randomly generated dataset. Note that in this case, we <em>know</em> the population parameters.</p>
+<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb173-1"><a href="t-test.html#cb173-1" aria-hidden="true" tabindex="-1"></a>num_iter <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb173-2"><a href="t-test.html#cb173-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb173-3"><a href="t-test.html#cb173-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb173-4"><a href="t-test.html#cb173-4" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb173-5"><a href="t-test.html#cb173-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb173-6"><a href="t-test.html#cb173-6" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;True mean: &quot;</span>, mu, <span class="st">&quot;, true sd: &quot;</span>, sigma)</span>
+<span id="cb173-7"><a href="t-test.html#cb173-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_iter) {</span>
+<span id="cb173-8"><a href="t-test.html#cb173-8" aria-hidden="true" tabindex="-1"></a>  sample_i <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> sample_size, <span class="at">mean =</span> mu, <span class="at">sd =</span> sigma)</span>
+<span id="cb173-9"><a href="t-test.html#cb173-9" aria-hidden="true" tabindex="-1"></a>  sample_mean <span class="ot">&lt;-</span> <span class="fu">signif</span>(<span class="fu">mean</span>(sample_i), <span class="dv">4</span>)</span>
+<span id="cb173-10"><a href="t-test.html#cb173-10" aria-hidden="true" tabindex="-1"></a>  sample_sd <span class="ot">&lt;-</span> <span class="fu">signif</span>(<span class="fu">sd</span>(sample_i), <span class="dv">4</span>)</span>
+<span id="cb173-11"><a href="t-test.html#cb173-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">paste0</span>(<span class="st">&quot;Sample &quot;</span>, i, <span class="st">&quot; mean:&quot;</span>, sample_mean, <span class="st">&quot;, sd: &quot;</span>, sample_sd))</span>
+<span id="cb173-12"><a href="t-test.html#cb173-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;True mean: 100, true sd: 10&quot;
+## [1] &quot;Sample 1 mean:95.9, sd: 13.83&quot;
+## [1] &quot;Sample 2 mean:96.07, sd: 10.62&quot;
+## [1] &quot;Sample 3 mean:89.77, sd: 14.89&quot;</code></pre>
+<p>Note: these are random samples, so the values will be different each time you run the code. However, R uses pseudo-random number generation. Use <code>set.seed()</code> for fully replicable code.</p>
+<p><em>Q132. Is there a discrepancy between the population parameters you defined and the actual mean and variance that are estimated from the samples?</em></p>
+<p>Your answer to the above should be yes. You know there is a discrepancy because you know the true parameters. In most real life situations you do not know the true population mean and variance. You can only sample them. If your sample is very large (and representative) then you can generate a very good estimate of those population parameters. However, as your sample size is reduced, the reliability of your estimate decreases. Look at the random numbers you’ve generated. Get a sense for where most of the numbers lie with <code>sigma=10</code>. To output your sample, just run <code>sample_i</code>.</p>
+<p>The t-distribution is the distribution of values you get when you subtract sample means from the true mean and standardise by the sample standard error (i.e., <span class="math inline">\(\frac{\bar{x} - \mu}{SE_{\bar{x}}}\)</span>). Think about this and relate it to the formula for determining single-sample T-statistics and what the critical values actually are that are tabulated in Table 7.</p>
+<p>The code below simulates repeated samples from a population with <span class="math inline">\(y \sim Norm(\mu, \sigma)\)</span>. Each sample takes <code>sample_size</code> individuals, with <code>num_samples</code> unique samples. For each sample <code>i</code>, the t-statistic is calculated and stored in <code>T_sample[i]</code>. Fig. <a href="t-test.html#fig:t-stat-hist">4.3</a> shows the distribution of <code>T_sample</code> (the histogram) with the corresponding t-distribution (df=<code>sample_size - 1</code>) as the solid line and a standard normal distribution as the dotted line. Play with the values for <code>sample_size</code> below to see how the shapes change.</p>
+<div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="t-test.html#cb175-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co"># population mean</span></span>
+<span id="cb175-2"><a href="t-test.html#cb175-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="co"># population sd</span></span>
+<span id="cb175-3"><a href="t-test.html#cb175-3" aria-hidden="true" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="fl">1e5</span> <span class="co"># number of samples</span></span>
+<span id="cb175-4"><a href="t-test.html#cb175-4" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">3</span> <span class="co"># size of each sample</span></span>
+<span id="cb175-5"><a href="t-test.html#cb175-5" aria-hidden="true" tabindex="-1"></a>T_sample <span class="ot">&lt;-</span> <span class="fu">numeric</span>(sample_size) <span class="co"># sample t statistic</span></span>
+<span id="cb175-6"><a href="t-test.html#cb175-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-7"><a href="t-test.html#cb175-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_samples) {</span>
+<span id="cb175-8"><a href="t-test.html#cb175-8" aria-hidden="true" tabindex="-1"></a>  sample_i <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(sample_size, mu, sigma)</span>
+<span id="cb175-9"><a href="t-test.html#cb175-9" aria-hidden="true" tabindex="-1"></a>  sample_SEM <span class="ot">&lt;-</span> <span class="fu">sd</span>(sample_i) <span class="sc">/</span> <span class="fu">sqrt</span>(sample_size)</span>
+<span id="cb175-10"><a href="t-test.html#cb175-10" aria-hidden="true" tabindex="-1"></a>  T_sample[i] <span class="ot">&lt;-</span> (<span class="fu">mean</span>(sample_i) <span class="sc">-</span> mu) <span class="sc">/</span> (sample_SEM)</span>
+<span id="cb175-11"><a href="t-test.html#cb175-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb175-12"><a href="t-test.html#cb175-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb175-13"><a href="t-test.html#cb175-13" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">from =</span> <span class="sc">-</span><span class="dv">6</span>, <span class="at">to =</span> <span class="dv">6</span>, <span class="at">lty =</span> <span class="dv">2</span>, </span>
+<span id="cb175-14"><a href="t-test.html#cb175-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab =</span> <span class="st">&quot;Simulated t-statistics&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Density&quot;</span>,</span>
+<span id="cb175-15"><a href="t-test.html#cb175-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">main =</span> <span class="fu">paste</span>(<span class="st">&quot;t-statistics of&quot;</span>, <span class="fu">format</span>(<span class="fl">1e5</span>, <span class="at">big.mark=</span><span class="st">&quot;,&quot;</span>, <span class="at">scientific=</span>F), </span>
+<span id="cb175-16"><a href="t-test.html#cb175-16" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;samples, each with N =&quot;</span>, sample_size))</span>
+<span id="cb175-17"><a href="t-test.html#cb175-17" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(T_sample, <span class="at">freq =</span> F, <span class="at">add =</span> T, <span class="at">col =</span> <span class="fu">rgb</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.25</span>), </span>
+<span id="cb175-18"><a href="t-test.html#cb175-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fu">floor</span>(<span class="fu">min</span>(T_sample)), <span class="fu">ceiling</span>(<span class="fu">max</span>(T_sample)), <span class="at">by=</span><span class="fl">0.2</span>))</span>
+<span id="cb175-19"><a href="t-test.html#cb175-19" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dnorm</span>(x, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">from =</span> <span class="sc">-</span><span class="dv">6</span>, <span class="at">to =</span> <span class="dv">6</span>, <span class="at">add =</span> T, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb175-20"><a href="t-test.html#cb175-20" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">dt</span>(x, sample_size <span class="sc">-</span> <span class="dv">1</span>), <span class="at">from =</span> <span class="sc">-</span><span class="dv">6</span>, <span class="at">to =</span> <span class="dv">6</span>, <span class="at">add =</span> T)</span>
+<span id="cb175-21"><a href="t-test.html#cb175-21" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>), <span class="at">col =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>,</span>
+<span id="cb175-22"><a href="t-test.html#cb175-22" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">&quot;Normal(0,1)&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;t(df=&quot;</span>, sample_size<span class="dv">-1</span>, <span class="st">&quot;)&quot;</span>), <span class="st">&quot;t-stat (sim)&quot;</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:t-stat-hist"></span>
+<img src="_main_files/figure-html/t-stat-hist-1.png" alt="Histogram of 50,000 t-statistics calculated from 100,000 samples, along with the corresponding theoretical t-distribution (solid line) and a standard normal (dotted line)." width="70%" height="70%" />
+<p class="caption">
+Figure 4.3: Histogram of 50,000 t-statistics calculated from 100,000 samples, along with the corresponding theoretical t-distribution (solid line) and a standard normal (dotted line).
+</p>
+</div>
+<p>Notice how the histogram and the solid lines are nearly identical? These simulations illustrate that the t-distribution <em>is</em> the distribution of t-statistics for a given sample size.</p>
+</div>
+<div id="confidence-intervals" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Confidence Intervals<a href="t-test.html#confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Say you are interested in knowing the mean of a population (e.g. barnacle mass on the back beach). You cannot afford to determine the mass of each barnacle, so you take a random sample. You don’t know how ‘good’ (i.e. representative) your sample is. It might have included lots of small barnacles, or big ones, or a wide- or narrow-range of sizes, you can never know (unless you sample everything). When you calculate the mean of this sample you don’t know how close it is to the population mean, but you do know the probability associated with that estimate. Confidence intervals capture this uncertainty, and you use the t-distribution to determine them.</p>
+<p>We’ll invent a population of barnacle diameters, called <code>barnacle_diam</code>, and then create a histogram of that population and superimpose values on that. Again, these are random numbers so your values will be slightly different from mine.</p>
+<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb176-1"><a href="t-test.html#cb176-1" aria-hidden="true" tabindex="-1"></a>pop_size <span class="ot">&lt;-</span> <span class="dv">100000</span>  <span class="co"># number of barnacles in the population</span></span>
+<span id="cb176-2"><a href="t-test.html#cb176-2" aria-hidden="true" tabindex="-1"></a>meta_mu <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb176-3"><a href="t-test.html#cb176-3" aria-hidden="true" tabindex="-1"></a>meta_sigma <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb176-4"><a href="t-test.html#cb176-4" aria-hidden="true" tabindex="-1"></a>barnacle_diam <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(pop_size, <span class="at">mean =</span> meta_mu, <span class="at">sd =</span> meta_sigma)</span>
+<span id="cb176-5"><a href="t-test.html#cb176-5" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">mean</span>(barnacle_diam)</span>
+<span id="cb176-6"><a href="t-test.html#cb176-6" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">sd</span>(barnacle_diam)</span>
+<span id="cb176-7"><a href="t-test.html#cb176-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(barnacle_diam, <span class="at">main =</span> <span class="cn">NULL</span>)</span>
+<span id="cb176-8"><a href="t-test.html#cb176-8" aria-hidden="true" tabindex="-1"></a>Q95 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(barnacle_diam, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span>
+<span id="cb176-9"><a href="t-test.html#cb176-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> Q95, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb176-10"><a href="t-test.html#cb176-10" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>Q95[<span class="dv">2</span>], <span class="at">y=</span>pop_size<span class="sc">/</span><span class="dv">7</span>, </span>
+<span id="cb176-11"><a href="t-test.html#cb176-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">labels=</span><span class="fu">paste0</span>(<span class="st">&quot;mu: &quot;</span>, <span class="fu">round</span>(mu, <span class="dv">1</span>), <span class="st">&quot;</span><span class="sc">\n</span><span class="st">sigma:&quot;</span>, <span class="fu">round</span>(sigma, <span class="dv">1</span>)))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ci-examp1"></span>
+<img src="_main_files/figure-html/ci-examp1-1.png" alt="Histogram of a simulated barnacle population with 2.5\% and 97.5\% quantiles." width="50%" height="50%" />
+<p class="caption">
+Figure 4.4: Histogram of a simulated barnacle population with 2.5% and 97.5% quantiles.
+</p>
+</div>
+<p>Now we can take samples from that population: this is the reality, you take samples (usually) from populations where you don’t know the true mean and standard deviation. Let’s take 4 samples, each with size <code>sample_size</code>.</p>
+<div class="sourceCode" id="cb177"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb177-1"><a href="t-test.html#cb177-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(barnacle_diam, <span class="at">main =</span> <span class="cn">NULL</span>)</span>
+<span id="cb177-2"><a href="t-test.html#cb177-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb177-3"><a href="t-test.html#cb177-3" aria-hidden="true" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb177-4"><a href="t-test.html#cb177-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> mu, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">4</span>)</span>
+<span id="cb177-5"><a href="t-test.html#cb177-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb177-6"><a href="t-test.html#cb177-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_samples) {</span>
+<span id="cb177-7"><a href="t-test.html#cb177-7" aria-hidden="true" tabindex="-1"></a>  sample_i <span class="ot">&lt;-</span> <span class="fu">sample</span>(barnacle_diam, <span class="at">size =</span> sample_size)</span>
+<span id="cb177-8"><a href="t-test.html#cb177-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(sample_i)</span>
+<span id="cb177-9"><a href="t-test.html#cb177-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(sample_i), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lwd =</span> <span class="fl">0.5</span>)</span>
+<span id="cb177-10"><a href="t-test.html#cb177-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ci-examp2"></span>
+<img src="_main_files/figure-html/ci-examp2-1.png" alt="Histogram of the barnacle population showing location of 4 sample means (red lines), each with N = 5. The blue line shows the true population mean mu." width="50%" height="50%" />
+<p class="caption">
+Figure 4.5: Histogram of the barnacle population showing location of 4 sample means (red lines), each with N = 5. The blue line shows the true population mean mu.
+</p>
+</div>
+<pre><code>## [1] 233.3170 178.9501 240.2401 201.7985 205.8034
+## [1] 214.1638 172.3048 234.9906 188.6431 202.1945
+## [1] 185.6162 187.1857 201.3920 205.3639 246.3320
+## [1] 188.0471 268.6445 159.3046 213.2685 190.5912</code></pre>
+<p>Our sample means inevitably differ from the true population mean (<span class="math inline">\(\mu\)</span>), even if only a bit. Likewise, the sample standard deviations will differ from the true population standard deviation (<span class="math inline">\(\sigma\)</span>). If you keep repeating this sampling you can generate a distribution of sample standard deviations. This distribution is not normal, but is instead related to the chi-square distribution (don’t worry too much about this). The point is that if your sample size is small, your estimate of the standard deviation is often very poor.</p>
+<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb179-1"><a href="t-test.html#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</span>
+<span id="cb179-2"><a href="t-test.html#cb179-2" aria-hidden="true" tabindex="-1"></a><span class="co"># sim_df will hold the sample sizes N, and the median and mean sample sd&#39;s </span></span>
+<span id="cb179-3"><a href="t-test.html#cb179-3" aria-hidden="true" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="fl">1e4</span></span>
+<span id="cb179-4"><a href="t-test.html#cb179-4" aria-hidden="true" tabindex="-1"></a>sim_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">N=</span><span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">30</span>),</span>
+<span id="cb179-5"><a href="t-test.html#cb179-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sd_median=</span><span class="cn">NA</span>, <span class="at">sd_mean=</span><span class="cn">NA</span>,</span>
+<span id="cb179-6"><a href="t-test.html#cb179-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sd_q025=</span><span class="cn">NA</span>, <span class="at">sd_q25=</span><span class="cn">NA</span>, <span class="at">sd_q75=</span><span class="cn">NA</span>, <span class="at">sd_q975=</span><span class="cn">NA</span>,</span>
+<span id="cb179-7"><a href="t-test.html#cb179-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mn_median=</span><span class="cn">NA</span>, <span class="at">mn_mean=</span><span class="cn">NA</span>,</span>
+<span id="cb179-8"><a href="t-test.html#cb179-8" aria-hidden="true" tabindex="-1"></a>                     <span class="at">mn_q025=</span><span class="cn">NA</span>, <span class="at">mn_q25=</span><span class="cn">NA</span>, <span class="at">mn_q75=</span><span class="cn">NA</span>, <span class="at">mn_q975=</span><span class="cn">NA</span>) </span>
+<span id="cb179-9"><a href="t-test.html#cb179-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb179-10"><a href="t-test.html#cb179-10" aria-hidden="true" tabindex="-1"></a><span class="co"># for each sample size N, draw a sample and store its mean and sd</span></span>
+<span id="cb179-11"><a href="t-test.html#cb179-11" aria-hidden="true" tabindex="-1"></a><span class="co"># repeat this num_samples times</span></span>
+<span id="cb179-12"><a href="t-test.html#cb179-12" aria-hidden="true" tabindex="-1"></a><span class="co"># plot a histogram of the sample sd&#39;s, then store the mean and median</span></span>
+<span id="cb179-13"><a href="t-test.html#cb179-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(sim_df)) {</span>
+<span id="cb179-14"><a href="t-test.html#cb179-14" aria-hidden="true" tabindex="-1"></a>  samp_sd_i <span class="ot">&lt;-</span> <span class="fu">numeric</span>(num_samples) </span>
+<span id="cb179-15"><a href="t-test.html#cb179-15" aria-hidden="true" tabindex="-1"></a>  samp_mn_i <span class="ot">&lt;-</span> <span class="fu">numeric</span>(num_samples) </span>
+<span id="cb179-16"><a href="t-test.html#cb179-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_samples) { </span>
+<span id="cb179-17"><a href="t-test.html#cb179-17" aria-hidden="true" tabindex="-1"></a>    sample_ij <span class="ot">&lt;-</span> <span class="fu">sample</span>(barnacle_diam, <span class="at">size =</span> sim_df<span class="sc">$</span>N[i])</span>
+<span id="cb179-18"><a href="t-test.html#cb179-18" aria-hidden="true" tabindex="-1"></a>    samp_sd_i[j] <span class="ot">&lt;-</span> <span class="fu">sd</span>(sample_ij)</span>
+<span id="cb179-19"><a href="t-test.html#cb179-19" aria-hidden="true" tabindex="-1"></a>    samp_mn_i[j] <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample_ij)</span>
+<span id="cb179-20"><a href="t-test.html#cb179-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb179-21"><a href="t-test.html#cb179-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hist</span>(samp_sd_i, <span class="at">main =</span> <span class="fu">paste</span>(num_samples, <span class="st">&quot;sample SDs for N =&quot;</span>, sim_df<span class="sc">$</span>N[i]), </span>
+<span id="cb179-22"><a href="t-test.html#cb179-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">breaks =</span> <span class="dv">20</span>, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>))</span>
+<span id="cb179-23"><a href="t-test.html#cb179-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">v =</span> sigma, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb179-24"><a href="t-test.html#cb179-24" aria-hidden="true" tabindex="-1"></a>  sim_df[i, <span class="dv">2</span><span class="sc">:</span><span class="dv">13</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">median</span>(samp_sd_i), <span class="fu">mean</span>(samp_sd_i),</span>
+<span id="cb179-25"><a href="t-test.html#cb179-25" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">quantile</span>(samp_sd_i, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.975</span>)),</span>
+<span id="cb179-26"><a href="t-test.html#cb179-26" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">median</span>(samp_mn_i), <span class="fu">mean</span>(samp_mn_i),</span>
+<span id="cb179-27"><a href="t-test.html#cb179-27" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">quantile</span>(samp_mn_i, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.25</span>, <span class="fl">0.75</span>, <span class="fl">0.975</span>)))</span>
+<span id="cb179-28"><a href="t-test.html#cb179-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sd-N-hist"></span>
+<img src="_main_files/figure-html/sd-N-hist-1.png" alt="Histograms of sample standard deviations from repeated samples of the same population. The true population standard deviation is shown in blue." width="70%" height="70%" />
+<p class="caption">
+Figure 4.6: Histograms of sample standard deviations from repeated samples of the same population. The true population standard deviation is shown in blue.
+</p>
+</div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb180-1"><a href="t-test.html#cb180-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb180-2"><a href="t-test.html#cb180-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>sd_median,</span>
+<span id="cb180-3"><a href="t-test.html#cb180-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>), <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(sim_df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>], sigma)),</span>
+<span id="cb180-4"><a href="t-test.html#cb180-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Standard deviation&quot;</span></span>
+<span id="cb180-5"><a href="t-test.html#cb180-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb180-6"><a href="t-test.html#cb180-6" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>sd_q25, sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>sd_q75, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb180-7"><a href="t-test.html#cb180-7" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>sd_q025, sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>sd_q975)</span>
+<span id="cb180-8"><a href="t-test.html#cb180-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>sd_mean, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">col =</span> <span class="st">&quot;dodgerblue&quot;</span>)</span>
+<span id="cb180-9"><a href="t-test.html#cb180-9" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> sigma, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb180-10"><a href="t-test.html#cb180-10" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Mean sample SD&quot;</span>, <span class="st">&quot;Median sample SD&quot;</span>, <span class="st">&quot;True SD&quot;</span>),</span>
+<span id="cb180-11"><a href="t-test.html#cb180-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;dodgerblue&quot;</span>, <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb180-12"><a href="t-test.html#cb180-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="cn">NA</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span></span>
+<span id="cb180-13"><a href="t-test.html#cb180-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb180-14"><a href="t-test.html#cb180-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>mn_median,</span>
+<span id="cb180-15"><a href="t-test.html#cb180-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">30</span>), <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(sim_df[,<span class="dv">8</span><span class="sc">:</span><span class="dv">13</span>], mu)),</span>
+<span id="cb180-16"><a href="t-test.html#cb180-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Sample size&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Mean&quot;</span></span>
+<span id="cb180-17"><a href="t-test.html#cb180-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb180-18"><a href="t-test.html#cb180-18" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>mn_q25, sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>mn_q75, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb180-19"><a href="t-test.html#cb180-19" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>mn_q025, sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>mn_q975)</span>
+<span id="cb180-20"><a href="t-test.html#cb180-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(sim_df<span class="sc">$</span>N, sim_df<span class="sc">$</span>mn_mean, <span class="at">type =</span> <span class="st">&quot;b&quot;</span>, <span class="at">col =</span> <span class="st">&quot;dodgerblue&quot;</span>)</span>
+<span id="cb180-21"><a href="t-test.html#cb180-21" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> mu, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb180-22"><a href="t-test.html#cb180-22" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;topright&quot;</span>, <span class="fu">c</span>(<span class="st">&quot;Mean sample mean&quot;</span>, <span class="st">&quot;Median sample mean&quot;</span>, <span class="st">&quot;True mean&quot;</span>),</span>
+<span id="cb180-23"><a href="t-test.html#cb180-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;dodgerblue&quot;</span>, <span class="st">&quot;black&quot;</span>),</span>
+<span id="cb180-24"><a href="t-test.html#cb180-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="cn">NA</span>), <span class="at">bty =</span> <span class="st">&quot;n&quot;</span></span>
+<span id="cb180-25"><a href="t-test.html#cb180-25" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:sd-N-lines"></span>
+<img src="_main_files/figure-html/sd-N-lines-1.png" alt="Mean (black), median (blue), and 50\% and 95\% quantiles (vertical lines) for (left) sample standard deviations at each sample size compared to the true population standard deviation (dotted line) or for the (right) sample means." width="70%" height="70%" />
+<p class="caption">
+Figure 4.7: Mean (black), median (blue), and 50% and 95% quantiles (vertical lines) for (left) sample standard deviations at each sample size compared to the true population standard deviation (dotted line) or for the (right) sample means.
+</p>
+</div>
+<p><em>Q133. What is the most common standard deviation for your samples by sample size?</em></p>
+<p>The t-distribution allows for the fact that the standard deviation of small samples is, usually, less than that of the population as seen in Fig. <a href="t-test.html#fig:sd-N-hist">4.6</a>.</p>
+<p>The take home message here is that when you take a sample from a population with unknown <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma\)</span>, you won’t know how ‘accurate’ you sample is but you do know how your random samples ‘behave’ - they are modelled using the t-distribution. From this knowledge you can build a 95% confidence interval which is described as an interval which, if repeated for 100 samples, would include <span class="math inline">\(\mu\)</span> within its boundaries in 95 of those samples (on average). Read that again. You don’t have knowledge of the true value of the mean or sd (as you did for Z score calucations) and the t-distribution accounts for this uncertainty.</p>
+<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb181-1"><a href="t-test.html#cb181-1" aria-hidden="true" tabindex="-1"></a>num_samples <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb181-2"><a href="t-test.html#cb181-2" aria-hidden="true" tabindex="-1"></a>sample_size <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb181-3"><a href="t-test.html#cb181-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-4"><a href="t-test.html#cb181-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot population</span></span>
+<span id="cb181-5"><a href="t-test.html#cb181-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(barnacle_diam, <span class="at">xlim =</span> <span class="fu">c</span>(mu<span class="dv">-6</span><span class="sc">*</span>sigma, mu<span class="sc">+</span><span class="dv">6</span><span class="sc">*</span>sigma), </span>
+<span id="cb181-6"><a href="t-test.html#cb181-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="cn">NULL</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">length</span>(barnacle_diam)<span class="sc">/</span><span class="dv">6</span>),</span>
+<span id="cb181-7"><a href="t-test.html#cb181-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">&quot;grey90&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey50&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Barnacle diameter&quot;</span>)</span>
+<span id="cb181-8"><a href="t-test.html#cb181-8" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> mu, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb181-9"><a href="t-test.html#cb181-9" aria-hidden="true" tabindex="-1"></a>y_pos <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fu">length</span>(barnacle_diam)<span class="sc">/</span><span class="dv">6</span>, <span class="at">length.out=</span>num_samples)</span>
+<span id="cb181-10"><a href="t-test.html#cb181-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb181-11"><a href="t-test.html#cb181-11" aria-hidden="true" tabindex="-1"></a><span class="co"># draw samples, calculate mean and 95% CIs, and plot them</span></span>
+<span id="cb181-12"><a href="t-test.html#cb181-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>num_samples) {</span>
+<span id="cb181-13"><a href="t-test.html#cb181-13" aria-hidden="true" tabindex="-1"></a>  sample_i <span class="ot">&lt;-</span> <span class="fu">sample</span>(barnacle_diam, <span class="at">size =</span> sample_size)</span>
+<span id="cb181-14"><a href="t-test.html#cb181-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">points</span>(<span class="at">x =</span> <span class="fu">mean</span>(sample_i), <span class="at">y =</span> y_pos[i], <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">0.75</span>)</span>
+<span id="cb181-15"><a href="t-test.html#cb181-15" aria-hidden="true" tabindex="-1"></a>  sample_ci <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb181-16"><a href="t-test.html#cb181-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(sample_i) <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, (sample_size <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">*</span> (<span class="fu">sd</span>(sample_i) <span class="sc">/</span> sample_size<span class="sc">^</span><span class="fl">0.5</span>),</span>
+<span id="cb181-17"><a href="t-test.html#cb181-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(sample_i) <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, (sample_size <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">*</span> (<span class="fu">sd</span>(sample_i) <span class="sc">/</span> sample_size<span class="sc">^</span><span class="fl">0.5</span>)</span>
+<span id="cb181-18"><a href="t-test.html#cb181-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb181-19"><a href="t-test.html#cb181-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrows</span>(sample_ci[<span class="dv">1</span>], y_pos[i], sample_ci[<span class="dv">2</span>], y_pos[i], </span>
+<span id="cb181-20"><a href="t-test.html#cb181-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">code =</span> <span class="dv">3</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">length=</span><span class="fl">0.05</span>)</span>
+<span id="cb181-21"><a href="t-test.html#cb181-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ci-examp3"></span>
+<img src="_main_files/figure-html/ci-examp3-1.png" alt="Histogram illustrating the barnacle population with population mean (blue) and sample means with 95\% CIs (red) repeated across 20 samples." width="50%" height="50%" />
+<p class="caption">
+Figure 4.8: Histogram illustrating the barnacle population with population mean (blue) and sample means with 95% CIs (red) repeated across 20 samples.
+</p>
+</div>
+<p><em>Q134. Try different values for <code>sample_size</code>. How does this influence the width of your CIs?</em></p>
+<p><em>Q135. What proportion of your 95% CIs would you expect to include the true value of the mean? Does the sample size have an impact on this?</em></p>
+<p><em>Q136. Keep repeating the above code until you get an example where your 95% CI misses the true value of the mean.</em></p>
+<p><em>Q137. See if you can find the relevant bit of the code, and determine 99% and 90% or 75% CIs (pick any value you fancy, but note that some values are likely to put the CIs some distance from the mean so get ready to adjust your axis limits which are set to 6</em> <span class="math inline">\(\sigma\)</span> <em>on either side of</em> <span class="math inline">\(\mu\)</span><em>).</em></p>
+<p>Let’s explore the influence of sample size on the width of the confidence interval a little more.</p>
+<p>We will plot the resultant mean estimate and 95% CI on Fig. <a href="t-test.html#fig:ci-v-N">4.9</a>. NOTE: the example shown in Fig. <a href="t-test.html#fig:ci-v-N">4.9</a> is a random example, not linked to the output below. Repeat this process, but this time determine the mean and sd (or variance) for samples of 2, 5 and 10. Do this simply by changing <code>n=…</code> in <code>rnorm()</code> Repeat this 5 times for each sample size and sketch your results (where they fit) onto Fig. <a href="t-test.html#fig:ci-v-N">4.9</a>.</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb182-1"><a href="t-test.html#cb182-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">100</span>, <span class="at">sd =</span> <span class="dv">10</span>)</span>
+<span id="cb182-2"><a href="t-test.html#cb182-2" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(a, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##  [1] 101.0 107.0 103.0  89.6 102.0 112.0 101.0 105.0  77.9  96.3</code></pre>
+<div class="sourceCode" id="cb184"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb184-1"><a href="t-test.html#cb184-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(a, <span class="at">mu =</span> <span class="dv">100</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  a
+## t = -0.15256, df = 9, p-value = 0.8821
+## alternative hypothesis: true mean is not equal to 100
+## 95 percent confidence interval:
+##   92.60796 106.45800
+## sample estimates:
+## mean of x 
+##  99.53298</code></pre>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:ci-v-N"></span>
+<img src="_main_files/figure-html/ci-v-N-1.png" alt="Confidence interval size vs. sample size." width="60%" height="60%" />
+<p class="caption">
+Figure 4.9: Confidence interval size vs. sample size.
+</p>
+</div>
+<p><em>Q138. Look at your 95% confidence intervals – are they getting broader or narrower as your sample size decreases?</em></p>
+<p><em>Q139. What proportion of 95% CIs would you expect to include the true value of the mean?</em></p>
+</div>
+<div id="comparing-means-two-sample-t-tests" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Comparing means (two-sample t tests)<a href="t-test.html#comparing-means-two-sample-t-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The two-sample t-test is one of the most widely used inferential statistical tests. The two-sample t-test is a special case of analysis of variance (ANOVA) where you are only comparing two means. The results are identical and so we do not focus on two-sample t-tests. You need to know of the existence of the two-sample t-test because it is so commonly used and cited, but you will be comparing means using ANOVA in Practical <a href="glm.html#glm">5</a>.</p>
+</div>
+<div id="non-parametric-tests" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Non-parametric Tests<a href="t-test.html#non-parametric-tests" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Non-parametric tests are often used to compare samples where the data are non-continuous or fail the assumptions of parametric general linear models, typically converting data to ranks rather than using the actual values. Non-parametric test include ‘classics’ such as the ‘Mood’ and ‘Wilcoxon’ tests. However, we make you aware of the GLM family which will usually supply you with a much more elegant solution to model data that doesn’t fit the simple linear model. You should be aware of the existence of ‘non-parametric’ tests because they are prevalent in the literature. Remind yourself of the disadvantages of non-parametric tests.</p>
+</div>
+<div id="conclusions-3" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Conclusions<a href="t-test.html#conclusions-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The t-test is a ‘classic’ statistical test which doesn’t assume knowledge of population parameters. The strength of the t-test (its ability to quantify differences between samples) is proportional to the sample size. The larger the sample size, the better the estimate of the population parameters and the more precisely we are to be able to detect differences between the means.</p>
+<p>The central limit theorem tells us that the means of non-normally distributed data will be normally distributed if the sample size is sufficiently large. If your sample size is <span class="math inline">\(&gt;\)</span> 30 it is likely that the means of that sample will be normally distributed regardless of the distribution of the original data.</p>
+<p>Parametric tests including the t-test are quite ‘robust’ against deviations from normality, particularly as sample sizes increase. However, parametric test are less robust against heteroscedasticity, regardless of sample size. Always check this assumption and be prepared to transform the data if the assumption of homoscedasticity is not tenable (more of this in Practical <a href="glm.html#glm">5</a>).</p>
+<p>The t-test is in the ‘general linear model’ family (and this is a subset of the generalised linear modelling family). General linear models are usually used to model continuous data. If you have count data, you should start with a different member of the GLM family (you might not be able to transform count data to something approximating a normal distribution). Non-parametric tests are frequently adopted when data do not conform to the assumptions of normality but they are invariably used for NHST with all the inherent problems with that approach.</p>
+<p>A final reminder with regard to many statistical tests, including all in the GLM family: they make the assumption that data are independent. You must always ensure that your experimental design lends itself to making independent observations IN RELATION TO THE QUESTION YOU ARE ASKING. This is the most critical and fundamental of the assumptions of parametric and non-parametric tests. Non-independence (e.g. measuring the same ‘subject’ (e.g. an urchin) over time) can be modelled using more complex ‘mixed’ models. Application of mixed modelling is beyond this course but you should be aware of the limitations of the techniques that you are learning and know where to go next.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="normal.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="glm.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Sz-Tim/H2_DS_practicals/edit/BRANCH/04_ttest.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

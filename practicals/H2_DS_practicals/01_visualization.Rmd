@@ -1,0 +1,597 @@
+# Displaying and summarising data {#EDA}
+
+```{r setup-EDA, include=FALSE}
+knitr::opts_chunk$set(out.width="50%", out.height="50%", fig.align='center',
+                      cache=TRUE,
+                      warning=FALSE, error=FALSE)
+```
+
+Statistics can be divided into two broad categories - descriptive statistics and inferential statistics. In this practical session we will focus on descriptive stats and, in particular, how to appropriately display and summarise data. You should already be aware of several techniques for displaying data. These techniques are primarily graphical and include bar charts, histograms and graphs. When and how to use these different techniques is one focus of today's practical.
+
+There are two purposes for visualizing data.
+
+First, the best way to get a 'gut' feel for your dataset is to look at it graphically. Examining data graphically enables you to identify any outliers (i.e., suspicious observations which could be errors). It will also help you to select the most appropriate inferential statistical model (more on this through the course).
+
+Second, visualizations are used to impart information as clearly as possible to 'the reader' (i.e., drawing the reader's attention to the most interesting aspects of your data). Graphics that are confusing, either through a lack of detail (e.g. no labels) or that contain too much information will fail in this central objective.
+
+As you create graphics, keep in mind that they may be viewed on different machines or printed in grey scale. Importantly, some colour combinations may be difficult for colour-blind or visually impaired readers. Colour scales such as those available from [ColorBrewer](https://colorbrewer2.org) or [viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) are designed with this in mind.
+
+R has established best practices to make your meaning clear. Just like any language, you\|can\|write\|with\|your\|own\|system, but it's easier for everyone to use standard conventions. A [full style guide](https://style.tidyverse.org/syntax.html) is available if you're interested.
+
+A few key points:
+
+- Use `<-` to *assign* a value to an object. You may see `=`, which works, but is not preferred.
+- Use spaces to make your code legible: `a <- 10`; `mean(x, na.rm=T)`; `c(1, 2, 3)`.
+- Avoid spaces in column or file names (in general) as these are a pain to work with.
+- Use names for objects that are short, but descriptive.
+- Limit the length of a line of code to about 80 characters.
+- Usually, variables should be nouns and functions should be verbs. 
+- Use `#` to write a comment which R will ignore.
+- Run the line of code where your cursor is (or everything you've selected) with ctrl+r
+
+------------------------------------------------------------------------
+
+## Basic data exploration
+
+We will mostly be working with dataframes. A dataframe is a 2D rectangular structure with columns and rows. In a tidy dataset, each row represents an 'observation' and each column represents a 'variable'. R (and often packages) contains several built-in dataframes.
+
+The dataframe `cars` gives the max speeds and stopping distances for cars built in the early 20th century. We are going to use this dataset as a starting point to demonstrate a few basic concepts in relation to R programming and statistical analysis.
+
+
+```{r, eval=FALSE}
+# functions for basic details of objects
+str(cars)
+class(cars)
+names(cars)
+head(cars)
+```
+
+```{r}
+head(cars, 2)
+tail(cars, 2)
+# what are the last 10 rows?
+```
+
+There are several ways to access subsets of a dataframe:
+
+- Use `.$columnName` or `.[["columnName"]]` to extract a single column
+- Use `.[rows,columns]` to extract a block
+
+```{r, eval=F}
+cars$speed
+cars[["speed"]]
+```
+```{r}
+cars[1, 1] # row 1, column 1
+cars[1:5, 1]
+cars[1:3, ] # leaving the columns blank returns all columns
+```
+
+We can also change column names. We'll make a copy of the dataframe to do that.
+
+```{r include=FALSE, echo=TRUE}
+cars2 <- cars 
+names(cars2)
+names(cars2)[1] <- "speed_mph"
+names(cars2)
+names(cars2) <- c("speed_mph", "dist_ft")
+```
+
+Rearranging and duplicating columns is also easy.
+
+```{r}
+head(cars2, 2) 
+cars2$speed_mph 
+cars2 <- cars2[, 2:1] 
+head(cars2, 2) 
+cars3 <- cars2[, c(2, 1, 1)] # duplicate a column
+head(cars3, 2)
+cars3 <- cars3[, c(2, 1)] # remove the duplicated column
+head(cars3, 2)
+cars3$dist_x_speed <- cars3$dist_ft * cars3$speed_mph # create a new column
+head(cars3, 2)
+rm(cars3) # remove the dataframe 'cars3'
+```
+
+You can also subset based on criteria. Say we only want rows where the speed is $>$ 20 mph:
+
+```{r}
+a <- which(cars2$speed_mph > 20) 
+str(a)
+cars_fast <- cars2[a, ] # or: cars2[which(cars2$speed_mph > 20), ]
+class(cars_fast) 
+ncol(cars_fast)  # and how many *rows* are there?
+head(cars_fast, 2)
+```
+
+When you import data, you should check for missing values. These are represented as `NA`.
+
+We can check each element of a vector using `is.na()`, which will return `FALSE` if an element *is not* `NA`, and `TRUE` if an element *is* `NA`.
+
+```{r eval=F, echo=TRUE}
+is.na(cars2$speed_mph)
+```
+
+R converts a logical vector (i.e., `TRUE`/`FALSE`) to numeric (i.e., `1`/`0`) automatically. This is handy, but dangerous if you don't realize it.
+
+```{r}
+sum(is.na(cars2$speed_mph))
+carsNA <- cars2
+carsNA[c(2, 4, 5, 10), 1] <- NA
+sum(is.na(carsNA$dist_ft))
+```
+
+Another very useful check is `summary()`:
+
+```{r}
+summary(cars)
+```
+```{r, eval=F}
+summary(carsNA)
+```
+
+Once you have assured yourself that your dataframe looks sensible, that it contains the data you expect, and that you know what the data-types are, you can start to explore and summarise your data.
+
+There are many graphical methods for data exploration and it is important to select the appropriate method. This will be determined by the nature of the data and what you wish to communicate to the reader.
+
+------------------------------------------------------------------------
+
+## Graphical methods for displaying data
+
+Always keep in mind that the primary reason for data visualization is to impart information concisely and accurately to your reader.
+
+Graphics must be clear, concise and easy to understand. Brightspace contains some examples of bad graphics ('Learning resources\>Lecture support material\>Introduction (Lectures 1-3)\>Graphics').
+
+\begin{figure}
+\centerline{\includegraphics[width=0.5\textwidth]{figs/bad_fig_1.png}}
+\caption{An example of a terrible graphic, as published in a Scottish government report.}
+\label{fig:bad1}
+\end{figure}
+
+
+In addition to poor design choices for effective communication (Fig. \@ref(fig:bad1)), graphics can also be deliberately misleading (Fig. \@ref(fig:bad2)).
+
+\begin{figure}
+\centerline{\includegraphics[width=0.5\textwidth]{figs/bad_fig_2.png}}
+\caption{A misleading graphic. What type of plot is this and how is it misleading?}
+\label{fig:bad2}
+\end{figure}
+
+
+### Scatter plot
+
+The scatter plot is used where you are plotting two continuous variables against each other. It can be used to check whether outliers are present in your data. This is the plot to use if you are doing a correlation analysis and you need to show the raw data to your reader.
+
+```{r fig.dim=c(6,2.5), out.width="100%", out.height="100%", echo=-1}
+par(mfrow=c(1,3))
+# plot(reponse ~ predictor, data = dataframe)
+plot(dist_ft ~ speed_mph,
+  data = cars2, xlab = "Speed (mph)", ylab = "Distance (ft)",
+  main = "Default symbol")
+plot(dist_ft ~ speed_mph,
+  data = cars2, xlab = "Speed (mph)", ylab = "Distance (ft)",
+  pch = 2, main = "Setting 'pch=2'")
+# you can check out more symbols and their respective numbers using this plot:
+plot(1:20, pch = c(1:20), main = "'pch' symbols 1 to 20")
+```
+
+```{r, echo=F}
+par(mfrow=c(1,1))
+```
+*Q1. Search the `plot` help page for 'title', then add an appropriate title to your plot.*
+
+*Q2. `?points` opens the help page for points, search the help page for 'pch' and change the symbol of your plot*
+
+*Q3. In relation to the cars dataset, plot stopping distance by speed, using indexing to show only those cars where speed_mph\>20*
+
+```{r fig.dim=c(3.5,4), out.width="40%", out.height="40%"}
+plot(dist_ft ~ speed_mph, data = cars2[cars2$speed_mph > 20, ], 
+     xlab = "Speed, mph", ylab = "Distance, ft", pch = 2)
+```
+
+### Boxplots
+
+Boxplots are used to summarise a continuous variable by levels of a factor. We will use the `mtcars` dataset to illustrate this.
+
+Explore the dataframe using the code you've already covered. Which variables are categorical, which are continuous (or might be)?
+
+```{r mplcyl-plot, fig.cap="Boxplot showing miles per litre vs. number of carburetors", fig.dim=c(4,4)}
+head(mtcars, 2)
+boxplot(mpg ~ cyl, data = mtcars)
+```
+
+```{r eval=F}
+?boxplot
+# See examples at bottom of the help page
+# Produce a boxplot with axes labels and a title
+```
+
+Reproduce the plot shown in Fig. \@ref(fig:mplcyl-plot) (assume 1 gallon = 4.5 L). Remember you can learn about these data with `?mtcars`. You will need to generate a new variable (miles per litre) and label your boxplot appropriately. You can limit the extent of the y-axis by adding the argument `ylim = c(a, b)` where `a` and `b` are the limits you want (e.g., `ylim = c(0, 100)`).
+
+*Q4. Use `?boxplot` to investigate what the box and whiskers in the boxplot acutally represent. Check you can reproduce the upper and lower adjacent values manually (see formula sheet)*
+
+### Line plots
+
+Line plots are most often seen in time-series plots with time (e.g. days or years etc) on the x-axis and the response on the y-axis. Line plots typically involve joining points with a line. The line can be straight or curved. Whatever the line is (which will be your choice), it indicates that you have made assumptions about the value of the response variable between successive measurements.
+
+We will examine these plots using the dataset `lynx`, which consists of the number of Canadian lynx pelts sold per year between 1821 - 1934. It is a 'classic' dataset as it shows a cyclical 'boom-and-bust' lynx population (demonstrating predator-prey interactions).
+
+First, we will create a variable `Year`.
+
+```{r}
+str(lynx)
+```
+```{r, results="hide"}
+class(lynx) # ts = time-series
+lynx2 <- as.data.frame(lynx) 
+class(lynx2) 
+head(lynx2, 2) 
+lynx2$Year <- seq(from = 1821, to = 1934, by = 1)
+```
+
+In R, we use *functions* to perform actions on *objects* . Functions have arguments, taking the form `functionName(arg1=..., arg2=...)`. If you do not name the arguments, the function will assume that you are listing the arguments in order. See the help file with `?functionName` to see the argument order.
+
+*Q5. Using `seq()`, write a piece of code which generates odd numbers between 1 and 20 with and without specifying `from`, `to`, and `by`.*
+
+```{r, results="hide"}
+# change the name of the 1st column to 'Trappings'
+names(lynx2)[1] <- "Trappings"
+str(lynx2)
+lynx2$Trappings <- as.numeric(lynx2$Trappings) # Time-Series is complicated.
+str(lynx2)
+```
+
+Use `?plot` to investigate options for plotting. Find the `type=` argument for plotting both the points and a connecting line. This might be the best option in this case. Why? Remind yourself the purpose of graphics.
+
+*Q6. Using the R plot function, produce a line plot of the Trappings data, as per Figure* \@ref(fig:lynx-plot)*.*
+
+```{r lynx-plot, fig.cap="The number of lynx trapped in Canada (1820-1934)", echo=FALSE, fig.align='center'}
+plot(Trappings ~ Year, data = lynx2,
+     main = "Lynx trapping in Canada (1820-1934)", type = "l")
+```
+
+Change the plot to show only the years up to 1900, then plot the Trappings on the log scale.
+
+### Histograms
+
+Histograms are used to illustrate the distribution of continuous data. Histograms are often erroneously used to plot discrete data. In histograms the bars are adjacent (no gap) and this indicates that there is a continuum (i.e. that the data are not discrete).
+
+```{r lynx-hist-default, fig.cap="Lynx pelts per year with default settings.", fig.dim=c(4,3)}
+# this gives very different information.
+hist(lynx2$Trappings, main = "Lynx trapping", xlab = "Trapped lynx per year")
+```
+
+Which range of values was most common across years?
+
+Be aware that histograms can be quite sensitive to the bins that you use.
+
+```{r lynx-hist-b1, fig.cap="Lynx pelts per year with breaks=5 (left) and a vector of breaks (right).", fig.dim=c(6,3), out.width="80%", out.height="80%"}
+par(mfrow=c(1,2)) # panels for the plotting window
+# R takes the number of breaks as a suggestion
+hist(lynx2$Trappings, main = "Lynx trapping", xlab = "Trapped lynx per year",
+     breaks = 5)
+# this forces R to plot according to the defined breaks
+hist(lynx2$Trappings,
+     main = "Lynx trapping", xlab = "Trapped lynx per year",
+     breaks = c(0, 500, 1000, 2000, 5000, 10000))
+```
+
+```{r lynx-hist-panels, fig.dim=c(6,4), out.width="80%", out.height="80%"}
+par(mfrow = c(2, 2)) # plot panels (2 rows x 2 columns)
+par(mar = rep(2, 4)) # change the plot margins
+hist(lynx2$Trappings, main = "Plot 1", xlab = "Trapped lynx per year", 
+     breaks = seq(from = 0, to = 10000, by = 100))
+hist(lynx2$Trappings, main = "Plot 2", xlab = "Trapped lynx per year", 
+     breaks = seq(from = 0, to = 10000, by = 500))
+hist(lynx2$Trappings, main = "Plot 3", xlab = "Trapped lynx per year", 
+     breaks = seq(from = 0, to = 10000, by = 1000))
+hist(lynx2$Trappings, main = "Plot 4", xlab = "Trapped lynx per year", 
+     breaks = seq(from = 0, to = 10000, by = 2000))
+```
+
+```{r}
+par(mfrow = c(1, 1)) # reset the par setting.
+```
+
+Which of these plots is the most useful? There is no definitive answer to this, but Plot 1 is very busy and Plot 4 fails to show relevant detail near 0; Plot 2 or 3 communicate the patterns in the data most clearly.
+
+As a general guideline, 5-15 breaks usually works well in a histogram.
+
+### Bar graphs
+
+When you create a `data.frame` it defaults to naming the rows 1...n, where n is the number of rows. **It is better practice to store relevant information in a column**, but you may occasionally come across a `data.frame` with row names. Converting between data types may lose this information.
+
+Bar graphs are used to plot counts of categorical or discrete variables. We'll be using the `islands` dataset.
+
+Working with data involves a lot of time spent tidying the datasets: cleaning, checking, and reshaping into useful formats. We will cover a more modern set of methods for this later in the course using the *tidyverse* package. For now, we'll stay with base R. First, we need to tidy the `islands` data.
+
+```{r, results="hide"}
+str(islands) 
+class(islands) # this is a named numeric vector
+head(islands)
+
+# convert to a dataframe
+islands.df <- as.data.frame(islands) 
+head(islands.df, 2)
+```
+```{r}
+# put the row names into a new column
+islands.df$LandMass <- row.names(islands.df) 
+head(islands.df, 2)
+
+# set row names to the row number
+row.names(islands.df) <- 1:nrow(islands.df) 
+names(islands.df)[1] <- "Area" 
+head(islands.df, 2) 
+
+# reorder by area
+islands.df <- islands.df[order(islands.df$Area, decreasing = TRUE), ]
+head(islands.df, 3)
+```
+
+We can use the function `barplot()` to plot the vector of island areas.
+
+```{r island-1, fig.cap="Island areas with barplot defaults", fig.dim=c(6,2.5), out.width="80%", out.height="80%"}
+par(mar = c(4, 0, 0, 0)) # change the margin sizes
+barplot(islands.df$Area)
+```
+
+The whole dataset includes a lot of very small areas, so let's cut it down to just the 10 largest. Since the dataset is already sorted, we can take rows `1:10`.
+
+```{r island-2, fig.cap="Top 10 island areas", fig.dim=c(4,4)}
+barplot(islands.df$Area[1:10])
+```
+
+And the next step is to add some names to the x-axis...
+
+```{r island-3, fig.cap="Top 10 island areas with names", fig.dim=c(4,4)}
+barplot(islands.df$Area[1:10], names = islands.df$LandMass[1:10])
+```
+
+Which of course are unreadable. The `las` argument (`?par`) controls how the axis labels relate to the axis line, so we can try adjusting that...
+
+```{r island-4, fig.cap="Top 10 island areas with names rotated", fig.dim=c(4,4)}
+barplot(islands.df$Area[1:10], names = islands.df$LandMass[1:10], las=3)
+```
+
+Maybe we just need to make the bars horizontal. To do this, we should adjust the margins again with `par(mar=...))`, set `horiz=TRUE`, and `las=1`, and use `[10:1]` so the largest is on top.
+
+```{r island-5, fig.cap="Finally! Did you know Antarctica is bigger than Europe?", fig.dim=c(4,3)}
+par(mar = c(4, 10, 0, 0))
+barplot(islands.df$Area[10:1], names = islands.df$LandMass[10:1], 
+        horiz = TRUE, las = 1, xlab = "Area (km2)")
+```
+
+As you may have noticed, visualization is an iterative process with lots of trial and error until you find a plot that communicates the message within the data well. There are several packages (e.g., `ggplot2`) that make these sort of adjustments and explorations less opaque than all of the options in `par()`.
+
+------------------------------------------------------------------------
+
+## Summary statistics
+
+You will often need to summarise your data before you present it. Data summaries are usually contained in tables and they can replace graphics in certain situations, for example, where the data is relatively simple with a well understood distribution. There are numerous different types of summary statistics. Here we are concerned with central tendency and variability.
+
+*Q8. What are the three main measures of central tendency?*
+
+*Q9. What are three measures of variability?*
+
+Different measures of central tendency and variability all have pros and cons and you need to be able to apply the most appropriate method to your data. Another summary statistic that you might include is sample size. R is very good at producing summary statistics, and there are myriad ways to produce them. We'll return to the `cars` dataset.
+
+```{r}
+summary(cars2) 
+```
+```{r, eval=F}
+summary(cars2[cars2$speed_mph > 20, ]) 
+```
+```{r, eval=F}
+# There are several ways to access a column in a dataframe
+summary(cars2$speed_mph) 
+summary(cars2[, 2])
+summary(cars2[, "speed_mph"])
+summary(cars2[, c("speed_mph", "dist_ft")])
+```
+
+Often you'll wish to summarise your data across levels of certain factor. For example, levels of a certain treatment that you are applying. More complex summaries can be made using the `dplyr` package. We'll go into more detail later on some of the very powerful ways this package (and its friends in the *tidyverse*) can be used.
+
+First, you'll need to install it. The *tidyverse* is a collection of packages. Install all of them with `install.packages("tidyverse")` (see Section \@ref{R_intro}). 
+
+We'll use the built-in dataset `InsectSprays`. Viewing your raw data can be an important check as well. You can open a spreadsheet-styled viewer in R using `View(YourDataFrame)`.
+
+```{r include=FALSE}
+library(tidyverse) 
+```
+
+```{r}
+str(InsectSprays)
+glimpse(InsectSprays) # glimpse() is loaded with tidyverse
+```
+
+```{r eval=F}
+# spray is the categorical predictor; count is the response
+View(InsectSprays)
+```
+
+To do more complex summaries, we're going to string together a series of functions. This can be done in a nested format (e.g., `fun1(fun2(fun3(dataset)))`), but this gets unwieldy very quickly.
+
+So, let's introduce the *pipe* operator `|>`. This takes the output from one function and feeds it as the first input of the next (e.g., `dataset |> fun3() |> fun2() |> fun1()`), making code much more legible. Many functions in the *tidyverse* are built for piping.
+
+```{r eval=F}
+?`|>`
+```
+
+```{r, results="hide"}
+# use group_by() with the grouping column name(s)
+spray_summaries <- InsectSprays |>
+  group_by(spray) |>
+  summarise(count_mean = mean(count))
+spray_summaries
+```
+```{r}
+# it is very easy to calculate any number of summary statistics
+InsectSprays |>
+  group_by(spray) |>
+  summarise(mean = mean(count) |> round(2),
+            median = median(count),
+            max = max(count),
+            sd = sd(count) |> round(2),
+            N = n(),
+            N_over_10 = sum(count > 10))
+```
+
+### Which measure of central tendency to use
+
+The choice of which measure of central tendency to use depends on the nature of the data and objectives of your research. However, there are some general rules. We will use datasets that you downloaded from Brightspace (Practicals \> data). Remember to put these into the *data* folder in your working directory (or modify the file paths in the code accordingly).
+
+```{r}
+library(readxl) # installed with tidyverse, but not loaded in library(tidyverse)
+# this will load the 'Scallop %fat'data sheet from the xlsx spreadsheet.
+scallop_df <- read_excel("data/practical_1.xlsx", sheet = "Scallop %fat")
+str(scallop_df)
+# avoid spaces and symbols in column names. It's a pain.
+names(scallop_df) <- "fat_pct"
+```
+
+*Q10. Check the data using the methods above. Does it look OK to you?*
+
+*Q11. Are these data likely to be continuous or discontinuous?*
+
+*Q12. Create a plot to visualize the distribution of these data.*
+
+*Q13. Do you spot any issues?*
+
+```{r fig.dim=c(4,4), fig.width="30%", fig.height="30%"}
+hist(scallop_df$fat_pct, main = NULL) # (what does 'main = NULL' do?)
+```
+
+You should have spotted a potential outlier. Data entry errors are very common, and a check against the original data sheet shows that the decimal was typed in the wrong place. The following code helps you ID which data entry is in error. We can now search for the 'odd' observation i.e. determine in which row the outlier is located.
+
+```{r}
+which(scallop_df$fat_pct > 50) 
+scallop_df$fat_pct[35:37] # row 36 is 99, but should be 9.9
+scallop_df <- scallop_df[, c(1, 1)] # duplicate column
+names(scallop_df) <- c("fat_pct_orig", "fat_pct_corr")
+head(scallop_df, 2)
+```
+```{r, results="hide"}
+# there are many ways to 'fix' the outlier in R.
+# You need to correct the outlier in row 36 of column 'fat_pct_corr'
+scallop_df$fat_pct_corr[36] <- 9.9
+which(scallop_df$fat_pct_corr > 90) 
+# integer(0) - this means that no elements in fat_pct_corr contain values >90
+```
+
+Now summarise `scallop_df` using some of the methods above.
+
+*Q14. Create a histogram for the corrected column. How does it differ from the original column with the error?*
+
+*Q15. Calculate mean, variance, median, interquartile range, minimum, maximum and range for both fat_pct_orig and fat_pct_corr.*
+
+*Q16. Suppose the outlier was even bigger (i.e. you typo was even worse). Adjust your data, multiplying the erroneous data item by 10; copy the '\_orig' column and change row 36 in that column to 999.*
+
+*Q17. Calculate the same summary statistics.*
+
+*Q18. Which measures of central tendency and variability are most 'robust' against this outlier?*
+
+Or look individually instead of calculating many metrics at once with `dplyr` functions:
+
+```{r}
+summary(scallop_df$fat_pct_corr)
+var(scallop_df$fat_pct_corr)
+IQR(scallop_df$fat_pct_corr)
+```
+
+R is excellent at generating well formatted tables such as shown in Table \@ref(tab:scallop-table). What is missing from from Table \@ref(tab:scallop-table)?
+
+
+```{r scallop-table, echo=FALSE}
+scallop_df |>
+  pivot_longer(1:2, names_to="Column", values_to="val") |>
+  group_by(Column) |>
+  summarise(Mean = mean(val) |> signif(3),
+            Median = median(val) |> signif(3),
+            `Standard deviation` = sd(val) |> signif(3),
+            Range = range(val) |> diff() |> signif(3),
+            `Interquartile range` = IQR(val) |> signif(3)) |>
+  knitr::kable(
+    caption = 'Summary statistics with and without an outlier. Note which summary stats are most influenced by the outlier.',
+    booktabs = TRUE, 
+    digits = 3)
+```
+
+
+*Q19. How would the patterns seen in Table \@ref(tab:scallop-table) influence your choice if you were required to summarise data that you thought might contain data that you weren't sure about? The three measure of central tendency are influenced to different extents by the 'shape' of the data they are used to describe.*
+
+```{r}
+hake_df <- read_excel("data/practical_1.xlsx", sheet = "Hake")
+str(hake_df) # once again, column names made for excel
+```
+
+*Q20. What type of variable is `length`?*
+
+*Q21. Select an appropriate graphical method and display these data.*
+
+*Q22. In your own time, use the `dplyr` functions to summarise the hake data by year.*
+
+```{r}
+hake_df$Year <- as.factor(hake_df$Year) # Treat as categorical, not numeric
+names(hake_df) <- c("Year", "Length") # simplify the column names
+```
+
+
+```{r hake-table, echo=FALSE}
+hake_df |>
+  group_by(Year) |>
+  summarise(`Mean length (cm)` = mean(Length)) |>
+  knitr::kable(
+    caption = 'Summary of hake data.',
+    booktabs=TRUE,
+    digits = 1)
+```
+
+
+Try to re-create Table \@ref(tab:hake-table).
+
+The following 'settling velocity' data relates to the settling velocity of salmon faecal material. Shona Magill generated these data.
+
+```{r}
+library(readxl)
+fishPoo_df <- read_excel("data/practical_1.xlsx", sheet = "Settling velocity")
+str(fishPoo_df)
+```
+
+*Q23. Produce a histogram of the settling velocity. Is it left or right skewed?*
+
+*Q24. Which measures of central tendency and variability are most appropriate?*
+
+*Q25. Sketch the distribution and indicate the relative positions of the mean and median.*
+
+*Q26. Generate a new column of the log-transformed settling velocity data and plot these data.*
+
+*Q27. What measures of central tendency and variability could be applied to the log-transformed data? Selecting the preferable measure of central tendency and variability in a dataset is not necessarily straightforward.*
+
+Table 1.3 gives some indication of what issues you might consider.
+
+```{r metric-table, echo=F}
+tibble(a=c("Continuous, unimodal, symmetrical", "Continuous, skewed", 
+           "Continuous, multimodal", "Discontinuous"),
+       b=c("Mean", "Median", 
+           "None; state modes", "None; data-dependent"),
+       c=c("Variance or sd", "Interquartile range", 
+           "None; summarise by group", "Range?")) |>
+  mutate(across(where(is.character), ~str_wrap(.x, 20))) |>
+  rename(`Data distribution`=a, 
+         `Central tendency metric`=b,
+         `Variability metric`=c) |>
+  knitr::kable(
+    caption="Appropriate measures of central tendency and variability according to the underlying data distribution.",
+    booktabs=T
+  ) 
+```
+
+
+------------------------------------------------------------------------
+
+## Conclusions
+
+Visualizing and summarising data are the critical first steps in the data analysis and reporting workflow. We use graphical methods to firstly explore our own data. Once we have made sense of it we select the most appropriate method to convey that understanding to our readers. We may help that communication by summarising data in the most appropriate way taking into account the distribution of the data and the presence of outliers.
+
+

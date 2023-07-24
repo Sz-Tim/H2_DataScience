@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Practical 6 Multivariate analysis | H2 Data Science Practical Series</title>
+  <meta name="description" content="Handbook for the H2 Data Science practicals." />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Practical 6 Multivariate analysis | H2 Data Science Practical Series" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://brightspace.uhi.ac.uk/d2l/home/341332/figs/cover_short.png" />
+  <meta property="og:description" content="Handbook for the H2 Data Science practicals." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical 6 Multivariate analysis | H2 Data Science Practical Series" />
+  
+  <meta name="twitter:description" content="Handbook for the H2 Data Science practicals." />
+  <meta name="twitter:image" content="https://brightspace.uhi.ac.uk/d2l/home/341332/figs/cover_short.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="glm.html"/>
+<link rel="next" href="appendix.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">H2 Data Science Practical Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i>Overview</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="overview.html"><a href="overview.html#practical-sessions"><i class="fa fa-check"></i><b>0.1</b> Practical sessions</a></li>
+<li class="chapter" data-level="0.2" data-path="overview.html"><a href="overview.html#assessments"><i class="fa fa-check"></i><b>0.2</b> Assessments</a></li>
+<li class="chapter" data-level="0.3" data-path="overview.html"><a href="overview.html#R_intro"><i class="fa fa-check"></i><b>0.3</b> Getting started in R</a>
+<ul>
+<li class="chapter" data-level="0.3.1" data-path="overview.html"><a href="overview.html#rstudio-project"><i class="fa fa-check"></i><b>0.3.1</b> RStudio Project</a></li>
+<li class="chapter" data-level="0.3.2" data-path="overview.html"><a href="overview.html#rstudio-settings"><i class="fa fa-check"></i><b>0.3.2</b> RStudio Settings</a></li>
+<li class="chapter" data-level="0.3.3" data-path="overview.html"><a href="overview.html#r-packages-and-libraries"><i class="fa fa-check"></i><b>0.3.3</b> R packages and libraries</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="EDA.html"><a href="EDA.html"><i class="fa fa-check"></i><b>1</b> Displaying and summarising data</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="EDA.html"><a href="EDA.html#basic-data-exploration"><i class="fa fa-check"></i><b>1.1</b> Basic data exploration</a></li>
+<li class="chapter" data-level="1.2" data-path="EDA.html"><a href="EDA.html#graphical-methods-for-displaying-data"><i class="fa fa-check"></i><b>1.2</b> Graphical methods for displaying data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="EDA.html"><a href="EDA.html#scatter-plot"><i class="fa fa-check"></i><b>1.2.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="1.2.2" data-path="EDA.html"><a href="EDA.html#boxplots"><i class="fa fa-check"></i><b>1.2.2</b> Boxplots</a></li>
+<li class="chapter" data-level="1.2.3" data-path="EDA.html"><a href="EDA.html#line-plots"><i class="fa fa-check"></i><b>1.2.3</b> Line plots</a></li>
+<li class="chapter" data-level="1.2.4" data-path="EDA.html"><a href="EDA.html#histograms"><i class="fa fa-check"></i><b>1.2.4</b> Histograms</a></li>
+<li class="chapter" data-level="1.2.5" data-path="EDA.html"><a href="EDA.html#bar-graphs"><i class="fa fa-check"></i><b>1.2.5</b> Bar graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="EDA.html"><a href="EDA.html#summary-statistics"><i class="fa fa-check"></i><b>1.3</b> Summary statistics</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="EDA.html"><a href="EDA.html#which-measure-of-central-tendency-to-use"><i class="fa fa-check"></i><b>1.3.1</b> Which measure of central tendency to use</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="EDA.html"><a href="EDA.html#conclusions"><i class="fa fa-check"></i><b>1.4</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bin_pois.html"><a href="bin_pois.html"><i class="fa fa-check"></i><b>2</b> Binomial &amp; Poisson distributions</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution"><i class="fa fa-check"></i><b>2.1</b> The Binomial distribution</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="bin_pois.html"><a href="bin_pois.html#bernoulli-trials"><i class="fa fa-check"></i><b>2.1.1</b> Bernoulli trials</a></li>
+<li class="chapter" data-level="2.1.2" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution-1"><i class="fa fa-check"></i><b>2.1.2</b> The binomial distribution</a></li>
+<li class="chapter" data-level="2.1.3" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-by-hand"><i class="fa fa-check"></i><b>2.1.3</b> Binomial distributions by hand</a></li>
+<li class="chapter" data-level="2.1.4" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-in-r"><i class="fa fa-check"></i><b>2.1.4</b> Binomial distributions in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-distribution"><i class="fa fa-check"></i><b>2.2</b> The Poisson distribution</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-by-hand"><i class="fa fa-check"></i><b>2.2.1</b> Poisson distributions by hand</a></li>
+<li class="chapter" data-level="2.2.2" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-in-r"><i class="fa fa-check"></i><b>2.2.2</b> Poisson distributions in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-approximation-of-the-binomial-model"><i class="fa fa-check"></i><b>2.3</b> The Poisson approximation of the binomial model</a></li>
+<li class="chapter" data-level="2.4" data-path="bin_pois.html"><a href="bin_pois.html#conclusions-1"><i class="fa fa-check"></i><b>2.4</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="normal.html"><a href="normal.html"><i class="fa fa-check"></i><b>3</b> Normal distribution</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="normal.html"><a href="normal.html#using-the-normal-probability-distributions"><i class="fa fa-check"></i><b>3.1</b> Using the normal probability distributions</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="normal.html"><a href="normal.html#using-r-to-calculate-areas-under-the-normal-curve"><i class="fa fa-check"></i><b>3.1.1</b> Using R to calculate areas under the normal curve</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="normal.html"><a href="normal.html#normal-model-adequacy"><i class="fa fa-check"></i><b>3.2</b> Normal model adequacy</a></li>
+<li class="chapter" data-level="3.3" data-path="normal.html"><a href="normal.html#calculating-quantiles-in-the-normal-distribution"><i class="fa fa-check"></i><b>3.3</b> Calculating quantiles in the normal distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="normal.html"><a href="normal.html#testing-for-normality"><i class="fa fa-check"></i><b>3.4</b> Testing for normality</a></li>
+<li class="chapter" data-level="3.5" data-path="normal.html"><a href="normal.html#transformations"><i class="fa fa-check"></i><b>3.5</b> Data transformations</a></li>
+<li class="chapter" data-level="3.6" data-path="normal.html"><a href="normal.html#functions-in-r"><i class="fa fa-check"></i><b>3.6</b> Functions in R</a></li>
+<li class="chapter" data-level="3.7" data-path="normal.html"><a href="normal.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.7</b> The central limit theorem</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="normal.html"><a href="normal.html#the-distribution-of-means-from-various-data-distributions"><i class="fa fa-check"></i><b>3.7.1</b> The distribution of means from various data distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="normal.html"><a href="normal.html#the-standard-error-of-the-mean"><i class="fa fa-check"></i><b>3.8</b> The standard error of the mean</a></li>
+<li class="chapter" data-level="3.9" data-path="normal.html"><a href="normal.html#normal-approximations-for-other-distributions"><i class="fa fa-check"></i><b>3.9</b> Normal approximations for other distributions</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="normal.html"><a href="normal.html#the-normal-approximation-of-the-poisson-distribution"><i class="fa fa-check"></i><b>3.9.1</b> The Normal approximation of the Poisson distribution</a></li>
+<li class="chapter" data-level="3.9.2" data-path="normal.html"><a href="normal.html#the-normal-approximation-of-the-binomial-distribution"><i class="fa fa-check"></i><b>3.9.2</b> The normal approximation of the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="normal.html"><a href="normal.html#conclusions-2"><i class="fa fa-check"></i><b>3.10</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="t-test.html"><a href="t-test.html"><i class="fa fa-check"></i><b>4</b> t-tests &amp; confidence intervals</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="t-test.html"><a href="t-test.html#single-sample-t-tests"><i class="fa fa-check"></i><b>4.1</b> Single sample t-tests</a></li>
+<li class="chapter" data-level="4.2" data-path="t-test.html"><a href="t-test.html#confidence-intervals"><i class="fa fa-check"></i><b>4.2</b> Confidence Intervals</a></li>
+<li class="chapter" data-level="4.3" data-path="t-test.html"><a href="t-test.html#comparing-means-two-sample-t-tests"><i class="fa fa-check"></i><b>4.3</b> Comparing means (two-sample t tests)</a></li>
+<li class="chapter" data-level="4.4" data-path="t-test.html"><a href="t-test.html#non-parametric-tests"><i class="fa fa-check"></i><b>4.4</b> Non-parametric Tests</a></li>
+<li class="chapter" data-level="4.5" data-path="t-test.html"><a href="t-test.html#conclusions-3"><i class="fa fa-check"></i><b>4.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="glm.html"><a href="glm.html"><i class="fa fa-check"></i><b>5</b> General Linear Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="glm.html"><a href="glm.html#analysis-of-variance-anova"><i class="fa fa-check"></i><b>5.1</b> Analysis of variance (ANOVA)</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="glm.html"><a href="glm.html#anova-in-r"><i class="fa fa-check"></i><b>5.1.1</b> ANOVA in R</a></li>
+<li class="chapter" data-level="5.1.2" data-path="glm.html"><a href="glm.html#one-way-anova"><i class="fa fa-check"></i><b>5.1.2</b> One-way ANOVA</a></li>
+<li class="chapter" data-level="5.1.3" data-path="glm.html"><a href="glm.html#two-way-anova"><i class="fa fa-check"></i><b>5.1.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="glm.html"><a href="glm.html#regression"><i class="fa fa-check"></i><b>5.2</b> Regression</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="glm.html"><a href="glm.html#overview-1"><i class="fa fa-check"></i><b>5.2.1</b> Overview</a></li>
+<li class="chapter" data-level="5.2.2" data-path="glm.html"><a href="glm.html#linear-regression-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Linear regression in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="glm.html"><a href="glm.html#plotting-the-regression-line-and-confidence-intervals"><i class="fa fa-check"></i><b>5.2.3</b> Plotting the regression line and confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="glm.html"><a href="glm.html#conclusions-4"><i class="fa fa-check"></i><b>5.3</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="multivariate.html"><a href="multivariate.html"><i class="fa fa-check"></i><b>6</b> Multivariate analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="multivariate.html"><a href="multivariate.html#multivariate-analysis-in-r"><i class="fa fa-check"></i><b>6.1</b> Multivariate analysis in R</a></li>
+<li class="chapter" data-level="6.2" data-path="multivariate.html"><a href="multivariate.html#diversity-indices"><i class="fa fa-check"></i><b>6.2</b> Diversity indices</a></li>
+<li class="chapter" data-level="6.3" data-path="multivariate.html"><a href="multivariate.html#nmds-on-real-data"><i class="fa fa-check"></i><b>6.3</b> NMDS on real data</a></li>
+<li class="chapter" data-level="6.4" data-path="multivariate.html"><a href="multivariate.html#principal-components-analysis-pca"><i class="fa fa-check"></i><b>6.4</b> Principal components analysis (PCA)</a></li>
+<li class="chapter" data-level="6.5" data-path="multivariate.html"><a href="multivariate.html#conclusions-5"><i class="fa fa-check"></i><b>6.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#probability"><i class="fa fa-check"></i><b>7.1</b> Probability</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#probability-for-equally-likely-outcomes"><i class="fa fa-check"></i><b>7.1.1</b> Probability for equally likely outcomes</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#multiplication-and-addition"><i class="fa fa-check"></i><b>7.1.2</b> Multiplication and addition</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#bayes-theorem"><i class="fa fa-check"></i><b>7.1.3</b> Bayes’ theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="appendix.html"><a href="appendix.html#univariate-statistics"><i class="fa fa-check"></i><b>7.2</b> Univariate statistics</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="appendix.html"><a href="appendix.html#mean"><i class="fa fa-check"></i><b>7.2.1</b> Mean</a></li>
+<li class="chapter" data-level="7.2.2" data-path="appendix.html"><a href="appendix.html#median-quartiles-and-adjacent-values"><i class="fa fa-check"></i><b>7.2.2</b> Median, quartiles and adjacent values</a></li>
+<li class="chapter" data-level="7.2.3" data-path="appendix.html"><a href="appendix.html#the-sum-of-squares"><i class="fa fa-check"></i><b>7.2.3</b> The sum of squares</a></li>
+<li class="chapter" data-level="7.2.4" data-path="appendix.html"><a href="appendix.html#measures-of-dispersion"><i class="fa fa-check"></i><b>7.2.4</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="appendix.html"><a href="appendix.html#the-binomial-distribution-2"><i class="fa fa-check"></i><b>7.3</b> The Binomial distribution</a></li>
+<li class="chapter" data-level="7.4" data-path="appendix.html"><a href="appendix.html#the-poisson-distribution-1"><i class="fa fa-check"></i><b>7.4</b> The Poisson distribution</a></li>
+<li class="chapter" data-level="7.5" data-path="appendix.html"><a href="appendix.html#z-scores"><i class="fa fa-check"></i><b>7.5</b> Z scores</a></li>
+<li class="chapter" data-level="7.6" data-path="appendix.html"><a href="appendix.html#samples-taken-from-a-population"><i class="fa fa-check"></i><b>7.6</b> Samples taken from a population</a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="appendix.html"><a href="appendix.html#standard-error-of-the-mean"><i class="fa fa-check"></i><b>7.6.1</b> Standard error of the mean</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="appendix.html"><a href="appendix.html#the-t-distribution"><i class="fa fa-check"></i><b>7.7</b> The t distribution</a>
+<ul>
+<li class="chapter" data-level="7.7.1" data-path="appendix.html"><a href="appendix.html#the-one-sample-t-test"><i class="fa fa-check"></i><b>7.7.1</b> The one sample t-test</a></li>
+<li class="chapter" data-level="7.7.2" data-path="appendix.html"><a href="appendix.html#confidence-intervals-for-sample-means"><i class="fa fa-check"></i><b>7.7.2</b> Confidence intervals for sample means</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="appendix.html"><a href="appendix.html#anova"><i class="fa fa-check"></i><b>7.8</b> ANOVA</a></li>
+<li class="chapter" data-level="7.9" data-path="appendix.html"><a href="appendix.html#regression-correlation"><i class="fa fa-check"></i><b>7.9</b> Regression &amp; correlation</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">H2 Data Science Practical Series</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multivariate" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">Practical 6</span> Multivariate analysis<a href="multivariate.html#multivariate" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>So far, every model we’ve used has had a single response variable. Multivariate analyses expand this to allow the analysis of, for example, counts of each species within a community. Statistical routines for multivariate analysis are relatively new and have co-evolved with computational capacity over the last 50 years or so. Multivariate data typically take the form of a matrix of samples (each row is a sample) v ‘features’ (columns). Features may include things like faunal counts, chemical concentrations, or environmental conditions.</p>
+<p>Multivariate analysis typically includes three stages: 1) data transformation or standardisation, 2) generation of a dissimilarity matrix and, 3) ordination (display) of that matrix. Each of these elements has numerous options, with advantages and disadvantages to each. Multivariate analysis are less inferential than most univariate approaches and implementation can feel like a ‘black-art’! Statisticians are still arguing about the best way to approach multivariate analyses.</p>
+<p>Multivariate data, such as species inventories, have been recorded for centuries and form a critical resource. Multivariate time series data are particularly important for assessing relative change that might be attributable to man’s activities, for example in relation to climate or land-use change. The ‘internet of things’, the generation of multiple data-streams from the same station (e.g. a glider with CTD), and the development of bioinformatics (e.g. metabarcoding) all lend themselves to multivariate analyses.</p>
+<p>More detail on the the material we cover here is given in <a href="https://www.primer-e.com/wp-content/uploads/2018/10/Change-in-Marine-Communities-3rd-ed.pdf">Clarke et al. 2014. Change in marine communities: An approach to statistical analysis and interpretation.</a>. If that link does not work, you can try navigating to the <a href="https://www.primer-e.com/download/">PRIMER-e downloads page</a>, fill out your info to download the Manuals, then select “Change in Marine Communities”. Unfortunately, the PRIMER software developed by the authors is not free. Instead, we’ll use our gloriously free and open source R.</p>
+<div id="multivariate-analysis-in-r" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Multivariate analysis in R<a href="multivariate.html#multivariate-analysis-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For the non-metric NMDS workflow, we’ll start by simulating some data. Then, we’ll transform the data (‘log’ and fourth-root) and generate dissimilarity matrices from this transformed data. Finally, we’ll plot it using NMDS. We’ll generate diversity indices with our simulated data, then have a look at some real data (available via the package <em>vegan</em>).</p>
+<p>For the PCA workflow, we’ll have a look at some environmental data using PCA. Throughout this practical, we’ll illustrate some coding techniques which will help you practice wrangling your data to make it suitable for analysis. As we’ve discussed, data wrangling is a time-consuming and crucial part of data analysis so familiarity with this is essential.</p>
+<p>Recall from Section @ref{normal} that the <code>^</code> operator raises each element in a vector to a power. For example, say we create a vector <code>obs_values &lt;- c(1, 10, 35)</code>. We can calculate a fourth-root transformation of the whole vector with <code>obs_values^(1/4)</code>. Remember from previous courses that this is identical to <code>sqrt(sqrt(obs_values))</code>.</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="multivariate.html#cb214-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegan) </span>
+<span id="cb214-2"><a href="multivariate.html#cb214-2" aria-hidden="true" tabindex="-1"></a><span class="co"># these toy data duplicate those in the multivariate lecture.</span></span>
+<span id="cb214-3"><a href="multivariate.html#cb214-3" aria-hidden="true" tabindex="-1"></a>worm_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb214-4"><a href="multivariate.html#cb214-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">&quot;CE1&quot;</span>, <span class="st">&quot;CE2&quot;</span>, <span class="st">&quot;Ref1&quot;</span>, <span class="st">&quot;Ref2&quot;</span>),</span>
+<span id="cb214-5"><a href="multivariate.html#cb214-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Capitella =</span> <span class="fu">c</span>(<span class="dv">1000</span>, <span class="dv">1500</span>, <span class="dv">10</span>, <span class="dv">50</span>),</span>
+<span id="cb214-6"><a href="multivariate.html#cb214-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Malacoeros =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">2000</span>, <span class="dv">50</span>, <span class="dv">25</span>),</span>
+<span id="cb214-7"><a href="multivariate.html#cb214-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mysella =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">25</span>, <span class="dv">30</span>),</span>
+<span id="cb214-8"><a href="multivariate.html#cb214-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Nucella =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">15</span>)</span>
+<span id="cb214-9"><a href="multivariate.html#cb214-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb214-10"><a href="multivariate.html#cb214-10" aria-hidden="true" tabindex="-1"></a>worm_df</span></code></pre></div>
+<pre><code>##      Capitella Malacoeros Mysella Nucella
+## CE1       1000        500       1       1
+## CE2       1500       2000       0       0
+## Ref1        10         50      25      20
+## Ref2        50         25      30      15</code></pre>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="multivariate.html#cb216-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alt-log transformation: ifelse(x==0, 0, log(x))</span></span>
+<span id="cb216-2"><a href="multivariate.html#cb216-2" aria-hidden="true" tabindex="-1"></a>worm_df_log <span class="ot">&lt;-</span> <span class="fu">decostand</span>(worm_df, <span class="at">method =</span> <span class="st">&quot;log&quot;</span>, <span class="at">logbase =</span> <span class="dv">10</span>)</span>
+<span id="cb216-3"><a href="multivariate.html#cb216-3" aria-hidden="true" tabindex="-1"></a>worm_df_4rt <span class="ot">&lt;-</span> worm_df<span class="sc">^</span><span class="fl">0.25</span></span></code></pre></div>
+<p>Take a look at <code>worm_df</code>, <code>worm_df_log</code>, and <code>worm_df_4rt</code> to be sure they make sense.</p>
+<p>Next we use <code>vegdist()</code> to generate different distance matrices for the raw and transformed data. See <code>?vegdist</code> for more information. We’ll use Bray-Curtis for the raw and 4<sup>th</sup>-root transformed data, and alternative Gower for the alt-log transformed data. See the multivariate lecture area on Brightspace for details on these algorithms. Feel free to investigate other combinations of data transformation and dissimilarity matrices.</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="multivariate.html#cb217-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vegdist</span>(worm_df, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span></code></pre></div>
+<pre><code>##            CE1       CE2      Ref1
+## CE2  0.4002399                    
+## Ref1 0.9228376 0.9667129          
+## Ref2 0.9050555 0.9585635 0.3333333</code></pre>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="multivariate.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vegdist</span>(worm_df_4rt, <span class="at">method =</span> <span class="st">&quot;bray&quot;</span>)</span></code></pre></div>
+<pre><code>##             CE1        CE2       Ref1
+## CE2  0.18044721                      
+## Ref1 0.39098221 0.59100112           
+## Ref2 0.36024122 0.55728021 0.08642723</code></pre>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="multivariate.html#cb221-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vegdist</span>(worm_df_log, <span class="at">method =</span> <span class="st">&quot;altGower&quot;</span>)</span></code></pre></div>
+<pre><code>##            CE1       CE2      Ref1
+## CE2  0.6945378                    
+## Ref1 1.4247425 2.1192803          
+## Ref2 1.3138181 2.0083559 0.3010300</code></pre>
+<p><em>Q140. How many combinations of transformation and dissimilarity matrix do we have already?</em></p>
+<p><em>Q141. Examine one or more of the dissimilarity matrices. Which sites are closer (smaller numbers) and which are futher apart (bigger numbers)? Does this align with an ‘eyeballing’ of the data? How has the data transformation changed the resultant dissimilarity matrix?</em></p>
+<p>Next we want to plot our dissimilarities, so we can easily visualise which sites are more similar/dissimilar to each other. We will use functions from <em>vegan</em> to plot the ordinations. Remember that you can run <code>?packageName</code> to learn more about any R package, typically with helpful examples and vignettes of the most useful applications of the package.</p>
+<p>We have numerous options in relation to displaying the dissimiliarty matrices. We’ll explore non-metric multiple dimensional scaling, abbreviated to NMDS, nMDS, nmMDS, or just MDS.</p>
+<p><em>Q142. Use <code>?vegdist</code> to see what alternative distance measures are available.</em></p>
+<p>The <code>metaMDS()</code> function calculates a dissimilarity matrix (as we did above) and produces an R object with all the information needed for plotting. It expects that samples are in rows and species (or features) are in columns. We can also specify the distance metric, the number of axes, whether to autotransform the data, and many other options. See <code>?metaMDS</code> for the default values and other available arguments.</p>
+<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="multivariate.html#cb223-1" aria-hidden="true" tabindex="-1"></a>ord_raw <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(worm_df, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, <span class="at">k =</span> <span class="dv">2</span>,</span>
+<span id="cb223-2"><a href="multivariate.html#cb223-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">autotransform =</span> <span class="cn">FALSE</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb223-3"><a href="multivariate.html#cb223-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(ord_raw, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">display =</span> <span class="st">&quot;sites&quot;</span>, </span>
+<span id="cb223-4"><a href="multivariate.html#cb223-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">&quot;text&quot;</span>, <span class="at">main =</span> <span class="st">&quot;NMDS: raw data, Bray-Curtis&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:worm-1"></span>
+<img src="_main_files/figure-html/worm-1-1.png" alt="Simple pattern in example worm data." width="40%" height="40%" />
+<p class="caption">
+Figure 6.1: Simple pattern in example worm data.
+</p>
+</div>
+<p>Compare this with the 4<sup>th</sup>-root transformed data using the same distance metric.</p>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="multivariate.html#cb224-1" aria-hidden="true" tabindex="-1"></a>ord_4rt <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(worm_df_4rt, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, <span class="at">k =</span> <span class="dv">2</span>, </span>
+<span id="cb224-2"><a href="multivariate.html#cb224-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">autotransform =</span> <span class="cn">FALSE</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><em>Q143. Plot <code>ord_4rt</code>. How has the 4th root changed your data intepretation?</em></p>
+<p><em>Q144. Examine your ordination(s) and interpret, cross referencing to the raw and transformed data. Are the patterns that you see in the data apparent on the ordination?</em></p>
+<p>You can include on your plot the species ‘locations’ (as determined by their correlation with the axes). This shows where the main associations are occurring.</p>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="multivariate.html#cb225-1" aria-hidden="true" tabindex="-1"></a><span class="co"># you can also plot the &#39;species&#39; on the ordination,</span></span>
+<span id="cb225-2"><a href="multivariate.html#cb225-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(ord_4rt, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">display =</span> <span class="fu">c</span>(<span class="st">&quot;sites&quot;</span>, <span class="st">&quot;species&quot;</span>), </span>
+<span id="cb225-3"><a href="multivariate.html#cb225-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">type =</span> <span class="st">&quot;text&quot;</span>, <span class="at">main =</span> <span class="st">&quot;NMDS, 4th-rt trans., Bray-Curtis&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:worm-2"></span>
+<img src="_main_files/figure-html/worm-2-1.png" alt="Species superimposed onto ordination, indicating species-site associations." width="40%" height="40%" />
+<p class="caption">
+Figure 6.2: Species superimposed onto ordination, indicating species-site associations.
+</p>
+</div>
+<p><em>Q145. Replot the untransformed data, but this time include the species. How has the transformation changed your interpretation of the data?</em></p>
+<p>Let’s have a look at another simulated dataset.</p>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="multivariate.html#cb226-1" aria-hidden="true" tabindex="-1"></a>comm_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb226-2"><a href="multivariate.html#cb226-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">&quot;Dunst&quot;</span>, <span class="st">&quot;Creran&quot;</span>, <span class="st">&quot;Lismore&quot;</span>, <span class="st">&quot;Charl&quot;</span>),</span>
+<span id="cb226-3"><a href="multivariate.html#cb226-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">SpA =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="dv">30</span>, <span class="dv">40</span>),</span>
+<span id="cb226-4"><a href="multivariate.html#cb226-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">SpB =</span> <span class="fu">c</span>(<span class="dv">11</span>, <span class="dv">22</span>, <span class="dv">50</span>, <span class="dv">1</span>),</span>
+<span id="cb226-5"><a href="multivariate.html#cb226-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">SpC =</span> <span class="fu">c</span>(<span class="dv">500</span>, <span class="dv">40</span>, <span class="dv">30</span>, <span class="dv">20</span>),</span>
+<span id="cb226-6"><a href="multivariate.html#cb226-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">SpD =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">25</span>, <span class="dv">35</span>, <span class="dv">50</span>),</span>
+<span id="cb226-7"><a href="multivariate.html#cb226-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">SpE =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>),</span>
+<span id="cb226-8"><a href="multivariate.html#cb226-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">SpF =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">250</span>, <span class="dv">1</span>, <span class="dv">9</span>)</span>
+<span id="cb226-9"><a href="multivariate.html#cb226-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb226-10"><a href="multivariate.html#cb226-10" aria-hidden="true" tabindex="-1"></a>comm_df</span></code></pre></div>
+<pre><code>##         SpA SpB SpC SpD SpE SpF
+## Dunst     1  11 500  10   4  40
+## Creran   20  22  40  25   3 250
+## Lismore  30  50  30  35   2   1
+## Charl    40   1  20  50   1   9</code></pre>
+<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb228-1"><a href="multivariate.html#cb228-1" aria-hidden="true" tabindex="-1"></a>ord_comm <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(comm_df, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, <span class="at">k =</span> <span class="dv">2</span>, </span>
+<span id="cb228-2"><a href="multivariate.html#cb228-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">autotransform =</span> <span class="cn">FALSE</span>, <span class="at">trace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb228-3"><a href="multivariate.html#cb228-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(ord_comm, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), </span>
+<span id="cb228-4"><a href="multivariate.html#cb228-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">display =</span> <span class="fu">c</span>(<span class="st">&quot;sites&quot;</span>, <span class="st">&quot;species&quot;</span>), <span class="at">type =</span> <span class="st">&quot;text&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:comm-ord"></span>
+<img src="_main_files/figure-html/comm-ord-1.png" alt="Ordination for a simulated dataset showing sites and species." width="40%" height="40%" />
+<p class="caption">
+Figure 6.3: Ordination for a simulated dataset showing sites and species.
+</p>
+</div>
+<p><em>Q146. Have a look at these raw data. What are the main trends? Which sites are more similar?</em></p>
+<p>These data are still much simpler than most ‘real’ data sets but it is still difficult to summarise the similarities and differences between stations. However, multivariate analyses help you in this process.</p>
+<p><em>Q147. Now forth-root transform these data, generate the new dissimilarity matrix and plot it.</em></p>
+<p><em>Q148. What has the transformation done to your interpretation of differences between the Sites and Site x Species associations?</em></p>
+<p><em>Q149. Add a title to your graph.</em></p>
+<hr />
+</div>
+<div id="diversity-indices" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> Diversity indices<a href="multivariate.html#diversity-indices" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Prior to the development of the multivariate techniques you’ll be using today, univariate indices were derived from multivariate data. A classic example of such a univariate measure in ecology is the Shannon-Wiener diversity index (a.k.a., Shannon’s H). This index balances the <em>number</em> of species in a sample and the <em>relative abundance</em> of each species (where ‘species’ can once again be any sort of feature). Univariate measures of ‘evenness’ can also be derived from multivariate data and, when reporting species data, you may also wish to include species richness, which is just the number of species present regardless of their abundances.</p>
+<p>We can use the <code>comm_df</code> dataset we invented to explore some diversity concepts.</p>
+<p><em>Q150. Looking at the <code>comm_df</code> data (by eye) and given the description above, which of the sites is assocaited with the lowest and highest diversity?</em></p>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="multivariate.html#cb229-1" aria-hidden="true" tabindex="-1"></a>shannon_H <span class="ot">&lt;-</span> <span class="fu">diversity</span>(comm_df, <span class="st">&quot;shannon&quot;</span>, <span class="at">base =</span> <span class="fu">exp</span>(<span class="dv">1</span>)) </span>
+<span id="cb229-2"><a href="multivariate.html#cb229-2" aria-hidden="true" tabindex="-1"></a>richness <span class="ot">&lt;-</span> <span class="fu">specnumber</span>(comm_df) </span>
+<span id="cb229-3"><a href="multivariate.html#cb229-3" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(shannon_H, <span class="at">names.arg =</span> comm_df<span class="sc">$</span>Site, <span class="at">main =</span> <span class="cn">NULL</span>, <span class="at">ylab =</span> <span class="st">&quot;Shannon&#39;s H&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:H-examp"></span>
+<img src="_main_files/figure-html/H-examp-1.png" alt="Shannon diversity" width="50%" height="50%" />
+<p class="caption">
+Figure 6.4: Shannon diversity
+</p>
+</div>
+<p>Try plotting <code>richness</code>.</p>
+<p><em>Q151. Do the plots correspond to what you expected?</em></p>
+<p><em>Q152. What does <code>specnumber</code> do?</em></p>
+<p><em>Q153. Change <code>comm_df</code> to introduce some very evenly distributed species across sites and some with extremes or absenses and see how this effects diversity and richness.</em></p>
+<p><em>Q154. How could you ‘counter’ any extremes (as in superabundant taxa) in the raw count data that you’ve generated? Try your idea.</em></p>
+<p><em>Q155. Which description (diversity or richness) is ‘best’ for describing your multivariate data? How does this compare to NMDS?</em></p>
+</div>
+<div id="nmds-on-real-data" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> NMDS on real data<a href="multivariate.html#nmds-on-real-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now you’ve been introduced to NMDS and diversity indices, with ‘fake’ data, you are in a better position to interpret real data. Using simulated (or at least simple) data to learn new statistical techniques is usually the best approach because it gives you the opportunity to get a better sense for how the algorithms work (and to be sure your code is free from bugs!).</p>
+<p>Have a look at the <code>varespec</code> and <code>varechem</code> datasets included in the <em>vegan</em> package. I’ve reproduced the examples below:</p>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb230-1"><a href="multivariate.html#cb230-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(varespec) <span class="co"># ?varespec -- percent cover of 44 spp in lichen pastures </span></span>
+<span id="cb230-2"><a href="multivariate.html#cb230-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(varechem) <span class="co"># ?varechem -- associated soil charecteristics</span></span>
+<span id="cb230-3"><a href="multivariate.html#cb230-3" aria-hidden="true" tabindex="-1"></a>ord_vare <span class="ot">&lt;-</span> <span class="fu">metaMDS</span>(varespec<span class="sc">^</span><span class="fl">0.25</span>, <span class="at">distance =</span> <span class="st">&quot;bray&quot;</span>, </span>
+<span id="cb230-4"><a href="multivariate.html#cb230-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">trace =</span> <span class="cn">FALSE</span>, <span class="at">autotransform =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="multivariate.html#cb231-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb231-2"><a href="multivariate.html#cb231-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(ord_vare, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">display =</span> <span class="st">&quot;sites&quot;</span>, <span class="at">type =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb231-3"><a href="multivariate.html#cb231-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(ord_vare, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">display =</span> <span class="st">&quot;species&quot;</span>, <span class="at">type =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb231-4"><a href="multivariate.html#cb231-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ordiplot</span>(ord_vare, <span class="at">choices =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">display =</span> <span class="fu">c</span>(<span class="st">&quot;sites&quot;</span>, <span class="st">&quot;species&quot;</span>),</span>
+<span id="cb231-5"><a href="multivariate.html#cb231-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">&quot;text&quot;</span>)</span>
+<span id="cb231-6"><a href="multivariate.html#cb231-6" aria-hidden="true" tabindex="-1"></a><span class="co"># You can superimpose environmental variables onto NMDS-ordinations.</span></span>
+<span id="cb231-7"><a href="multivariate.html#cb231-7" aria-hidden="true" tabindex="-1"></a>ef <span class="ot">&lt;-</span> <span class="fu">envfit</span>(ord_vare, varechem) <span class="co">#</span></span>
+<span id="cb231-8"><a href="multivariate.html#cb231-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ef, <span class="at">p.max =</span> <span class="fl">0.1</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>) <span class="co"># overlay environmental variables</span></span>
+<span id="cb231-9"><a href="multivariate.html#cb231-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ef, <span class="at">p.max =</span> <span class="fl">0.01</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>) <span class="co"># subset based on p</span></span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:vare-ord"></span>
+<img src="_main_files/figure-html/vare-ord-1.png" alt="vare- data from vegan showing sites only, species only, and both plus environmental overlays." width="100%" height="100%" />
+<p class="caption">
+Figure 6.5: vare- data from vegan showing sites only, species only, and both plus environmental overlays.
+</p>
+</div>
+<p>See how the multivariate analysis has taken all those data, both species and environmental, and ‘communicated’ them in one single figure? You can see numerous relationships (both positive and negative) in this figure, and species-site-environment associations. It also illustrates a potential challenge with multivariate ordinations. It is very easy to get cluttered and overloaded. There is no easy way around this, though there is further help in these packages.</p>
+<p>You are in charge of the analysis. You can change the emphasis and elements of the message depending on your data transformation, dissimilarity metric, and ordination technique (hence ‘black art’). There is no absolutely ‘correct’ way to go about multivariate stats, so different statisticians will have their favoured approaches and methods.</p>
+<p>Note: Some functions (e.g. <code>metaMDS()</code>) default to autotransform your data if the function thinks it is necessary. This can be useful but, in scientific reports, you must specify what transformations you used. Here you don’t know what the function applies as it depends on the data, but it could be the square or fourth-root and/or Wisconsin transformation (which is a double standardisation). My advice is only to use transformations that you specify.</p>
+<hr />
+</div>
+<div id="principal-components-analysis-pca" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Principal components analysis (PCA)<a href="multivariate.html#principal-components-analysis-pca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>PCA is a long-established multivariate technique that is often applied to ‘environmental’ data rather than ‘count’ data. Environmental data is, usually, quite different from species count data in that most environmental parameters (e.g. metal concentrations) are present, at least to some degree. This contrasts to species data where many species are often absent (zeros). These zero counts would lead to problems if analysed using PCA, since PCA would ‘think’ that sites that shared lots of ‘absences’ were more similar, which is not necessarily desirable.</p>
+<p>With environmental data, such as temperature, light, and concentration, zeros tend to be less prevalent. However, environmental data (e.g. that describing your sampling location in space and time) might include all manner of different variables on different scales (e.g., radient flux in lumens, temperature in C, nutrient/contaminant concentrations in mg/l). What you wouldn’t wish to see is your arbitrary choice of measurement unit (e.g., C or K) having any influence on your analysis such that a variable is given more weight simply because the numbers are larger.</p>
+<p>Instead, we want all of our variables to be treated ‘equally’. You can do all this by setting <code>pcomp(..., scale=TRUE)</code>. Scaling means that each measurement is expressed in units of standard deviation (a Z-score!!). Usually it is desirable to center the data as well by subtracting the mean. Centering and scaling means that each of the environmental variables is of ‘equal importance’ regardless of the magnitude of the raw values.</p>
+<p>A basic, and very friendly, introduction to PCA is given in Chapter 4 of <a href="https://www.primer-e.com/wp-content/uploads/2018/10/Change-in-Marine-Communities-3rd-ed.pdf">Clarke et al. 2014</a>.</p>
+<p>The data set we’ll look at here is from SAMS Professor Tom Wilding’s PhD thesis. He set up an experiment to examine the relative leach_dfing of trace metals from concrete, granite, and a control (artificial seawater). Concrete contains cement which is enriched in vanadium and molybdenum, and these elements could leach_df out in dangerous amounts. Granite, the main constituent of this concrete, might also leach_df some trace elements. He suspended concrete and granite powder in artificial water, constantly agitated it, and measured the leach_dfate concentrations over 100 days <a href="https://doi.org/10.1006/jmsc.2002.1267">Wilding and Sayer 2002</a>.</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="multivariate.html#cb232-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb232-2"><a href="multivariate.html#cb232-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb232-3"><a href="multivariate.html#cb232-3" aria-hidden="true" tabindex="-1"></a>leach_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_5.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Leaching&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb232-4"><a href="multivariate.html#cb232-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Treat_abbr =</span> <span class="fu">factor</span>(Treat, <span class="co"># abbreviate for cleaner plotting</span></span>
+<span id="cb232-5"><a href="multivariate.html#cb232-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;concrete&quot;</span>, <span class="st">&quot;control&quot;</span>, <span class="st">&quot;granite&quot;</span>),</span>
+<span id="cb232-6"><a href="multivariate.html#cb232-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;conc&quot;</span>, <span class="st">&quot;ctrl&quot;</span>, <span class="st">&quot;gran&quot;</span>)),</span>
+<span id="cb232-7"><a href="multivariate.html#cb232-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Treat_day =</span> <span class="fu">paste</span>(Treat_abbr, Day, <span class="at">sep=</span><span class="st">&quot;_&quot;</span>), <span class="co"># treat + days in exprmnt</span></span>
+<span id="cb232-8"><a href="multivariate.html#cb232-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">Conc =</span> <span class="fu">signif</span>(Conc)) <span class="sc">|&gt;</span></span>
+<span id="cb232-9"><a href="multivariate.html#cb232-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Treat_day, Element, Conc) <span class="co"># remove columns that aren&#39;t of use,</span></span>
+<span id="cb232-10"><a href="multivariate.html#cb232-10" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(leach_df)</span></span>
+<span id="cb232-11"><a href="multivariate.html#cb232-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb232-12"><a href="multivariate.html#cb232-12" aria-hidden="true" tabindex="-1"></a><span class="co"># not dominated by zeros; try other values (e.g. &lt;10)</span></span>
+<span id="cb232-13"><a href="multivariate.html#cb232-13" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(leach_df<span class="sc">$</span>Conc <span class="sc">==</span> <span class="dv">0</span>) </span></code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##   143     4</code></pre>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb234-1"><a href="multivariate.html#cb234-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(leach_df<span class="sc">$</span>Conc <span class="sc">==</span> <span class="dv">0</span>) <span class="co"># recall that R treats T/F as 1/0 </span></span></code></pre></div>
+<pre><code>## [1] 0.02721088</code></pre>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb236-1"><a href="multivariate.html#cb236-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb236-2"><a href="multivariate.html#cb236-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(leach_df<span class="sc">$</span>Conc, <span class="at">main =</span> <span class="cn">NULL</span>) </span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:leach-hist"></span>
+<img src="_main_files/figure-html/leach-hist-1.png" alt="Histogram of leaching data (raw) illustrating the wide range of values and skew." width="50%" height="50%" />
+<p class="caption">
+Figure 6.6: Histogram of leaching data (raw) illustrating the wide range of values and skew.
+</p>
+</div>
+<p>Next, we need to re-organise the data into a wider format so that each element is a column and each row is a sample.</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb237-1"><a href="multivariate.html#cb237-1" aria-hidden="true" tabindex="-1"></a>leach_df_wide <span class="ot">&lt;-</span> leach_df <span class="sc">|&gt;</span></span>
+<span id="cb237-2"><a href="multivariate.html#cb237-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from=</span><span class="st">&quot;Element&quot;</span>, <span class="at">values_from=</span><span class="st">&quot;Conc&quot;</span>)</span></code></pre></div>
+<p>The column <code>Treat_day</code> is coded as <code>trt_day</code>, where <code>trt</code> is the 4 letter code indicating treatment type and <code>day</code> is the number of days elapsed in the experiment (one of 1, 4, 7, 17, 32, 50 or 100). So <code>gran_32</code> means the granite treatment sampled at day 32.</p>
+<p>We can calculate the principal components using <code>prcomp()</code>, subsetting the dataframe to give only the columns with element concentrations (i.e., removing <code>Treat_day</code>, which is the first column). We’ll also set the arguments for centering and scaling to <code>TRUE</code>.</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb238-1"><a href="multivariate.html#cb238-1" aria-hidden="true" tabindex="-1"></a>PCA_leach <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(leach_df_wide[, <span class="sc">-</span><span class="dv">1</span>], <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb238-2"><a href="multivariate.html#cb238-2" aria-hidden="true" tabindex="-1"></a><span class="fu">screeplot</span>(PCA_leach, <span class="at">main =</span> <span class="cn">NULL</span>, <span class="at">ylab =</span> <span class="st">&quot;Relative variation explained&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:leach-scree"></span>
+<img src="_main_files/figure-html/leach-scree-1.png" alt="Scree plot showing the variance explained by each principal component." width="50%" height="50%" />
+<p class="caption">
+Figure 6.7: Scree plot showing the variance explained by each principal component.
+</p>
+</div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb239-1"><a href="multivariate.html#cb239-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take a look at PCA_leach</span></span>
+<span id="cb239-2"><a href="multivariate.html#cb239-2" aria-hidden="true" tabindex="-1"></a>PCA_leach</span>
+<span id="cb239-3"><a href="multivariate.html#cb239-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(PCA_leach)</span></code></pre></div>
+<p>You can see from the screeplot that the amount variance explained declines with principal component as expected and that there is very little variation left afer 3 principal components. That is, nearly all of the variation in the dataset is captured by PC1, PC2, and PC3. In this case, PCA has essentially solved the ‘curse of dimensionality’ by successfully reducing 7 dimensional data to about three.</p>
+<p>Data transformations are critical to PCA analysis, as they are with NMDS. In most PCAs you center and standardize your data so that each column is on the same scale.</p>
+<p>We can plot our results using <code>biplot()</code> which has some helpful defaults including labels for the samples (<code>Treat_day</code>) and the correlation strength of each element with PC1 and PC2:</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb240-1"><a href="multivariate.html#cb240-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(PCA_leach, <span class="at">xlabs =</span> leach_df_wide<span class="sc">$</span>Treat_day, <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:leach-biplot1"></span>
+<img src="_main_files/figure-html/leach-biplot1-1.png" alt="PCA of the complete dataset, illustrating the common challenge of overplotting." width="50%" height="50%" />
+<p class="caption">
+Figure 6.8: PCA of the complete dataset, illustrating the common challenge of overplotting.
+</p>
+</div>
+<p>To plot more than 2 dimensions you could use a 3D plot, but these are frankly difficult to interpret since it is reduced <em>back</em> to 2D on a page or computer screen. Another option is to use colour for the 3<sup>rd</sup> axis. Here’s an example using <code>ggplot2</code>. Adding arrows showing the loadings (see below) is possible, but more work.</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb241-1"><a href="multivariate.html#cb241-1" aria-hidden="true" tabindex="-1"></a>PCA_leach<span class="sc">$</span>x <span class="sc">|&gt;</span></span>
+<span id="cb241-2"><a href="multivariate.html#cb241-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb241-3"><a href="multivariate.html#cb241-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Treat_day =</span> leach_df_wide<span class="sc">$</span>Treat_day) <span class="sc">|&gt;</span></span>
+<span id="cb241-4"><a href="multivariate.html#cb241-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(PC1, PC2, <span class="at">colour =</span> PC3, <span class="at">label =</span> Treat_day)) <span class="sc">+</span> </span>
+<span id="cb241-5"><a href="multivariate.html#cb241-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">fill =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb241-6"><a href="multivariate.html#cb241-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_gradient2</span>(<span class="at">mid =</span> <span class="st">&quot;cornsilk2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb241-7"><a href="multivariate.html#cb241-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:leach-biplot1-gg"></span>
+<img src="_main_files/figure-html/leach-biplot1-gg-1.png" alt="PCA of the complete dataset using ggplot2." width="50%" height="50%" />
+<p class="caption">
+Figure 6.9: PCA of the complete dataset using ggplot2.
+</p>
+</div>
+<p>The ordination plots the relative positions (in terms of similiarity) of the samples. There are numerous label overlaps making the interpretation of the ordination difficult. If you were producing this for publication you would need to sort this out.</p>
+<p><em>Q156. Which elements are positivley associated with granite and concrete, particulalry after longer periods of leaching?</em></p>
+<p>As is typical, overlapping points make interpretation more difficult. There are elegant solutions to this (in terms of labelling) but for now, we’ll split the data and analyse it separately.</p>
+<p>We’ll need more data wrangling to split it efficiently and we’ll use <code>grepl()</code>, which identifies a pattern within a character using a regular expression (a.k.a., regex), returning a <code>TRUE</code> or <code>FALSE</code> for each element in the character vector. Here, we’ll filter the dataframe to only include rows where <code>Treat_day</code> contains <code>conc</code> or <code>gran</code>. Remember the ‘or’ operator <code>|</code>?</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb242-1"><a href="multivariate.html#cb242-1" aria-hidden="true" tabindex="-1"></a><span class="co">#?grepl</span></span>
+<span id="cb242-2"><a href="multivariate.html#cb242-2" aria-hidden="true" tabindex="-1"></a><span class="co">#cbind(leach_df_wide$Treat_day, grepl(&quot;conc|gran&quot;, leach_df_wide$Treat_day))</span></span>
+<span id="cb242-3"><a href="multivariate.html#cb242-3" aria-hidden="true" tabindex="-1"></a>leach_df_trts <span class="ot">&lt;-</span> leach_df_wide <span class="sc">|&gt;</span></span>
+<span id="cb242-4"><a href="multivariate.html#cb242-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">grepl</span>(<span class="st">&quot;conc|gran&quot;</span>, Treat_day))</span>
+<span id="cb242-5"><a href="multivariate.html#cb242-5" aria-hidden="true" tabindex="-1"></a>PCA_trts <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(leach_df_trts[, <span class="sc">-</span><span class="dv">1</span>], <span class="at">scale =</span> <span class="cn">TRUE</span>, <span class="at">center =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb242-6"><a href="multivariate.html#cb242-6" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(PCA_trts, <span class="at">xlabs =</span> leach_df_trts<span class="sc">$</span>Treat_day)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:leach-biplot2"></span>
+<img src="_main_files/figure-html/leach-biplot2-1.png" alt="PCA of the concrete and granite, illustrating temporal and treatment differences." width="50%" height="50%" />
+<p class="caption">
+Figure 6.10: PCA of the concrete and granite, illustrating temporal and treatment differences.
+</p>
+</div>
+<p><em>Q157. Repeat the analysis, but set <code>scale = FALSE</code>. Which element now seems to dominate the analysis? Explain what you see.</em></p>
+<p>A PCA is normally reported with the proportion of the variation explained by each of the principal components (and the cumulative proportion). If the cumulative proportion for the 1st two PCs is high, then your 2D (PC1 and PC2) ordination is a good representation of the similarities between samples. In that sense a high cumulative proportion is analogous to a low stress (for NMDS).</p>
+<p>Let’s have a look at a summary of the principal components.</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb243-1"><a href="multivariate.html#cb243-1" aria-hidden="true" tabindex="-1"></a>PCA_leach_summary <span class="ot">&lt;-</span> <span class="fu">summary</span>(PCA_leach) </span>
+<span id="cb243-2"><a href="multivariate.html#cb243-2" aria-hidden="true" tabindex="-1"></a><span class="co">#PCA_leach_summary</span></span>
+<span id="cb243-3"><a href="multivariate.html#cb243-3" aria-hidden="true" tabindex="-1"></a><span class="co">#str(PCA_leach_summary)</span></span>
+<span id="cb243-4"><a href="multivariate.html#cb243-4" aria-hidden="true" tabindex="-1"></a>PCA_leach_summary<span class="sc">$</span>importance[, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="co"># extract only PC1-4</span></span></code></pre></div>
+<pre><code>##                             PC1      PC2       PC3       PC4
+## Standard deviation     1.988091 1.450775 0.7782675 0.5599535
+## Proportion of Variance 0.564640 0.300680 0.0865300 0.0447900
+## Cumulative Proportion  0.564640 0.865320 0.9518500 0.9966400</code></pre>
+<p>As you can see, PC1, PC2, and PC3 capture more than 95% of the variance in our data. Adding PC4 brings that up above 99%.</p>
+<p>Finally, we can look at factor loadings. This is a measure of how each feature (metal concentration in this case) relates to the principal components. In PCA, the principal components are sequentially ‘less’ influential since they describe increasingly smaller amounts of variation. By centering and standardising your response variables, you can assess the relative importance of each in driving the patterns you observe in your ordination. The magnitude is what we’re interested in rather than the sign.</p>
+<p>In an object created by <code>prcomp()</code>, the loadings are stored as <code>.$rotation</code>.</p>
+<div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="multivariate.html#cb245-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ?prcomp</span></span>
+<span id="cb245-2"><a href="multivariate.html#cb245-2" aria-hidden="true" tabindex="-1"></a><span class="co"># str(PCA_leach)</span></span>
+<span id="cb245-3"><a href="multivariate.html#cb245-3" aria-hidden="true" tabindex="-1"></a><span class="fu">signif</span>(PCA_leach<span class="sc">$</span>rotation[, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="dv">3</span>) <span class="co"># factor loadings for PC1-5</span></span></code></pre></div>
+<pre><code>##       PC1     PC2     PC3    PC4      PC5
+## Ba -0.367  0.2090  0.6510 -0.619 -0.00405
+## Fe -0.380 -0.0440 -0.7370 -0.553  0.01420
+## Mn -0.146  0.6500 -0.0963  0.211  0.67300
+## Mo -0.430 -0.3360  0.0795  0.283 -0.09810
+## Rb -0.462 -0.2440  0.0327  0.305  0.21600
+## Sr -0.495 -0.0788  0.0663  0.168  0.01510
+## U  -0.238  0.5940 -0.1110  0.254 -0.70000</code></pre>
+<p>Here you can see that Sr, Rb, Mo are relatively ‘important’ in driving the multivariate pattern you’ve observed (i.e., high absoluate values on PC1) while Mn and U have high values for PC2 (you could say that PC2 accounts for Mn and U).</p>
+<hr />
+</div>
+<div id="conclusions-5" class="section level2 hasAnchor" number="6.5">
+<h2><span class="header-section-number">6.5</span> Conclusions<a href="multivariate.html#conclusions-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>I will let you write your own summary and conclusions from this practical as this will help you consolidate your understanding. You may wish to consider the following: the nature of multivariate vs. univariate data, types and characteristics of multivariate data (e.g. counts vs. environmental data), the analytical methods introduced here for dealing with data of different types, the purpose and effect of transformations and standardisations and where they are used, the use of summary metrics (e.g. diversity metrics) and their advantages and disadvantages. You should also be familiar with the interpretation of simple ordinations (both PCA and NMDS) and the concept of stress and ‘proportion explained’ (for NMDS and PCA respectively).</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="glm.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Sz-Tim/H2_DS_practicals/edit/BRANCH/06_multivariate.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

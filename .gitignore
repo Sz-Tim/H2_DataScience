@@ -2,9 +2,14 @@
 *.doc*
 *.ppt*
 
-# Practical bookdown book
-/practicals/H2_DS_practicals
-/practicals/2022
+# Archived past versions
+/*/2022
+
+# practical book bookdown files
+*.epub
+practicals/H2_DS_practicals/_bookdown_files/_main_cache
+practicals/H2_DS_practicals/_bookdown_files/_main_files/figure-epub3
+practicals/H2_DS_practicals/_bookdown_files/_main_files/figure-latex
 
 
 # History files

@@ -1,0 +1,62 @@
+# Overview {-}
+
+## Practical sessions
+
+In these practicals, you will practice applying the data science concepts you learn throughout the H2 Data Science course. The questions you answer by hand are useful for learning and revision, while producing appropriate graphics and correctly describing results are essential parts of the scientific process. Expertise in these core skills is essential to do well in future courses and scientific projects. H2 Data Science is, therefore, one of the most important courses you'll take!
+
+In each practical, you will either generate your own data or process and analyse data sets that I have either obtained or generated to illustrate particular points. They are stored in labelled Excel spreadsheets under a variety of named worksheets.
+
+Each session is 2.5h, during which you will work through a series of coding exercises and questions. These are not assessed or marked, but some of them appear in the assessments. You should complete all the material in each practical. My recommendation, particularly for those not comfortable with R, is that you read through the practical before the class.
+
+Throughout the sessions, we will alternate between individual work and short re-caps as a class. If you find yourself racing ahead, all well and good. If you find yourself falling behind, then try some additional study ahead of the next session.
+
+
+
+## Assessments 
+
+During this time slot throughout the semester, there will be six practical sessions and three assessments (see the schedule on Brightspace). All three assessments are via Brightspace and consist of multiple choice, single fill-in-the-blank, and slightly more expansive answers. They are 'open Brightspace' but timed, so you will need to understand the material and be comfortable working in R to do well in these assessments. You are welcome to bring a hard copy of this booklet with annotations if you wish.
+
+
+
+------------------------------------------
+
+
+## Getting started in R {#R_intro}
+
+R is a statistical language and computing platform that is widely used in the sciences. It is free and open source. We will be using it extensively in this course, so I recommend you review your notes and course material from last year to prepare for this course.
+
+There are also fantastic resources available online. In addition to those listed in the module handbook, there are courses such as those from [Software Carpentry](https://swcarpentry.github.io/r-novice-gapminder/) or [Swirl](https://swirlstats.com/). You should access these resources in your own time to complement, revise, and reinforce the concepts you'll be learning during this course.
+
+Try to avoid copying and pasting code where possible during these practicals. R is best learned through your fingers, and working through errors, though frustrating, is an essential skill.
+
+### RStudio Project 
+
+Working in a Project within RStudio is the best way to avoid working directory complications.
+
+Open RStudio, go to 'file' then 'New project'. Name and save your project (e.g., 'H2_DataScience.Rproj') in a convenient location. OneDrive works, though occasionally gives sync errors with hidden files if you use multiple machines.
+
+Next, in the same folder as your .Rproj, create a folder called *data* and a folder called *code*.
+
+Download the files in *Practicals \> data* on Brightspace and move them into your *data* folder.
+
+Your files should be visible under the 'Files' tab in R Studio, together with your new project.
+
+The code in the practicals assumes this setup. I recommend creating a separate R script (.R) or R Markdown file (.Rmd) for each practical session, saved within the *code* folder.
+
+Each time you open your .Rproj, the working directory will be set to the enclosing folder. The working directory is shown at the top of the Console pane, and you can check it with `getwd()`.
+
+### RStudio Settings
+
+You can adjust many settings in RStudio via Tools \> Global options. In the Appearance tab in the popup box, you can set the theme (e.g., if you prefer a dark theme), font size, etc. The Code tab has many nice features as well (e.g., rainbow parentheses under Display).
+
+### R packages and libraries
+
+R packages are collections of functions, custom data structures, and datasets that are developed by the userbase. A new installation of R includes many useful default packages, visible on the 'Packages' tab in RStudio. There are many additional packages available from the official CRAN repository or less officially from GitHub. If you find yourself re-using custom functions across projects, you can even create your own personal package.
+
+To install a package from CRAN, use the function `install.packages("packageName")`. This downloads the package files to your computer. Each time you open R, you will need to load that package to use it with `library(packageName)`.
+
+Installing from other package sources is slightly more complicated, so see me if you have a need.
+
+You can get an overview of a package with `?packageName`, and then see a list of all of the functions by scrolling to the bottom of the help page and clicking the "index" link.
+
+The help for each function is available with `?functionName`, and you can see the underlying code with `functionName` without parentheses.

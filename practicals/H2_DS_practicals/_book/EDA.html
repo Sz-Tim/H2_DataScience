@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Practical 1 Displaying and summarising data | H2 Data Science Practical Series</title>
+  <meta name="description" content="Handbook for the H2 Data Science practicals." />
+  <meta name="generator" content="bookdown 0.34 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Practical 1 Displaying and summarising data | H2 Data Science Practical Series" />
+  <meta property="og:type" content="book" />
+  <meta property="og:image" content="https://brightspace.uhi.ac.uk/d2l/home/341332/figs/cover_short.png" />
+  <meta property="og:description" content="Handbook for the H2 Data Science practicals." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Practical 1 Displaying and summarising data | H2 Data Science Practical Series" />
+  
+  <meta name="twitter:description" content="Handbook for the H2 Data Science practicals." />
+  <meta name="twitter:image" content="https://brightspace.uhi.ac.uk/d2l/home/341332/figs/cover_short.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="overview.html"/>
+<link rel="next" href="bin_pois.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">H2 Data Science Practical Series</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="overview.html"><a href="overview.html"><i class="fa fa-check"></i>Overview</a>
+<ul>
+<li class="chapter" data-level="0.1" data-path="overview.html"><a href="overview.html#practical-sessions"><i class="fa fa-check"></i><b>0.1</b> Practical sessions</a></li>
+<li class="chapter" data-level="0.2" data-path="overview.html"><a href="overview.html#assessments"><i class="fa fa-check"></i><b>0.2</b> Assessments</a></li>
+<li class="chapter" data-level="0.3" data-path="overview.html"><a href="overview.html#R_intro"><i class="fa fa-check"></i><b>0.3</b> Getting started in R</a>
+<ul>
+<li class="chapter" data-level="0.3.1" data-path="overview.html"><a href="overview.html#rstudio-project"><i class="fa fa-check"></i><b>0.3.1</b> RStudio Project</a></li>
+<li class="chapter" data-level="0.3.2" data-path="overview.html"><a href="overview.html#rstudio-settings"><i class="fa fa-check"></i><b>0.3.2</b> RStudio Settings</a></li>
+<li class="chapter" data-level="0.3.3" data-path="overview.html"><a href="overview.html#r-packages-and-libraries"><i class="fa fa-check"></i><b>0.3.3</b> R packages and libraries</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="EDA.html"><a href="EDA.html"><i class="fa fa-check"></i><b>1</b> Displaying and summarising data</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="EDA.html"><a href="EDA.html#basic-data-exploration"><i class="fa fa-check"></i><b>1.1</b> Basic data exploration</a></li>
+<li class="chapter" data-level="1.2" data-path="EDA.html"><a href="EDA.html#graphical-methods-for-displaying-data"><i class="fa fa-check"></i><b>1.2</b> Graphical methods for displaying data</a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="EDA.html"><a href="EDA.html#scatter-plot"><i class="fa fa-check"></i><b>1.2.1</b> Scatter plot</a></li>
+<li class="chapter" data-level="1.2.2" data-path="EDA.html"><a href="EDA.html#boxplots"><i class="fa fa-check"></i><b>1.2.2</b> Boxplots</a></li>
+<li class="chapter" data-level="1.2.3" data-path="EDA.html"><a href="EDA.html#line-plots"><i class="fa fa-check"></i><b>1.2.3</b> Line plots</a></li>
+<li class="chapter" data-level="1.2.4" data-path="EDA.html"><a href="EDA.html#histograms"><i class="fa fa-check"></i><b>1.2.4</b> Histograms</a></li>
+<li class="chapter" data-level="1.2.5" data-path="EDA.html"><a href="EDA.html#bar-graphs"><i class="fa fa-check"></i><b>1.2.5</b> Bar graphs</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="EDA.html"><a href="EDA.html#summary-statistics"><i class="fa fa-check"></i><b>1.3</b> Summary statistics</a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="EDA.html"><a href="EDA.html#which-measure-of-central-tendency-to-use"><i class="fa fa-check"></i><b>1.3.1</b> Which measure of central tendency to use</a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="EDA.html"><a href="EDA.html#conclusions"><i class="fa fa-check"></i><b>1.4</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bin_pois.html"><a href="bin_pois.html"><i class="fa fa-check"></i><b>2</b> Binomial &amp; Poisson distributions</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution"><i class="fa fa-check"></i><b>2.1</b> The Binomial distribution</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="bin_pois.html"><a href="bin_pois.html#bernoulli-trials"><i class="fa fa-check"></i><b>2.1.1</b> Bernoulli trials</a></li>
+<li class="chapter" data-level="2.1.2" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution-1"><i class="fa fa-check"></i><b>2.1.2</b> The binomial distribution</a></li>
+<li class="chapter" data-level="2.1.3" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-by-hand"><i class="fa fa-check"></i><b>2.1.3</b> Binomial distributions by hand</a></li>
+<li class="chapter" data-level="2.1.4" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-in-r"><i class="fa fa-check"></i><b>2.1.4</b> Binomial distributions in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-distribution"><i class="fa fa-check"></i><b>2.2</b> The Poisson distribution</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-by-hand"><i class="fa fa-check"></i><b>2.2.1</b> Poisson distributions by hand</a></li>
+<li class="chapter" data-level="2.2.2" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-in-r"><i class="fa fa-check"></i><b>2.2.2</b> Poisson distributions in R</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-approximation-of-the-binomial-model"><i class="fa fa-check"></i><b>2.3</b> The Poisson approximation of the binomial model</a></li>
+<li class="chapter" data-level="2.4" data-path="bin_pois.html"><a href="bin_pois.html#conclusions-1"><i class="fa fa-check"></i><b>2.4</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="normal.html"><a href="normal.html"><i class="fa fa-check"></i><b>3</b> Normal distribution</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="normal.html"><a href="normal.html#using-the-normal-probability-distributions"><i class="fa fa-check"></i><b>3.1</b> Using the normal probability distributions</a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="normal.html"><a href="normal.html#using-r-to-calculate-areas-under-the-normal-curve"><i class="fa fa-check"></i><b>3.1.1</b> Using R to calculate areas under the normal curve</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="normal.html"><a href="normal.html#normal-model-adequacy"><i class="fa fa-check"></i><b>3.2</b> Normal model adequacy</a></li>
+<li class="chapter" data-level="3.3" data-path="normal.html"><a href="normal.html#calculating-quantiles-in-the-normal-distribution"><i class="fa fa-check"></i><b>3.3</b> Calculating quantiles in the normal distribution</a></li>
+<li class="chapter" data-level="3.4" data-path="normal.html"><a href="normal.html#testing-for-normality"><i class="fa fa-check"></i><b>3.4</b> Testing for normality</a></li>
+<li class="chapter" data-level="3.5" data-path="normal.html"><a href="normal.html#transformations"><i class="fa fa-check"></i><b>3.5</b> Data transformations</a></li>
+<li class="chapter" data-level="3.6" data-path="normal.html"><a href="normal.html#functions-in-r"><i class="fa fa-check"></i><b>3.6</b> Functions in R</a></li>
+<li class="chapter" data-level="3.7" data-path="normal.html"><a href="normal.html#the-central-limit-theorem"><i class="fa fa-check"></i><b>3.7</b> The central limit theorem</a>
+<ul>
+<li class="chapter" data-level="3.7.1" data-path="normal.html"><a href="normal.html#the-distribution-of-means-from-various-data-distributions"><i class="fa fa-check"></i><b>3.7.1</b> The distribution of means from various data distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="3.8" data-path="normal.html"><a href="normal.html#the-standard-error-of-the-mean"><i class="fa fa-check"></i><b>3.8</b> The standard error of the mean</a></li>
+<li class="chapter" data-level="3.9" data-path="normal.html"><a href="normal.html#normal-approximations-for-other-distributions"><i class="fa fa-check"></i><b>3.9</b> Normal approximations for other distributions</a>
+<ul>
+<li class="chapter" data-level="3.9.1" data-path="normal.html"><a href="normal.html#the-normal-approximation-of-the-poisson-distribution"><i class="fa fa-check"></i><b>3.9.1</b> The Normal approximation of the Poisson distribution</a></li>
+<li class="chapter" data-level="3.9.2" data-path="normal.html"><a href="normal.html#the-normal-approximation-of-the-binomial-distribution"><i class="fa fa-check"></i><b>3.9.2</b> The normal approximation of the binomial distribution</a></li>
+</ul></li>
+<li class="chapter" data-level="3.10" data-path="normal.html"><a href="normal.html#conclusions-2"><i class="fa fa-check"></i><b>3.10</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="t-test.html"><a href="t-test.html"><i class="fa fa-check"></i><b>4</b> t-tests &amp; confidence intervals</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="t-test.html"><a href="t-test.html#single-sample-t-tests"><i class="fa fa-check"></i><b>4.1</b> Single sample t-tests</a></li>
+<li class="chapter" data-level="4.2" data-path="t-test.html"><a href="t-test.html#confidence-intervals"><i class="fa fa-check"></i><b>4.2</b> Confidence Intervals</a></li>
+<li class="chapter" data-level="4.3" data-path="t-test.html"><a href="t-test.html#comparing-means-two-sample-t-tests"><i class="fa fa-check"></i><b>4.3</b> Comparing means (two-sample t tests)</a></li>
+<li class="chapter" data-level="4.4" data-path="t-test.html"><a href="t-test.html#non-parametric-tests"><i class="fa fa-check"></i><b>4.4</b> Non-parametric Tests</a></li>
+<li class="chapter" data-level="4.5" data-path="t-test.html"><a href="t-test.html#conclusions-3"><i class="fa fa-check"></i><b>4.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="glm.html"><a href="glm.html"><i class="fa fa-check"></i><b>5</b> General Linear Models</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="glm.html"><a href="glm.html#analysis-of-variance-anova"><i class="fa fa-check"></i><b>5.1</b> Analysis of variance (ANOVA)</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="glm.html"><a href="glm.html#anova-in-r"><i class="fa fa-check"></i><b>5.1.1</b> ANOVA in R</a></li>
+<li class="chapter" data-level="5.1.2" data-path="glm.html"><a href="glm.html#one-way-anova"><i class="fa fa-check"></i><b>5.1.2</b> One-way ANOVA</a></li>
+<li class="chapter" data-level="5.1.3" data-path="glm.html"><a href="glm.html#two-way-anova"><i class="fa fa-check"></i><b>5.1.3</b> Two-way ANOVA</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="glm.html"><a href="glm.html#regression"><i class="fa fa-check"></i><b>5.2</b> Regression</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="glm.html"><a href="glm.html#overview-1"><i class="fa fa-check"></i><b>5.2.1</b> Overview</a></li>
+<li class="chapter" data-level="5.2.2" data-path="glm.html"><a href="glm.html#linear-regression-in-r"><i class="fa fa-check"></i><b>5.2.2</b> Linear regression in R</a></li>
+<li class="chapter" data-level="5.2.3" data-path="glm.html"><a href="glm.html#plotting-the-regression-line-and-confidence-intervals"><i class="fa fa-check"></i><b>5.2.3</b> Plotting the regression line and confidence intervals</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="glm.html"><a href="glm.html#conclusions-4"><i class="fa fa-check"></i><b>5.3</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="multivariate.html"><a href="multivariate.html"><i class="fa fa-check"></i><b>6</b> Multivariate analysis</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="multivariate.html"><a href="multivariate.html#multivariate-analysis-in-r"><i class="fa fa-check"></i><b>6.1</b> Multivariate analysis in R</a></li>
+<li class="chapter" data-level="6.2" data-path="multivariate.html"><a href="multivariate.html#diversity-indices"><i class="fa fa-check"></i><b>6.2</b> Diversity indices</a></li>
+<li class="chapter" data-level="6.3" data-path="multivariate.html"><a href="multivariate.html#nmds-on-real-data"><i class="fa fa-check"></i><b>6.3</b> NMDS on real data</a></li>
+<li class="chapter" data-level="6.4" data-path="multivariate.html"><a href="multivariate.html#principal-components-analysis-pca"><i class="fa fa-check"></i><b>6.4</b> Principal components analysis (PCA)</a></li>
+<li class="chapter" data-level="6.5" data-path="multivariate.html"><a href="multivariate.html#conclusions-5"><i class="fa fa-check"></i><b>6.5</b> Conclusions</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="appendix.html"><a href="appendix.html"><i class="fa fa-check"></i><b>7</b> Appendix</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="appendix.html"><a href="appendix.html#probability"><i class="fa fa-check"></i><b>7.1</b> Probability</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="appendix.html"><a href="appendix.html#probability-for-equally-likely-outcomes"><i class="fa fa-check"></i><b>7.1.1</b> Probability for equally likely outcomes</a></li>
+<li class="chapter" data-level="7.1.2" data-path="appendix.html"><a href="appendix.html#multiplication-and-addition"><i class="fa fa-check"></i><b>7.1.2</b> Multiplication and addition</a></li>
+<li class="chapter" data-level="7.1.3" data-path="appendix.html"><a href="appendix.html#bayes-theorem"><i class="fa fa-check"></i><b>7.1.3</b> Bayes’ theorem</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="appendix.html"><a href="appendix.html#univariate-statistics"><i class="fa fa-check"></i><b>7.2</b> Univariate statistics</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="appendix.html"><a href="appendix.html#mean"><i class="fa fa-check"></i><b>7.2.1</b> Mean</a></li>
+<li class="chapter" data-level="7.2.2" data-path="appendix.html"><a href="appendix.html#median-quartiles-and-adjacent-values"><i class="fa fa-check"></i><b>7.2.2</b> Median, quartiles and adjacent values</a></li>
+<li class="chapter" data-level="7.2.3" data-path="appendix.html"><a href="appendix.html#the-sum-of-squares"><i class="fa fa-check"></i><b>7.2.3</b> The sum of squares</a></li>
+<li class="chapter" data-level="7.2.4" data-path="appendix.html"><a href="appendix.html#measures-of-dispersion"><i class="fa fa-check"></i><b>7.2.4</b> Measures of dispersion</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="appendix.html"><a href="appendix.html#the-binomial-distribution-2"><i class="fa fa-check"></i><b>7.3</b> The Binomial distribution</a></li>
+<li class="chapter" data-level="7.4" data-path="appendix.html"><a href="appendix.html#the-poisson-distribution-1"><i class="fa fa-check"></i><b>7.4</b> The Poisson distribution</a></li>
+<li class="chapter" data-level="7.5" data-path="appendix.html"><a href="appendix.html#z-scores"><i class="fa fa-check"></i><b>7.5</b> Z scores</a></li>
+<li class="chapter" data-level="7.6" data-path="appendix.html"><a href="appendix.html#samples-taken-from-a-population"><i class="fa fa-check"></i><b>7.6</b> Samples taken from a population</a>
+<ul>
+<li class="chapter" data-level="7.6.1" data-path="appendix.html"><a href="appendix.html#standard-error-of-the-mean"><i class="fa fa-check"></i><b>7.6.1</b> Standard error of the mean</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="appendix.html"><a href="appendix.html#the-t-distribution"><i class="fa fa-check"></i><b>7.7</b> The t distribution</a>
+<ul>
+<li class="chapter" data-level="7.7.1" data-path="appendix.html"><a href="appendix.html#the-one-sample-t-test"><i class="fa fa-check"></i><b>7.7.1</b> The one sample t-test</a></li>
+<li class="chapter" data-level="7.7.2" data-path="appendix.html"><a href="appendix.html#confidence-intervals-for-sample-means"><i class="fa fa-check"></i><b>7.7.2</b> Confidence intervals for sample means</a></li>
+</ul></li>
+<li class="chapter" data-level="7.8" data-path="appendix.html"><a href="appendix.html#anova"><i class="fa fa-check"></i><b>7.8</b> ANOVA</a></li>
+<li class="chapter" data-level="7.9" data-path="appendix.html"><a href="appendix.html#regression-correlation"><i class="fa fa-check"></i><b>7.9</b> Regression &amp; correlation</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">H2 Data Science Practical Series</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="EDA" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Practical 1</span> Displaying and summarising data<a href="EDA.html#EDA" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Statistics can be divided into two broad categories - descriptive statistics and inferential statistics. In this practical session we will focus on descriptive stats and, in particular, how to appropriately display and summarise data. You should already be aware of several techniques for displaying data. These techniques are primarily graphical and include bar charts, histograms and graphs. When and how to use these different techniques is one focus of today’s practical.</p>
+<p>There are two purposes for visualizing data.</p>
+<p>First, the best way to get a ‘gut’ feel for your dataset is to look at it graphically. Examining data graphically enables you to identify any outliers (i.e., suspicious observations which could be errors). It will also help you to select the most appropriate inferential statistical model (more on this through the course).</p>
+<p>Second, visualizations are used to impart information as clearly as possible to ‘the reader’ (i.e., drawing the reader’s attention to the most interesting aspects of your data). Graphics that are confusing, either through a lack of detail (e.g. no labels) or that contain too much information will fail in this central objective.</p>
+<p>As you create graphics, keep in mind that they may be viewed on different machines or printed in grey scale. Importantly, some colour combinations may be difficult for colour-blind or visually impaired readers. Colour scales such as those available from <a href="https://colorbrewer2.org">ColorBrewer</a> or <a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">viridis</a> are designed with this in mind.</p>
+<p>R has established best practices to make your meaning clear. Just like any language, you|can|write|with|your|own|system, but it’s easier for everyone to use standard conventions. A <a href="https://style.tidyverse.org/syntax.html">full style guide</a> is available if you’re interested.</p>
+<p>A few key points:</p>
+<ul>
+<li>Use <code>&lt;-</code> to <em>assign</em> a value to an object. You may see <code>=</code>, which works, but is not preferred.</li>
+<li>Use spaces to make your code legible: <code>a &lt;- 10</code>; <code>mean(x, na.rm=T)</code>; <code>c(1, 2, 3)</code>.</li>
+<li>Avoid spaces in column or file names (in general) as these are a pain to work with.</li>
+<li>Use names for objects that are short, but descriptive.</li>
+<li>Limit the length of a line of code to about 80 characters.</li>
+<li>Usually, variables should be nouns and functions should be verbs.</li>
+<li>Use <code>#</code> to write a comment which R will ignore.</li>
+<li>Run the line of code where your cursor is (or everything you’ve selected) with ctrl+r</li>
+</ul>
+<hr />
+<div id="basic-data-exploration" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> Basic data exploration<a href="EDA.html#basic-data-exploration" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We will mostly be working with dataframes. A dataframe is a 2D rectangular structure with columns and rows. In a tidy dataset, each row represents an ‘observation’ and each column represents a ‘variable’. R (and often packages) contains several built-in dataframes.</p>
+<p>The dataframe <code>cars</code> gives the max speeds and stopping distances for cars built in the early 20th century. We are going to use this dataset as a starting point to demonstrate a few basic concepts in relation to R programming and statistical analysis.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="EDA.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># functions for basic details of objects</span></span>
+<span id="cb1-2"><a href="EDA.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cars)</span>
+<span id="cb1-3"><a href="EDA.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(cars)</span>
+<span id="cb1-4"><a href="EDA.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cars)</span>
+<span id="cb1-5"><a href="EDA.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="EDA.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##   speed dist
+## 1     4    2
+## 2     4   10</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="EDA.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(cars, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##    speed dist
+## 49    24  120
+## 50    25   85</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="EDA.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># what are the last 10 rows?</span></span></code></pre></div>
+<p>There are several ways to access subsets of a dataframe:</p>
+<ul>
+<li>Use <code>.$columnName</code> or <code>.[["columnName"]]</code> to extract a single column</li>
+<li>Use <code>.[rows,columns]</code> to extract a block</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="EDA.html#cb7-1" aria-hidden="true" tabindex="-1"></a>cars<span class="sc">$</span>speed</span>
+<span id="cb7-2"><a href="EDA.html#cb7-2" aria-hidden="true" tabindex="-1"></a>cars[[<span class="st">&quot;speed&quot;</span>]]</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="EDA.html#cb8-1" aria-hidden="true" tabindex="-1"></a>cars[<span class="dv">1</span>, <span class="dv">1</span>] <span class="co"># row 1, column 1</span></span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="EDA.html#cb10-1" aria-hidden="true" tabindex="-1"></a>cars[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span>]</span></code></pre></div>
+<pre><code>## [1] 4 4 7 7 8</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="EDA.html#cb12-1" aria-hidden="true" tabindex="-1"></a>cars[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, ] <span class="co"># leaving the columns blank returns all columns</span></span></code></pre></div>
+<pre><code>##   speed dist
+## 1     4    2
+## 2     4   10
+## 3     7    4</code></pre>
+<p>We can also change column names. We’ll make a copy of the dataframe to do that.</p>
+<p>Rearranging and duplicating columns is also easy.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="EDA.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars2, <span class="dv">2</span>) </span></code></pre></div>
+<pre><code>##   speed_mph dist_ft
+## 1         4       2
+## 2         4      10</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="EDA.html#cb16-1" aria-hidden="true" tabindex="-1"></a>cars2<span class="sc">$</span>speed_mph </span></code></pre></div>
+<pre><code>##  [1]  4  4  7  7  8  9 10 10 10 11 11 12 12 12 12 13 13 13 13 14 14 14 14 15 15
+## [26] 15 16 16 17 17 17 18 18 18 18 19 19 19 20 20 20 20 20 22 23 24 24 24 24 25</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="EDA.html#cb18-1" aria-hidden="true" tabindex="-1"></a>cars2 <span class="ot">&lt;-</span> cars2[, <span class="dv">2</span><span class="sc">:</span><span class="dv">1</span>] </span>
+<span id="cb18-2"><a href="EDA.html#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars2, <span class="dv">2</span>) </span></code></pre></div>
+<pre><code>##   dist_ft speed_mph
+## 1       2         4
+## 2      10         4</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="EDA.html#cb20-1" aria-hidden="true" tabindex="-1"></a>cars3 <span class="ot">&lt;-</span> cars2[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>)] <span class="co"># duplicate a column</span></span>
+<span id="cb20-2"><a href="EDA.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars3, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##   speed_mph dist_ft dist_ft.1
+## 1         4       2         2
+## 2         4      10        10</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="EDA.html#cb22-1" aria-hidden="true" tabindex="-1"></a>cars3 <span class="ot">&lt;-</span> cars3[, <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>)] <span class="co"># remove the duplicated column</span></span>
+<span id="cb22-2"><a href="EDA.html#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars3, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##   dist_ft speed_mph
+## 1       2         4
+## 2      10         4</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="EDA.html#cb24-1" aria-hidden="true" tabindex="-1"></a>cars3<span class="sc">$</span>dist_x_speed <span class="ot">&lt;-</span> cars3<span class="sc">$</span>dist_ft <span class="sc">*</span> cars3<span class="sc">$</span>speed_mph <span class="co"># create a new column</span></span>
+<span id="cb24-2"><a href="EDA.html#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars3, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##   dist_ft speed_mph dist_x_speed
+## 1       2         4            8
+## 2      10         4           40</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="EDA.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(cars3) <span class="co"># remove the dataframe &#39;cars3&#39;</span></span></code></pre></div>
+<p>You can also subset based on criteria. Say we only want rows where the speed is <span class="math inline">\(&gt;\)</span> 20 mph:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="EDA.html#cb27-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">which</span>(cars2<span class="sc">$</span>speed_mph <span class="sc">&gt;</span> <span class="dv">20</span>) </span>
+<span id="cb27-2"><a href="EDA.html#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(a)</span></code></pre></div>
+<pre><code>##  int [1:7] 44 45 46 47 48 49 50</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="EDA.html#cb29-1" aria-hidden="true" tabindex="-1"></a>cars_fast <span class="ot">&lt;-</span> cars2[a, ] <span class="co"># or: cars2[which(cars2$speed_mph &gt; 20), ]</span></span>
+<span id="cb29-2"><a href="EDA.html#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(cars_fast) </span></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="EDA.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(cars_fast)  <span class="co"># and how many *rows* are there?</span></span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="EDA.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cars_fast, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##    dist_ft speed_mph
+## 44      66        22
+## 45      54        23</code></pre>
+<p>When you import data, you should check for missing values. These are represented as <code>NA</code>.</p>
+<p>We can check each element of a vector using <code>is.na()</code>, which will return <code>FALSE</code> if an element <em>is not</em> <code>NA</code>, and <code>TRUE</code> if an element <em>is</em> <code>NA</code>.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="EDA.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(cars2<span class="sc">$</span>speed_mph)</span></code></pre></div>
+<p>R converts a logical vector (i.e., <code>TRUE</code>/<code>FALSE</code>) to numeric (i.e., <code>1</code>/<code>0</code>) automatically. This is handy, but dangerous if you don’t realize it.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="EDA.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(cars2<span class="sc">$</span>speed_mph))</span></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="EDA.html#cb38-1" aria-hidden="true" tabindex="-1"></a>carsNA <span class="ot">&lt;-</span> cars2</span>
+<span id="cb38-2"><a href="EDA.html#cb38-2" aria-hidden="true" tabindex="-1"></a>carsNA[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">10</span>), <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb38-3"><a href="EDA.html#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">is.na</span>(carsNA<span class="sc">$</span>dist_ft))</span></code></pre></div>
+<pre><code>## [1] 4</code></pre>
+<p>Another very useful check is <code>summary()</code>:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="EDA.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars)</span></code></pre></div>
+<pre><code>##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="EDA.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(carsNA)</span></code></pre></div>
+<p>Once you have assured yourself that your dataframe looks sensible, that it contains the data you expect, and that you know what the data-types are, you can start to explore and summarise your data.</p>
+<p>There are many graphical methods for data exploration and it is important to select the appropriate method. This will be determined by the nature of the data and what you wish to communicate to the reader.</p>
+<hr />
+</div>
+<div id="graphical-methods-for-displaying-data" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Graphical methods for displaying data<a href="EDA.html#graphical-methods-for-displaying-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Always keep in mind that the primary reason for data visualization is to impart information concisely and accurately to your reader.</p>
+<p>Graphics must be clear, concise and easy to understand. Brightspace contains some examples of bad graphics (‘Learning resources&gt;Lecture support material&gt;Introduction (Lectures 1-3)&gt;Graphics’).</p>
+<p>In addition to poor design choices for effective communication (Fig. <a href="#fig:bad1"><strong>??</strong></a>), graphics can also be deliberately misleading (Fig. <a href="#fig:bad2"><strong>??</strong></a>).</p>
+<div id="scatter-plot" class="section level3 hasAnchor" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> Scatter plot<a href="EDA.html#scatter-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The scatter plot is used where you are plotting two continuous variables against each other. It can be used to check whether outliers are present in your data. This is the plot to use if you are doing a correlation analysis and you need to show the raw data to your reader.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="EDA.html#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(reponse ~ predictor, data = dataframe)</span></span>
+<span id="cb43-2"><a href="EDA.html#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist_ft <span class="sc">~</span> speed_mph,</span>
+<span id="cb43-3"><a href="EDA.html#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cars2, <span class="at">xlab =</span> <span class="st">&quot;Speed (mph)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Distance (ft)&quot;</span>,</span>
+<span id="cb43-4"><a href="EDA.html#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">&quot;Default symbol&quot;</span>)</span>
+<span id="cb43-5"><a href="EDA.html#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist_ft <span class="sc">~</span> speed_mph,</span>
+<span id="cb43-6"><a href="EDA.html#cb43-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> cars2, <span class="at">xlab =</span> <span class="st">&quot;Speed (mph)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Distance (ft)&quot;</span>,</span>
+<span id="cb43-7"><a href="EDA.html#cb43-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">pch =</span> <span class="dv">2</span>, <span class="at">main =</span> <span class="st">&quot;Setting &#39;pch=2&#39;&quot;</span>)</span>
+<span id="cb43-8"><a href="EDA.html#cb43-8" aria-hidden="true" tabindex="-1"></a><span class="co"># you can check out more symbols and their respective numbers using this plot:</span></span>
+<span id="cb43-9"><a href="EDA.html#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>), <span class="at">main =</span> <span class="st">&quot;&#39;pch&#39; symbols 1 to 20&quot;</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="100%" height="100%" style="display: block; margin: auto;" /></p>
+<p><em>Q1. Search the <code>plot</code> help page for ‘title’, then add an appropriate title to your plot.</em></p>
+<p><em>Q2. <code>?points</code> opens the help page for points, search the help page for ‘pch’ and change the symbol of your plot</em></p>
+<p><em>Q3. In relation to the cars dataset, plot stopping distance by speed, using indexing to show only those cars where speed_mph&gt;20</em></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="EDA.html#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(dist_ft <span class="sc">~</span> speed_mph, <span class="at">data =</span> cars2[cars2<span class="sc">$</span>speed_mph <span class="sc">&gt;</span> <span class="dv">20</span>, ], </span>
+<span id="cb44-2"><a href="EDA.html#cb44-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Speed, mph&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Distance, ft&quot;</span>, <span class="at">pch =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="boxplots" class="section level3 hasAnchor" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Boxplots<a href="EDA.html#boxplots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Boxplots are used to summarise a continuous variable by levels of a factor. We will use the <code>mtcars</code> dataset to illustrate this.</p>
+<p>Explore the dataframe using the code you’ve already covered. Which variables are categorical, which are continuous (or might be)?</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="EDA.html#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mtcars, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##               mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4      21   6  160 110  3.9 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag  21   6  160 110  3.9 2.875 17.02  0  1    4    4</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="EDA.html#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(mpg <span class="sc">~</span> cyl, <span class="at">data =</span> mtcars)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:mplcyl-plot"></span>
+<img src="_main_files/figure-html/mplcyl-plot-1.png" alt="Boxplot showing miles per litre vs. number of carburetors" width="50%" height="50%" />
+<p class="caption">
+Figure 1.1: Boxplot showing miles per litre vs. number of carburetors
+</p>
+</div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="EDA.html#cb48-1" aria-hidden="true" tabindex="-1"></a>?boxplot</span>
+<span id="cb48-2"><a href="EDA.html#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="co"># See examples at bottom of the help page</span></span>
+<span id="cb48-3"><a href="EDA.html#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Produce a boxplot with axes labels and a title</span></span></code></pre></div>
+<p>Reproduce the plot shown in Fig. <a href="EDA.html#fig:mplcyl-plot">1.1</a> (assume 1 gallon = 4.5 L). Remember you can learn about these data with <code>?mtcars</code>. You will need to generate a new variable (miles per litre) and label your boxplot appropriately. You can limit the extent of the y-axis by adding the argument <code>ylim = c(a, b)</code> where <code>a</code> and <code>b</code> are the limits you want (e.g., <code>ylim = c(0, 100)</code>).</p>
+<p><em>Q4. Use <code>?boxplot</code> to investigate what the box and whiskers in the boxplot acutally represent. Check you can reproduce the upper and lower adjacent values manually (see formula sheet)</em></p>
+</div>
+<div id="line-plots" class="section level3 hasAnchor" number="1.2.3">
+<h3><span class="header-section-number">1.2.3</span> Line plots<a href="EDA.html#line-plots" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Line plots are most often seen in time-series plots with time (e.g. days or years etc) on the x-axis and the response on the y-axis. Line plots typically involve joining points with a line. The line can be straight or curved. Whatever the line is (which will be your choice), it indicates that you have made assumptions about the value of the response variable between successive measurements.</p>
+<p>We will examine these plots using the dataset <code>lynx</code>, which consists of the number of Canadian lynx pelts sold per year between 1821 - 1934. It is a ‘classic’ dataset as it shows a cyclical ‘boom-and-bust’ lynx population (demonstrating predator-prey interactions).</p>
+<p>First, we will create a variable <code>Year</code>.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="EDA.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lynx)</span></code></pre></div>
+<pre><code>##  Time-Series [1:114] from 1821 to 1934: 269 321 585 871 1475 ...</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="EDA.html#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(lynx) <span class="co"># ts = time-series</span></span>
+<span id="cb51-2"><a href="EDA.html#cb51-2" aria-hidden="true" tabindex="-1"></a>lynx2 <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(lynx) </span>
+<span id="cb51-3"><a href="EDA.html#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(lynx2) </span>
+<span id="cb51-4"><a href="EDA.html#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(lynx2, <span class="dv">2</span>) </span>
+<span id="cb51-5"><a href="EDA.html#cb51-5" aria-hidden="true" tabindex="-1"></a>lynx2<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1821</span>, <span class="at">to =</span> <span class="dv">1934</span>, <span class="at">by =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>In R, we use <em>functions</em> to perform actions on <em>objects</em> . Functions have arguments, taking the form <code>functionName(arg1=..., arg2=...)</code>. If you do not name the arguments, the function will assume that you are listing the arguments in order. See the help file with <code>?functionName</code> to see the argument order.</p>
+<p><em>Q5. Using <code>seq()</code>, write a piece of code which generates odd numbers between 1 and 20 with and without specifying <code>from</code>, <code>to</code>, and <code>by</code>.</em></p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="EDA.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change the name of the 1st column to &#39;Trappings&#39;</span></span>
+<span id="cb52-2"><a href="EDA.html#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(lynx2)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Trappings&quot;</span></span>
+<span id="cb52-3"><a href="EDA.html#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lynx2)</span>
+<span id="cb52-4"><a href="EDA.html#cb52-4" aria-hidden="true" tabindex="-1"></a>lynx2<span class="sc">$</span>Trappings <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(lynx2<span class="sc">$</span>Trappings) <span class="co"># Time-Series is complicated.</span></span>
+<span id="cb52-5"><a href="EDA.html#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lynx2)</span></code></pre></div>
+<p>Use <code>?plot</code> to investigate options for plotting. Find the <code>type=</code> argument for plotting both the points and a connecting line. This might be the best option in this case. Why? Remind yourself the purpose of graphics.</p>
+<p><em>Q6. Using the R plot function, produce a line plot of the Trappings data, as per Figure</em> <a href="EDA.html#fig:lynx-plot">1.2</a><em>.</em></p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lynx-plot"></span>
+<img src="_main_files/figure-html/lynx-plot-1.png" alt="The number of lynx trapped in Canada (1820-1934)" width="50%" height="50%" />
+<p class="caption">
+Figure 1.2: The number of lynx trapped in Canada (1820-1934)
+</p>
+</div>
+<p>Change the plot to show only the years up to 1900, then plot the Trappings on the log scale.</p>
+</div>
+<div id="histograms" class="section level3 hasAnchor" number="1.2.4">
+<h3><span class="header-section-number">1.2.4</span> Histograms<a href="EDA.html#histograms" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Histograms are used to illustrate the distribution of continuous data. Histograms are often erroneously used to plot discrete data. In histograms the bars are adjacent (no gap) and this indicates that there is a continuum (i.e. that the data are not discrete).</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="EDA.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this gives very different information.</span></span>
+<span id="cb53-2"><a href="EDA.html#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lynx2<span class="sc">$</span>Trappings, <span class="at">main =</span> <span class="st">&quot;Lynx trapping&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Trapped lynx per year&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lynx-hist-default"></span>
+<img src="_main_files/figure-html/lynx-hist-default-1.png" alt="Lynx pelts per year with default settings." width="50%" height="50%" />
+<p class="caption">
+Figure 1.3: Lynx pelts per year with default settings.
+</p>
+</div>
+<p>Which range of values was most common across years?</p>
+<p>Be aware that histograms can be quite sensitive to the bins that you use.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="EDA.html#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)) <span class="co"># panels for the plotting window</span></span>
+<span id="cb54-2"><a href="EDA.html#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="co"># R takes the number of breaks as a suggestion</span></span>
+<span id="cb54-3"><a href="EDA.html#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lynx2<span class="sc">$</span>Trappings, <span class="at">main =</span> <span class="st">&quot;Lynx trapping&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Trapped lynx per year&quot;</span>,</span>
+<span id="cb54-4"><a href="EDA.html#cb54-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">5</span>)</span>
+<span id="cb54-5"><a href="EDA.html#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="co"># this forces R to plot according to the defined breaks</span></span>
+<span id="cb54-6"><a href="EDA.html#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lynx2<span class="sc">$</span>Trappings,</span>
+<span id="cb54-7"><a href="EDA.html#cb54-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">&quot;Lynx trapping&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Trapped lynx per year&quot;</span>,</span>
+<span id="cb54-8"><a href="EDA.html#cb54-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">2000</span>, <span class="dv">5000</span>, <span class="dv">10000</span>))</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:lynx-hist-b1"></span>
+<img src="_main_files/figure-html/lynx-hist-b1-1.png" alt="Lynx pelts per year with breaks=5 (left) and a vector of breaks (right)." width="80%" height="80%" />
+<p class="caption">
+Figure 1.4: Lynx pelts per year with breaks=5 (left) and a vector of breaks (right).
+</p>
+</div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="EDA.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>)) <span class="co"># plot panels (2 rows x 2 columns)</span></span>
+<span id="cb55-2"><a href="EDA.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>)) <span class="co"># change the plot margins</span></span>
+<span id="cb55-3"><a href="EDA.html#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lynx2<span class="sc">$</span>Trappings, <span class="at">main =</span> <span class="st">&quot;Plot 1&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Trapped lynx per year&quot;</span>, </span>
+<span id="cb55-4"><a href="EDA.html#cb55-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">10000</span>, <span class="at">by =</span> <span class="dv">100</span>))</span>
+<span id="cb55-5"><a href="EDA.html#cb55-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lynx2<span class="sc">$</span>Trappings, <span class="at">main =</span> <span class="st">&quot;Plot 2&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Trapped lynx per year&quot;</span>, </span>
+<span id="cb55-6"><a href="EDA.html#cb55-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">10000</span>, <span class="at">by =</span> <span class="dv">500</span>))</span>
+<span id="cb55-7"><a href="EDA.html#cb55-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lynx2<span class="sc">$</span>Trappings, <span class="at">main =</span> <span class="st">&quot;Plot 3&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Trapped lynx per year&quot;</span>, </span>
+<span id="cb55-8"><a href="EDA.html#cb55-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">10000</span>, <span class="at">by =</span> <span class="dv">1000</span>))</span>
+<span id="cb55-9"><a href="EDA.html#cb55-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(lynx2<span class="sc">$</span>Trappings, <span class="at">main =</span> <span class="st">&quot;Plot 4&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Trapped lynx per year&quot;</span>, </span>
+<span id="cb55-10"><a href="EDA.html#cb55-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">10000</span>, <span class="at">by =</span> <span class="dv">2000</span>))</span></code></pre></div>
+<p><img src="_main_files/figure-html/lynx-hist-panels-1.png" width="80%" height="80%" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="EDA.html#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)) <span class="co"># reset the par setting.</span></span></code></pre></div>
+<p>Which of these plots is the most useful? There is no definitive answer to this, but Plot 1 is very busy and Plot 4 fails to show relevant detail near 0; Plot 2 or 3 communicate the patterns in the data most clearly.</p>
+<p>As a general guideline, 5-15 breaks usually works well in a histogram.</p>
+</div>
+<div id="bar-graphs" class="section level3 hasAnchor" number="1.2.5">
+<h3><span class="header-section-number">1.2.5</span> Bar graphs<a href="EDA.html#bar-graphs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>When you create a <code>data.frame</code> it defaults to naming the rows 1…n, where n is the number of rows. <strong>It is better practice to store relevant information in a column</strong>, but you may occasionally come across a <code>data.frame</code> with row names. Converting between data types may lose this information.</p>
+<p>Bar graphs are used to plot counts of categorical or discrete variables. We’ll be using the <code>islands</code> dataset.</p>
+<p>Working with data involves a lot of time spent tidying the datasets: cleaning, checking, and reshaping into useful formats. We will cover a more modern set of methods for this later in the course using the <em>tidyverse</em> package. For now, we’ll stay with base R. First, we need to tidy the <code>islands</code> data.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="EDA.html#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(islands) </span>
+<span id="cb57-2"><a href="EDA.html#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(islands) <span class="co"># this is a named numeric vector</span></span>
+<span id="cb57-3"><a href="EDA.html#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(islands)</span>
+<span id="cb57-4"><a href="EDA.html#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="EDA.html#cb57-5" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to a dataframe</span></span>
+<span id="cb57-6"><a href="EDA.html#cb57-6" aria-hidden="true" tabindex="-1"></a>islands.df <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(islands) </span>
+<span id="cb57-7"><a href="EDA.html#cb57-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(islands.df, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="EDA.html#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="co"># put the row names into a new column</span></span>
+<span id="cb58-2"><a href="EDA.html#cb58-2" aria-hidden="true" tabindex="-1"></a>islands.df<span class="sc">$</span>LandMass <span class="ot">&lt;-</span> <span class="fu">row.names</span>(islands.df) </span>
+<span id="cb58-3"><a href="EDA.html#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(islands.df, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>##            islands   LandMass
+## Africa       11506     Africa
+## Antarctica    5500 Antarctica</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="EDA.html#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set row names to the row number</span></span>
+<span id="cb60-2"><a href="EDA.html#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(islands.df) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(islands.df) </span>
+<span id="cb60-3"><a href="EDA.html#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(islands.df)[<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;Area&quot;</span> </span>
+<span id="cb60-4"><a href="EDA.html#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(islands.df, <span class="dv">2</span>) </span></code></pre></div>
+<pre><code>##    Area   LandMass
+## 1 11506     Africa
+## 2  5500 Antarctica</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="EDA.html#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reorder by area</span></span>
+<span id="cb62-2"><a href="EDA.html#cb62-2" aria-hidden="true" tabindex="-1"></a>islands.df <span class="ot">&lt;-</span> islands.df[<span class="fu">order</span>(islands.df<span class="sc">$</span>Area, <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb62-3"><a href="EDA.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(islands.df, <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##     Area      LandMass
+## 3  16988          Asia
+## 1  11506        Africa
+## 35  9390 North America</code></pre>
+<p>We can use the function <code>barplot()</code> to plot the vector of island areas.</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="EDA.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>)) <span class="co"># change the margin sizes</span></span>
+<span id="cb64-2"><a href="EDA.html#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(islands.df<span class="sc">$</span>Area)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:island-1"></span>
+<img src="_main_files/figure-html/island-1-1.png" alt="Island areas with barplot defaults" width="80%" height="80%" />
+<p class="caption">
+Figure 1.5: Island areas with barplot defaults
+</p>
+</div>
+<p>The whole dataset includes a lot of very small areas, so let’s cut it down to just the 10 largest. Since the dataset is already sorted, we can take rows <code>1:10</code>.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="EDA.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(islands.df<span class="sc">$</span>Area[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:island-2"></span>
+<img src="_main_files/figure-html/island-2-1.png" alt="Top 10 island areas" width="50%" height="50%" />
+<p class="caption">
+Figure 1.6: Top 10 island areas
+</p>
+</div>
+<p>And the next step is to add some names to the x-axis…</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="EDA.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(islands.df<span class="sc">$</span>Area[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">names =</span> islands.df<span class="sc">$</span>LandMass[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:island-3"></span>
+<img src="_main_files/figure-html/island-3-1.png" alt="Top 10 island areas with names" width="50%" height="50%" />
+<p class="caption">
+Figure 1.7: Top 10 island areas with names
+</p>
+</div>
+<p>Which of course are unreadable. The <code>las</code> argument (<code>?par</code>) controls how the axis labels relate to the axis line, so we can try adjusting that…</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="EDA.html#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(islands.df<span class="sc">$</span>Area[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">names =</span> islands.df<span class="sc">$</span>LandMass[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">las=</span><span class="dv">3</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:island-4"></span>
+<img src="_main_files/figure-html/island-4-1.png" alt="Top 10 island areas with names rotated" width="50%" height="50%" />
+<p class="caption">
+Figure 1.8: Top 10 island areas with names rotated
+</p>
+</div>
+<p>Maybe we just need to make the bars horizontal. To do this, we should adjust the margins again with <code>par(mar=...))</code>, set <code>horiz=TRUE</code>, and <code>las=1</code>, and use <code>[10:1]</code> so the largest is on top.</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="EDA.html#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
+<span id="cb68-2"><a href="EDA.html#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(islands.df<span class="sc">$</span>Area[<span class="dv">10</span><span class="sc">:</span><span class="dv">1</span>], <span class="at">names =</span> islands.df<span class="sc">$</span>LandMass[<span class="dv">10</span><span class="sc">:</span><span class="dv">1</span>], </span>
+<span id="cb68-3"><a href="EDA.html#cb68-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">horiz =</span> <span class="cn">TRUE</span>, <span class="at">las =</span> <span class="dv">1</span>, <span class="at">xlab =</span> <span class="st">&quot;Area (km2)&quot;</span>)</span></code></pre></div>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:island-5"></span>
+<img src="_main_files/figure-html/island-5-1.png" alt="Finally! Did you know Antarctica is bigger than Europe?" width="50%" height="50%" />
+<p class="caption">
+Figure 1.9: Finally! Did you know Antarctica is bigger than Europe?
+</p>
+</div>
+<p>As you may have noticed, visualization is an iterative process with lots of trial and error until you find a plot that communicates the message within the data well. There are several packages (e.g., <code>ggplot2</code>) that make these sort of adjustments and explorations less opaque than all of the options in <code>par()</code>.</p>
+<hr />
+</div>
+</div>
+<div id="summary-statistics" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Summary statistics<a href="EDA.html#summary-statistics" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>You will often need to summarise your data before you present it. Data summaries are usually contained in tables and they can replace graphics in certain situations, for example, where the data is relatively simple with a well understood distribution. There are numerous different types of summary statistics. Here we are concerned with central tendency and variability.</p>
+<p><em>Q8. What are the three main measures of central tendency?</em></p>
+<p><em>Q9. What are three measures of variability?</em></p>
+<p>Different measures of central tendency and variability all have pros and cons and you need to be able to apply the most appropriate method to your data. Another summary statistic that you might include is sample size. R is very good at producing summary statistics, and there are myriad ways to produce them. We’ll return to the <code>cars</code> dataset.</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="EDA.html#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars2) </span></code></pre></div>
+<pre><code>##     dist_ft         speed_mph   
+##  Min.   :  2.00   Min.   : 4.0  
+##  1st Qu.: 26.00   1st Qu.:12.0  
+##  Median : 36.00   Median :15.0  
+##  Mean   : 42.98   Mean   :15.4  
+##  3rd Qu.: 56.00   3rd Qu.:19.0  
+##  Max.   :120.00   Max.   :25.0</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="EDA.html#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars2[cars2<span class="sc">$</span>speed_mph <span class="sc">&gt;</span> <span class="dv">20</span>, ]) </span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="EDA.html#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># There are several ways to access a column in a dataframe</span></span>
+<span id="cb72-2"><a href="EDA.html#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars2<span class="sc">$</span>speed_mph) </span>
+<span id="cb72-3"><a href="EDA.html#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars2[, <span class="dv">2</span>])</span>
+<span id="cb72-4"><a href="EDA.html#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars2[, <span class="st">&quot;speed_mph&quot;</span>])</span>
+<span id="cb72-5"><a href="EDA.html#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cars2[, <span class="fu">c</span>(<span class="st">&quot;speed_mph&quot;</span>, <span class="st">&quot;dist_ft&quot;</span>)])</span></code></pre></div>
+<p>Often you’ll wish to summarise your data across levels of certain factor. For example, levels of a certain treatment that you are applying. More complex summaries can be made using the <code>dplyr</code> package. We’ll go into more detail later on some of the very powerful ways this package (and its friends in the <em>tidyverse</em>) can be used.</p>
+<p>First, you’ll need to install it. The <em>tidyverse</em> is a collection of packages. Install all of them with <code>install.packages("tidyverse")</code> (see Section @ref{R_intro}).</p>
+<p>We’ll use the built-in dataset <code>InsectSprays</code>. Viewing your raw data can be an important check as well. You can open a spreadsheet-styled viewer in R using <code>View(YourDataFrame)</code>.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="EDA.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(InsectSprays)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    72 obs. of  2 variables:
+##  $ count: num  10 7 20 14 14 12 10 23 17 20 ...
+##  $ spray: Factor w/ 6 levels &quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="EDA.html#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(InsectSprays) <span class="co"># glimpse() is loaded with tidyverse</span></span></code></pre></div>
+<pre><code>## Rows: 72
+## Columns: 2
+## $ count &lt;dbl&gt; 10, 7, 20, 14, 14, 12, 10, 23, 17, 20, 14, 13, 11, 17, 21, 11, 1…
+## $ spray &lt;fct&gt; A, A, A, A, A, A, A, A, A, A, A, A, B, B, B, B, B, B, B, B, B, B…</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="EDA.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># spray is the categorical predictor; count is the response</span></span>
+<span id="cb77-2"><a href="EDA.html#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(InsectSprays)</span></code></pre></div>
+<p>To do more complex summaries, we’re going to string together a series of functions. This can be done in a nested format (e.g., <code>fun1(fun2(fun3(dataset)))</code>), but this gets unwieldy very quickly.</p>
+<p>So, let’s introduce the <em>pipe</em> operator <code>|&gt;</code>. This takes the output from one function and feeds it as the first input of the next (e.g., <code>dataset |&gt; fun3() |&gt; fun2() |&gt; fun1()</code>), making code much more legible. Many functions in the <em>tidyverse</em> are built for piping.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="EDA.html#cb78-1" aria-hidden="true" tabindex="-1"></a>?<span class="st">`</span><span class="at">|&gt;</span><span class="st">`</span></span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="EDA.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use group_by() with the grouping column name(s)</span></span>
+<span id="cb79-2"><a href="EDA.html#cb79-2" aria-hidden="true" tabindex="-1"></a>spray_summaries <span class="ot">&lt;-</span> InsectSprays <span class="sc">|&gt;</span></span>
+<span id="cb79-3"><a href="EDA.html#cb79-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(spray) <span class="sc">|&gt;</span></span>
+<span id="cb79-4"><a href="EDA.html#cb79-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count_mean =</span> <span class="fu">mean</span>(count))</span>
+<span id="cb79-5"><a href="EDA.html#cb79-5" aria-hidden="true" tabindex="-1"></a>spray_summaries</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="EDA.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># it is very easy to calculate any number of summary statistics</span></span>
+<span id="cb80-2"><a href="EDA.html#cb80-2" aria-hidden="true" tabindex="-1"></a>InsectSprays <span class="sc">|&gt;</span></span>
+<span id="cb80-3"><a href="EDA.html#cb80-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(spray) <span class="sc">|&gt;</span></span>
+<span id="cb80-4"><a href="EDA.html#cb80-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(count) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>),</span>
+<span id="cb80-5"><a href="EDA.html#cb80-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">median =</span> <span class="fu">median</span>(count),</span>
+<span id="cb80-6"><a href="EDA.html#cb80-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">max =</span> <span class="fu">max</span>(count),</span>
+<span id="cb80-7"><a href="EDA.html#cb80-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd =</span> <span class="fu">sd</span>(count) <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>),</span>
+<span id="cb80-8"><a href="EDA.html#cb80-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">N =</span> <span class="fu">n</span>(),</span>
+<span id="cb80-9"><a href="EDA.html#cb80-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">N_over_10 =</span> <span class="fu">sum</span>(count <span class="sc">&gt;</span> <span class="dv">10</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 7
+##   spray  mean median   max    sd     N N_over_10
+##   &lt;fct&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;     &lt;int&gt;
+## 1 A     14.5    14      23  4.72    12         9
+## 2 B     15.3    16.5    21  4.27    12        11
+## 3 C      2.08    1.5     7  1.98    12         0
+## 4 D      4.92    5      12  2.5     12         1
+## 5 E      3.5     3       6  1.73    12         0
+## 6 F     16.7    15      26  6.21    12        10</code></pre>
+<div id="which-measure-of-central-tendency-to-use" class="section level3 hasAnchor" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Which measure of central tendency to use<a href="EDA.html#which-measure-of-central-tendency-to-use" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The choice of which measure of central tendency to use depends on the nature of the data and objectives of your research. However, there are some general rules. We will use datasets that you downloaded from Brightspace (Practicals &gt; data). Remember to put these into the <em>data</em> folder in your working directory (or modify the file paths in the code accordingly).</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="EDA.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl) <span class="co"># installed with tidyverse, but not loaded in library(tidyverse)</span></span>
+<span id="cb82-2"><a href="EDA.html#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="co"># this will load the &#39;Scallop %fat&#39;data sheet from the xlsx spreadsheet.</span></span>
+<span id="cb82-3"><a href="EDA.html#cb82-3" aria-hidden="true" tabindex="-1"></a>scallop_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_1.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Scallop %fat&quot;</span>)</span>
+<span id="cb82-4"><a href="EDA.html#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(scallop_df)</span></code></pre></div>
+<pre><code>## tibble [49 × 1] (S3: tbl_df/tbl/data.frame)
+##  $ Scallop % fat: num [1:49] 22.5 24.1 18.2 32.5 17.4 23.6 21.5 22.2 27.6 22.2 ...</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="EDA.html#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># avoid spaces and symbols in column names. It&#39;s a pain.</span></span>
+<span id="cb84-2"><a href="EDA.html#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(scallop_df) <span class="ot">&lt;-</span> <span class="st">&quot;fat_pct&quot;</span></span></code></pre></div>
+<p><em>Q10. Check the data using the methods above. Does it look OK to you?</em></p>
+<p><em>Q11. Are these data likely to be continuous or discontinuous?</em></p>
+<p><em>Q12. Create a plot to visualize the distribution of these data.</em></p>
+<p><em>Q13. Do you spot any issues?</em></p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="EDA.html#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(scallop_df<span class="sc">$</span>fat_pct, <span class="at">main =</span> <span class="cn">NULL</span>) <span class="co"># (what does &#39;main = NULL&#39; do?)</span></span></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-32-1.png" width="50%" height="50%" style="display: block; margin: auto;" /></p>
+<p>You should have spotted a potential outlier. Data entry errors are very common, and a check against the original data sheet shows that the decimal was typed in the wrong place. The following code helps you ID which data entry is in error. We can now search for the ‘odd’ observation i.e. determine in which row the outlier is located.</p>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="EDA.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(scallop_df<span class="sc">$</span>fat_pct <span class="sc">&gt;</span> <span class="dv">50</span>) </span></code></pre></div>
+<pre><code>## [1] 36</code></pre>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="EDA.html#cb88-1" aria-hidden="true" tabindex="-1"></a>scallop_df<span class="sc">$</span>fat_pct[<span class="dv">35</span><span class="sc">:</span><span class="dv">37</span>] <span class="co"># row 36 is 99, but should be 9.9</span></span></code></pre></div>
+<pre><code>## [1] 22.8 99.0 12.9</code></pre>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="EDA.html#cb90-1" aria-hidden="true" tabindex="-1"></a>scallop_df <span class="ot">&lt;-</span> scallop_df[, <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>)] <span class="co"># duplicate column</span></span>
+<span id="cb90-2"><a href="EDA.html#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(scallop_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;fat_pct_orig&quot;</span>, <span class="st">&quot;fat_pct_corr&quot;</span>)</span>
+<span id="cb90-3"><a href="EDA.html#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(scallop_df, <span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##   fat_pct_orig fat_pct_corr
+##          &lt;dbl&gt;        &lt;dbl&gt;
+## 1         22.5         22.5
+## 2         24.1         24.1</code></pre>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="EDA.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="co"># there are many ways to &#39;fix&#39; the outlier in R.</span></span>
+<span id="cb92-2"><a href="EDA.html#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="co"># You need to correct the outlier in row 36 of column &#39;fat_pct_corr&#39;</span></span>
+<span id="cb92-3"><a href="EDA.html#cb92-3" aria-hidden="true" tabindex="-1"></a>scallop_df<span class="sc">$</span>fat_pct_corr[<span class="dv">36</span>] <span class="ot">&lt;-</span> <span class="fl">9.9</span></span>
+<span id="cb92-4"><a href="EDA.html#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(scallop_df<span class="sc">$</span>fat_pct_corr <span class="sc">&gt;</span> <span class="dv">90</span>) </span>
+<span id="cb92-5"><a href="EDA.html#cb92-5" aria-hidden="true" tabindex="-1"></a><span class="co"># integer(0) - this means that no elements in fat_pct_corr contain values &gt;90</span></span></code></pre></div>
+<p>Now summarise <code>scallop_df</code> using some of the methods above.</p>
+<p><em>Q14. Create a histogram for the corrected column. How does it differ from the original column with the error?</em></p>
+<p><em>Q15. Calculate mean, variance, median, interquartile range, minimum, maximum and range for both fat_pct_orig and fat_pct_corr.</em></p>
+<p><em>Q16. Suppose the outlier was even bigger (i.e. you typo was even worse). Adjust your data, multiplying the erroneous data item by 10; copy the ‘_orig’ column and change row 36 in that column to 999.</em></p>
+<p><em>Q17. Calculate the same summary statistics.</em></p>
+<p><em>Q18. Which measures of central tendency and variability are most ‘robust’ against this outlier?</em></p>
+<p>Or look individually instead of calculating many metrics at once with <code>dplyr</code> functions:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="EDA.html#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(scallop_df<span class="sc">$</span>fat_pct_corr)</span></code></pre></div>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    8.50   16.90   20.60   19.56   22.50   32.50</code></pre>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="EDA.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(scallop_df<span class="sc">$</span>fat_pct_corr)</span></code></pre></div>
+<pre><code>## [1] 22.79836</code></pre>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="EDA.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(scallop_df<span class="sc">$</span>fat_pct_corr)</span></code></pre></div>
+<pre><code>## [1] 5.6</code></pre>
+<p>R is excellent at generating well formatted tables such as shown in Table <a href="EDA.html#tab:scallop-table">1.1</a>. What is missing from from Table <a href="EDA.html#tab:scallop-table">1.1</a>?</p>
+<table>
+<caption><span id="tab:scallop-table">Table 1.1: </span>Summary statistics with and without an outlier. Note which summary stats are most influenced by the outlier.</caption>
+<colgroup>
+<col width="18%" />
+<col width="7%" />
+<col width="10%" />
+<col width="27%" />
+<col width="8%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Column</th>
+<th align="right">Mean</th>
+<th align="right">Median</th>
+<th align="right">Standard deviation</th>
+<th align="right">Range</th>
+<th align="right">Interquartile range</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">fat_pct_corr</td>
+<td align="right">19.6</td>
+<td align="right">20.6</td>
+<td align="right">4.77</td>
+<td align="right">24.0</td>
+<td align="right">5.6</td>
+</tr>
+<tr class="even">
+<td align="left">fat_pct_orig</td>
+<td align="right">21.4</td>
+<td align="right">20.6</td>
+<td align="right">12.20</td>
+<td align="right">90.5</td>
+<td align="right">5.3</td>
+</tr>
+</tbody>
+</table>
+<p><em>Q19. How would the patterns seen in Table <a href="EDA.html#tab:scallop-table">1.1</a> influence your choice if you were required to summarise data that you thought might contain data that you weren’t sure about? The three measure of central tendency are influenced to different extents by the ‘shape’ of the data they are used to describe.</em></p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="EDA.html#cb99-1" aria-hidden="true" tabindex="-1"></a>hake_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_1.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Hake&quot;</span>)</span>
+<span id="cb99-2"><a href="EDA.html#cb99-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(hake_df) <span class="co"># once again, column names made for excel</span></span></code></pre></div>
+<pre><code>## tibble [499 × 2] (S3: tbl_df/tbl/data.frame)
+##  $ Year            : num [1:499] 1 1 1 1 1 1 1 1 1 1 ...
+##  $ Hake length (mm): num [1:499] 190 219 181 148 206 204 168 197 178 211 ...</code></pre>
+<p><em>Q20. What type of variable is <code>length</code>?</em></p>
+<p><em>Q21. Select an appropriate graphical method and display these data.</em></p>
+<p><em>Q22. In your own time, use the <code>dplyr</code> functions to summarise the hake data by year.</em></p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="EDA.html#cb101-1" aria-hidden="true" tabindex="-1"></a>hake_df<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(hake_df<span class="sc">$</span>Year) <span class="co"># Treat as categorical, not numeric</span></span>
+<span id="cb101-2"><a href="EDA.html#cb101-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(hake_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Year&quot;</span>, <span class="st">&quot;Length&quot;</span>) <span class="co"># simplify the column names</span></span></code></pre></div>
+<table>
+<caption><span id="tab:hake-table">Table 1.2: </span>Summary of hake data.</caption>
+<thead>
+<tr class="header">
+<th align="left">Year</th>
+<th align="right">Mean length (cm)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">201.8</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">497.0</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">988.9</td>
+</tr>
+</tbody>
+</table>
+<p>Try to re-create Table <a href="EDA.html#tab:hake-table">1.2</a>.</p>
+<p>The following ‘settling velocity’ data relates to the settling velocity of salmon faecal material. Shona Magill generated these data.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="EDA.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb102-2"><a href="EDA.html#cb102-2" aria-hidden="true" tabindex="-1"></a>fishPoo_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_1.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Settling velocity&quot;</span>)</span>
+<span id="cb102-3"><a href="EDA.html#cb102-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fishPoo_df)</span></code></pre></div>
+<pre><code>## tibble [200 × 1] (S3: tbl_df/tbl/data.frame)
+##  $ Settling velocity (mm s-1): num [1:200] 2.06 1.03 1.56 1.88 1.16 0.76 1.26 1.13 1.23 1.31 ...</code></pre>
+<p><em>Q23. Produce a histogram of the settling velocity. Is it left or right skewed?</em></p>
+<p><em>Q24. Which measures of central tendency and variability are most appropriate?</em></p>
+<p><em>Q25. Sketch the distribution and indicate the relative positions of the mean and median.</em></p>
+<p><em>Q26. Generate a new column of the log-transformed settling velocity data and plot these data.</em></p>
+<p><em>Q27. What measures of central tendency and variability could be applied to the log-transformed data? Selecting the preferable measure of central tendency and variability in a dataset is not necessarily straightforward.</em></p>
+<p>Table 1.3 gives some indication of what issues you might consider.</p>
+<table>
+<caption><span id="tab:metric-table">Table 1.3: </span>Appropriate measures of central tendency and variability according to the underlying data distribution.</caption>
+<colgroup>
+<col width="40%" />
+<col width="30%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Data distribution</th>
+<th align="left">Central tendency metric</th>
+<th align="left">Variability metric</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Continuous,</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<p>unimodal,
+symmetrical |Mean |Variance or sd |
+|Continuous, skewed |Median |Interquartile range |
+|Continuous,
+multimodal |None; state modes |None; summarise by
+group |
+|Discontinuous |None; data-dependent |Range? |</p>
+<hr />
+</div>
+</div>
+<div id="conclusions" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Conclusions<a href="EDA.html#conclusions" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Visualizing and summarising data are the critical first steps in the data analysis and reporting workflow. We use graphical methods to firstly explore our own data. Once we have made sense of it we select the most appropriate method to convey that understanding to our readers. We may help that communication by summarising data in the most appropriate way taking into account the distribution of the data and the presence of outliers.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="overview.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bin_pois.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/Sz-Tim/H2_DS_practicals/edit/BRANCH/01_visualization.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

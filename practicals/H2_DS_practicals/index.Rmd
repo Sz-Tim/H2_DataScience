@@ -1,0 +1,23 @@
+--- 
+title: "H2 Data Science Practical Series"
+site: bookdown::bookdown_site
+documentclass: book
+url: https://brightspace.uhi.ac.uk/d2l/home/341332
+cover-image: figs/cover_short.png
+description: "Handbook for the H2 Data Science practicals."
+link-citations: yes
+papersize: a4
+linestretch: 1
+margin-left: 1in
+margin-right: 1in
+margin-top: 1in
+margin-bottom: 1in
+monofont: Consolas
+fontsize: 11pt
+monofontoptions:
+- Scale=0.8
+linkcolor: blue
+urlcolor: blue
+toc-depth: 0
+---
+

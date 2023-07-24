@@ -1,0 +1,204 @@
+# Appendix {#appendix}
+
+## Probability
+
+### Probability for equally likely outcomes
+
+The probability of event $A$ occuring is $P(A) = \frac{r}{n}$, where $n$ is the number of trials and $r$ is the number of trials during which $A$ occurred.
+
+### Multiplication and addition
+
+The general case of the multiplication rule is that, for two events $A$ and $B$: 
+
+$P(A \& B) = P(A) * P(B|A)$, where $P(B|A)$ is the probability that $B$ occurs given than $A$ has already occurred.
+
+The Addition Law states that, for two events $A$ and $B$: 
+
+$P(A\ or\ B\ or\ A\&B) = P(A) + P(B) - P(A\&B)$
+
+and
+
+$P(A\ or\ B\ but\ not\ A\&B) = P(A) + P(B) - 2*P(A\&B)$
+
+and when $A$ and $B$ are mutually exclusive, then:
+
+$P(A\ or\ B) = P(A) + P(B)$
+
+
+### Bayes’ theorem
+
+$P(A|B)= \frac{P(B|A) * P(A)}{P(B)}$, where $P(B)= P(A) * P(B|A) + P(A’) * P(B|A’)$.
+
+
+## Univariate statistics
+
+### Mean   
+
+`mean()`
+
+The mean is calculated as $\bar{y} = \frac{\sum{y}}{n}$. 
+
+For measures of central tendency and dispersion, we use greek letters to refer to population values and latin letters to refer to samples: 
+
+|  | Population | Sample |
+|--|------------|--------|
+| Mean | $\mu$ | $\bar{y}$ |
+| Variance | $\sigma^2$ | $s^2$ |
+| Standard deviation | $\sigma$ | $s$ |
+
+### Median, quartiles and adjacent values
+
+`median()`, `quantile()`, `IQR()`
+
+With data ordered by rank, the median value is the middle value or the $(\frac{n+1}{2})^{th}$ value, the lower quartile, $Q1$, is the $(\frac{n+1}{4})^{th}$ value, the upper quartile, $Q3$, is the $(\frac{3*(n+1)}{2})^{th}$ value. The inter-quartile range is $IQR = Q3 – Q1$. The upper adjacent value is the upper value that is less than $Q3 + (1.5 * IQR)$. The lower adjacent value is the lower value that is more than the $Q1 – (1.5 * IQR)$. Outliers are defined as values that lie outside the range $Q1 - 1.5*IQR$ or $Q3 + 1.5*IQR$. 
+
+### The sum of squares 
+
+The sum of squares is given by $SS = \sum{y^2} - \frac{(\sum{y})^2}{n}$ where $n$ is the number of observations. 
+
+### Measures of dispersion
+
+`var()`, `sd()`, `length()`
+
+When dealing with **populations** the following formulae are used:
+
+**Variance:** $\sigma^2 = \frac{SS}{n}$
+
+**Standard deviation:** $\sigma = \sqrt{\frac{SS}{n}} = \sqrt{\sigma^2}$
+
+When dealing with **samples** the following formulae are used:
+
+**Variance:** $s^2 = \frac{SS}{n-1}$
+
+**Standard deviation:** $s = \sqrt{\frac{SS}{n-1}}$
+
+
+
+## The Binomial distribution
+
+`dbinom()`, `pbinom()`, `qbinom()`, `rbinom()`
+
+The binomial distribution describes the expected distribution for two mutually exclusive outcomes. The formula is given by:  
+$P(x) = \frac{n!}{x!(n-x)!} p^x q^{n-x}$  
+ 
+where $P(x)$ is the probability of $x$ ‘successes’ occurring, $n$ is the number of trials, $p$ is the probability of $x$ in a single trial, and $q$ is the probability of *not* $x$ in a single trial with $p+q=1$. 
+
+A binomially distributed variable has **mean** = $n*p$ and **variance** = $n*p*q$.
+
+
+
+## The Poisson distribution
+
+`dpois()`, `ppois()`, `qpois()`, `rpois()`
+
+The Poisson distribution for a sample is defined as follows:
+
+$P(x) = \frac{\bar{x}^x e^{-x}}{x!}$
+
+where $\bar{x}$ is the sample mean and $x$ is the value (count) of interest.
+
+
+
+## Z scores
+
+`scale()`
+
+The *standard normal distribution* is $Norm(\mu=0, \sigma=1)$. Z scores are used to convert any normal distribution to the standard normal distribution:  
+
+$z = \frac{y-\mu}{\sigma}$
+
+where $y$ is the value, $\mu$ is the mean of the population and $\sigma$ is the standard deviation of the population.
+
+
+
+## Samples taken from a population
+
+`sd()`, `sqrt()`, `length()`, `mean()`, `sqrt()`
+
+### Standard error of the mean
+
+The *standard error* is the standard deviation of sample means:  
+
+$SEM = \sigma_{\bar{y}} = \frac{\sigma}{\sqrt{n}}$
+
+where $\sigma$ is the population standard deviation and $n$ is the sample size. If we are testing a sample taken from a population *of known population mean and population standard deviation* we use the formula:
+
+$z = \frac{\bar{y}-\mu}{\sigma_{\bar{y}}}$
+
+where $\bar{y}$ is a particular sample mean, $\mu$ is the population mean, and $\sigma_{\bar{y}}$ is the standard error of the mean.
+
+
+## The t distribution
+
+`dt()`, `pt()`, `qt()`, `rt()`
+
+The t-distribution describes the distribution of $T$ statistics expected under the null hypothesis. 
+
+
+### The one sample t-test
+
+`t.test()`
+
+The T statistic is calculated as:
+
+$T = \frac{\bar{y}-\mu}{s_{\bar{y}}}$
+
+Where $\bar{y}$ is the sample mean, $\mu$ is the hypothesized population mean, and $s_{\bar{y}}$ is the standard error such that $s_{\bar{y}} = \frac{s}{\sqrt{n}}$ with sample standard deviation $s$. 
+
+Use `t.test()`, or find the p-value associated with your T with `pt(T, df-1)`.
+
+
+### Confidence intervals for sample means
+
+`t.test()`, `qt()`, `mean()`, `sd()`, `length()`, `sqrt()`
+
+The 95% CI for a mean is calculated as: 
+
+$\bar{y} \pm t_{\alpha/2, df=n-1} * s_{\bar{y}}$
+
+
+
+
+
+## ANOVA
+
+`anova(lm())`, `aov()`
+
+An ANOVA table contains the following:
+
+| Source of variation | Sum of Squares | Degrees of Freedom | Mean Square | F |
+|---------------------|----------------|--------------------|-------------|---|
+| Between groups | ${SS}_{groups}$ | ${df}_{groups}$  | $\frac{{SS}_{groups}}{{df}_{groups}}$  | $\frac{{MS}_{groups}}{{MS}_{error}}$ | 
+| Error | ${SS}_{error}$ | ${df}_{error}$  | $\frac{{SS}_{error}}{{df}_{error}}$  |   | 
+| Total | ${SS}_{total}$ | ${df}_{total}$  |    |   |
+
+with:
+
+${SS}_{groups} = \sum{n_j (\bar{y_j} - \bar{\bar{y}})^2}$
+
+${SS}_{error} = \sum{(y_{ij} - \bar{y_j})^2}$  
+
+${SS}_{total} = {SS}_{groups} + {SS}_{error} = \sum{(y_{ij} - \bar{\bar{y}})^2}$
+
+where $y_{ij}$ is the $i^{th}$ observation in group $j$, $\bar{y_j}$ is the mean for group $j$, and $\bar{\bar{y}}$ is the grand mean. With $N$ total observations, $n_j$ observations per group, and $k$ groups, the degrees of freedom are:
+
+${df}_{groups} = k - 1$
+
+${df}_{error} = N - k = k (n_j-1)$
+
+${df}_{total} = {df}_{groups} + {df}_{error} = N-1$
+
+
+The critical value (CV) for samples of equal size is given as:
+
+$CV = q \sqrt{\frac{{MS}_{error}}{n}}$
+
+where $q$ either comes from a table online (the *studentized range distribution*), or from `qtukey(1-alpha, k, df_error)`. 
+
+
+
+## Regression & correlation
+
+`lm()`, `cor()`, `confint()`, `predict()`
+
+We do not bother calculating regression coefficients by hand.
