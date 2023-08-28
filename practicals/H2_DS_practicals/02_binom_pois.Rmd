@@ -1,4 +1,4 @@
-# Binomial & Poisson distributions {#bin_pois}
+# Binomial & Poisson distributions {#binpois}
 
 ```{r setup-bin_pois, include=FALSE}
 knitr::opts_chunk$set(out.width="50%", out.height="50%", fig.align='center',
@@ -82,7 +82,7 @@ Wongles always lay two eggs in a clutch but 50% of the eggs are infertile and do
 
 Often we are faced more than two events and the quadratic expansion approach you used above is no longer convenient. In such circumstances you use the binomial expression.
 
-*Q35. Copy down the binomial probability mass function (from \@ref(appendix)) and use it as an alternative method for calculating the fertility proportions for two eggs (as per the quadratic equation approach).*
+*Q35. Copy down the binomial probability mass function (from Chapter \@ref(appendix)) and use it as an alternative method for calculating the fertility proportions for two eggs (as per the quadratic equation approach).*
 
 Oozle birds are much more sensible than Wongles and always have broods of eight offspring and all of them hatch. We are interested in modelling the probabilities of the proportion of male and female offspring in broods of eight eggs.
 
@@ -210,7 +210,7 @@ The Poisson distribution is another probability distribution that describes disc
 
 The Poisson distribution takes a single parameter: the mean. If a variable is Poisson distributed, its variance will equal its mean. This is a diagnostic feature of the distribution. The Poisson distribution is a discrete probability distribution, but its parameter, the mean, is continuous (similar to continuous $p$ for the discrete binomial distribution).
 
-The Poisson formula is simple - copy it from \@ref(appendix) into here:
+The Poisson formula is simple - copy it from Chapter \@ref(appendix) into here:
 \newline
 \newline
 \newline

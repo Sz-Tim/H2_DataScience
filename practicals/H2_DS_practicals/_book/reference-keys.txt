@@ -55,7 +55,7 @@ bar-graphs
 summary-statistics
 which-measure-of-central-tendency-to-use
 conclusions
-bin_pois
+binpois
 the-binomial-distribution
 bernoulli-trials
 the-binomial-distribution-1

@@ -166,22 +166,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="1.4" data-path="EDA.html"><a href="EDA.html#conclusions"><i class="fa fa-check"></i><b>1.4</b> Conclusions</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="bin_pois.html"><a href="bin_pois.html"><i class="fa fa-check"></i><b>2</b> Binomial &amp; Poisson distributions</a>
+<li class="chapter" data-level="2" data-path="binpois.html"><a href="binpois.html"><i class="fa fa-check"></i><b>2</b> Binomial &amp; Poisson distributions</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution"><i class="fa fa-check"></i><b>2.1</b> The Binomial distribution</a>
+<li class="chapter" data-level="2.1" data-path="binpois.html"><a href="binpois.html#the-binomial-distribution"><i class="fa fa-check"></i><b>2.1</b> The Binomial distribution</a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="bin_pois.html"><a href="bin_pois.html#bernoulli-trials"><i class="fa fa-check"></i><b>2.1.1</b> Bernoulli trials</a></li>
-<li class="chapter" data-level="2.1.2" data-path="bin_pois.html"><a href="bin_pois.html#the-binomial-distribution-1"><i class="fa fa-check"></i><b>2.1.2</b> The binomial distribution</a></li>
-<li class="chapter" data-level="2.1.3" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-by-hand"><i class="fa fa-check"></i><b>2.1.3</b> Binomial distributions by hand</a></li>
-<li class="chapter" data-level="2.1.4" data-path="bin_pois.html"><a href="bin_pois.html#binomial-distributions-in-r"><i class="fa fa-check"></i><b>2.1.4</b> Binomial distributions in R</a></li>
+<li class="chapter" data-level="2.1.1" data-path="binpois.html"><a href="binpois.html#bernoulli-trials"><i class="fa fa-check"></i><b>2.1.1</b> Bernoulli trials</a></li>
+<li class="chapter" data-level="2.1.2" data-path="binpois.html"><a href="binpois.html#the-binomial-distribution-1"><i class="fa fa-check"></i><b>2.1.2</b> The binomial distribution</a></li>
+<li class="chapter" data-level="2.1.3" data-path="binpois.html"><a href="binpois.html#binomial-distributions-by-hand"><i class="fa fa-check"></i><b>2.1.3</b> Binomial distributions by hand</a></li>
+<li class="chapter" data-level="2.1.4" data-path="binpois.html"><a href="binpois.html#binomial-distributions-in-r"><i class="fa fa-check"></i><b>2.1.4</b> Binomial distributions in R</a></li>
 </ul></li>
-<li class="chapter" data-level="2.2" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-distribution"><i class="fa fa-check"></i><b>2.2</b> The Poisson distribution</a>
+<li class="chapter" data-level="2.2" data-path="binpois.html"><a href="binpois.html#the-poisson-distribution"><i class="fa fa-check"></i><b>2.2</b> The Poisson distribution</a>
 <ul>
-<li class="chapter" data-level="2.2.1" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-by-hand"><i class="fa fa-check"></i><b>2.2.1</b> Poisson distributions by hand</a></li>
-<li class="chapter" data-level="2.2.2" data-path="bin_pois.html"><a href="bin_pois.html#poisson-distributions-in-r"><i class="fa fa-check"></i><b>2.2.2</b> Poisson distributions in R</a></li>
+<li class="chapter" data-level="2.2.1" data-path="binpois.html"><a href="binpois.html#poisson-distributions-by-hand"><i class="fa fa-check"></i><b>2.2.1</b> Poisson distributions by hand</a></li>
+<li class="chapter" data-level="2.2.2" data-path="binpois.html"><a href="binpois.html#poisson-distributions-in-r"><i class="fa fa-check"></i><b>2.2.2</b> Poisson distributions in R</a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="bin_pois.html"><a href="bin_pois.html#the-poisson-approximation-of-the-binomial-model"><i class="fa fa-check"></i><b>2.3</b> The Poisson approximation of the binomial model</a></li>
-<li class="chapter" data-level="2.4" data-path="bin_pois.html"><a href="bin_pois.html#conclusions-1"><i class="fa fa-check"></i><b>2.4</b> Conclusions</a></li>
+<li class="chapter" data-level="2.3" data-path="binpois.html"><a href="binpois.html#the-poisson-approximation-of-the-binomial-model"><i class="fa fa-check"></i><b>2.3</b> The Poisson approximation of the binomial model</a></li>
+<li class="chapter" data-level="2.4" data-path="binpois.html"><a href="binpois.html#conclusions-1"><i class="fa fa-check"></i><b>2.4</b> Conclusions</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="normal.html"><a href="normal.html"><i class="fa fa-check"></i><b>3</b> Normal distribution</a>
 <ul>
@@ -386,7 +386,7 @@ Figure 4.2: QQ-plot for the sample of code from the Evening Star.
 <p>Note: these are random samples, so the values will be different each time you run the code. However, R uses pseudo-random number generation. Use <code>set.seed()</code> for fully replicable code.</p>
 <p><em>Q132. Is there a discrepancy between the population parameters you defined and the actual mean and variance that are estimated from the samples?</em></p>
 <p>Your answer to the above should be yes. You know there is a discrepancy because you know the true parameters. In most real life situations you do not know the true population mean and variance. You can only sample them. If your sample is very large (and representative) then you can generate a very good estimate of those population parameters. However, as your sample size is reduced, the reliability of your estimate decreases. Look at the random numbers you’ve generated. Get a sense for where most of the numbers lie with <code>sigma=10</code>. To output your sample, just run <code>sample_i</code>.</p>
-<p>The t-distribution is the distribution of values you get when you subtract sample means from the true mean and standardise by the sample standard error (i.e., <span class="math inline">\(\frac{\bar{x} - \mu}{SE_{\bar{x}}}\)</span>). Think about this and relate it to the formula for determining single-sample T-statistics and what the critical values actually are that are tabulated in Table 7.</p>
+<p>The t-distribution is the distribution of values you get when you subtract sample means from the true mean and standardise by the sample standard error (i.e., <span class="math inline">\(\frac{\bar{y} - \mu}{SE_{\bar{y}}}\)</span>). Think about this and relate it to the formula for determining single-sample T-statistics and what the critical values actually are.</p>
 <p>The code below simulates repeated samples from a population with <span class="math inline">\(y \sim Norm(\mu, \sigma)\)</span>. Each sample takes <code>sample_size</code> individuals, with <code>num_samples</code> unique samples. For each sample <code>i</code>, the t-statistic is calculated and stored in <code>T_sample[i]</code>. Fig. <a href="t-test.html#fig:t-stat-hist">4.3</a> shows the distribution of <code>T_sample</code> (the histogram) with the corresponding t-distribution (df=<code>sample_size - 1</code>) as the solid line and a standard normal distribution as the dotted line. Play with the values for <code>sample_size</code> below to see how the shapes change.</p>
 <div class="sourceCode" id="cb175"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb175-1"><a href="t-test.html#cb175-1" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="co"># population mean</span></span>
 <span id="cb175-2"><a href="t-test.html#cb175-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fl">0.5</span> <span class="co"># population sd</span></span>

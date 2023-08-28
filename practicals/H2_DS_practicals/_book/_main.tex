@@ -592,7 +592,7 @@ The scatter plot is used where you are plotting two continuous variables against
 
 \emph{Q1. Search the \texttt{plot} help page for `title', then add an appropriate title to your plot.}
 
-\emph{Q2. \texttt{?points} opens the help page for points, search the help page for `pch' and change the symbol of your plot}
+\emph{Q2. \texttt{?points} opens the help page for points. Search the help page for `pch' and change the symbol of your plot}
 
 \emph{Q3. In relation to the cars dataset, plot stopping distance by speed, using indexing to show only those cars where speed\_mph\textgreater20}
 
@@ -649,7 +649,7 @@ Explore the dataframe using the code you've already covered. Which variables are
 
 Reproduce the plot shown in Fig. \ref{fig:mplcyl-plot} (assume 1 gallon = 4.5 L). Remember you can learn about these data with \texttt{?mtcars}. You will need to generate a new variable (miles per litre) and label your boxplot appropriately. You can limit the extent of the y-axis by adding the argument \texttt{ylim\ =\ c(a,\ b)} where \texttt{a} and \texttt{b} are the limits you want (e.g., \texttt{ylim\ =\ c(0,\ 100)}).
 
-\emph{Q4. Use \texttt{?boxplot} to investigate what the box and whiskers in the boxplot acutally represent. Check you can reproduce the upper and lower adjacent values manually (see formula sheet)}
+\emph{Q4. Use \texttt{?boxplot} to investigate what the box and whiskers in the boxplot acutally represent. Check you can reproduce the upper and lower adjacent values manually (see Chapter \ref{appendix})}
 
 \hypertarget{line-plots}{%
 \subsection{Line plots}\label{line-plots}}
@@ -781,7 +781,7 @@ Be aware that histograms can be quite sensitive to the bins that you use.
 
 Which of these plots is the most useful? There is no definitive answer to this, but Plot 1 is very busy and Plot 4 fails to show relevant detail near 0; Plot 2 or 3 communicate the patterns in the data most clearly.
 
-As a general guideline, 5-15 breaks usually works well in a histogram.
+As a general guideline, 5-15 breaks usually work well in a histogram.
 
 \hypertarget{bar-graphs}{%
 \subsection{Bar graphs}\label{bar-graphs}}
@@ -1317,8 +1317,8 @@ Discontinuous & None; data-dependent & Range?\\
 
 Visualizing and summarising data are the critical first steps in the data analysis and reporting workflow. We use graphical methods to firstly explore our own data. Once we have made sense of it we select the most appropriate method to convey that understanding to our readers. We may help that communication by summarising data in the most appropriate way taking into account the distribution of the data and the presence of outliers.
 
-\hypertarget{bin_pois}{%
-\chapter{Binomial \& Poisson distributions}\label{bin_pois}}
+\hypertarget{binpois}{%
+\chapter{Binomial \& Poisson distributions}\label{binpois}}
 
 The role of statisticians is often to determine the probability of events, or a series of events, occurring in nature given our current understanding of the processes that are involved (normally on the basis of previous data). This requires a mathematical description of a theoretical relationship. We refer to this as a statistical model. Statistical models are like any model (e.g.~a model aeroplane) in that they can be a useful simplification of reality. However, as George Box said, `all models are wrong but some are useful'. We will come back to this concept again and again throughout this course.
 
@@ -1422,7 +1422,7 @@ Wongles always lay two eggs in a clutch but 50\% of the eggs are infertile and d
 
 Often we are faced more than two events and the quadratic expansion approach you used above is no longer convenient. In such circumstances you use the binomial expression.
 
-\emph{Q35. Copy down the binomial probability mass function (from \ref{appendix}) and use it as an alternative method for calculating the fertility proportions for two eggs (as per the quadratic equation approach).}
+\emph{Q35. Copy down the binomial probability mass function (from Chapter \ref{appendix}) and use it as an alternative method for calculating the fertility proportions for two eggs (as per the quadratic equation approach).}
 
 Oozle birds are much more sensible than Wongles and always have broods of eight offspring and all of them hatch. We are interested in modelling the probabilities of the proportion of male and female offspring in broods of eight eggs.
 
@@ -1607,7 +1607,7 @@ The Poisson distribution is another probability distribution that describes disc
 
 The Poisson distribution takes a single parameter: the mean. If a variable is Poisson distributed, its variance will equal its mean. This is a diagnostic feature of the distribution. The Poisson distribution is a discrete probability distribution, but its parameter, the mean, is continuous (similar to continuous \(p\) for the discrete binomial distribution).
 
-The Poisson formula is simple - copy it from \ref{appendix} into here:
+The Poisson formula is simple - copy it from Chapter \ref{appendix} into here:
 \newline
 \newline
 \newline
@@ -2412,7 +2412,7 @@ As a rough guideline, a normal approximation is reasonable if \(\lambda \geq 30\
 
 \emph{Q104. For a Poisson distribution} \(y \sim Pois(40)\) \emph{define the normal approximation in the standard way.}
 
-\emph{Q105. Using R and referring Practical @ref(bin\_pois), calculate} \(P(y_i \leq 35)\) \emph{from} \(y \sim Pois(40)\) \emph{(Ans = 0.242)}
+\emph{Q105. Using R and referring Practical} \ref{binpois}\emph{, calculate} \(P(y_i \leq 35)\) \emph{from} \(y \sim Pois(40)\) \emph{(Ans = 0.242)}
 
 \emph{Q106. Using R, calculate} \(P(y_i < 35)\) \emph{from the above normal approximation of the Poisson distribution (Ans = 0.215).}
 
@@ -2429,7 +2429,7 @@ What is the point of this? Well, if you have a binomially distributed variable w
 
 Turtles lay clutches of 40 eggs. We might be interested in predicting the number of male and female offspring. Assume the proportion that are male is 0.5. Our investigation stems from the observation that several clutches of eggs, on a particular island, contained only 10 males. We might wonder how unlikely this was by chance, assuming \(P(male)=0.5\).
 
-\emph{Q109. Referring to Practical @ref\{bin\_pois\} if necessary, use the binomial model, calculate how unusual (i.e.~the probability) it is to get} \(\leq 10\) \emph{males.}
+\emph{Q109. Referring to Practical} \ref{binpois} \emph{if necessary, use the binomial model, calculate how unusual (i.e.~the probability) it is to get} \(\leq 10\) \emph{males.}
 
 \emph{Q110. Plot your probability (i.e.~from 0 -- 40 males) as a bar graph. Comment on its shape.}
 
@@ -2653,7 +2653,7 @@ Note: these are random samples, so the values will be different each time you ru
 
 Your answer to the above should be yes. You know there is a discrepancy because you know the true parameters. In most real life situations you do not know the true population mean and variance. You can only sample them. If your sample is very large (and representative) then you can generate a very good estimate of those population parameters. However, as your sample size is reduced, the reliability of your estimate decreases. Look at the random numbers you've generated. Get a sense for where most of the numbers lie with \texttt{sigma=10}. To output your sample, just run \texttt{sample\_i}.
 
-The t-distribution is the distribution of values you get when you subtract sample means from the true mean and standardise by the sample standard error (i.e., \(\frac{\bar{x} - \mu}{SE_{\bar{x}}}\)). Think about this and relate it to the formula for determining single-sample T-statistics and what the critical values actually are that are tabulated in Table 7.
+The t-distribution is the distribution of values you get when you subtract sample means from the true mean and standardise by the sample standard error (i.e., \(\frac{\bar{y} - \mu}{SE_{\bar{y}}}\)). Think about this and relate it to the formula for determining single-sample T-statistics and what the critical values actually are.
 
 The code below simulates repeated samples from a population with \(y \sim Norm(\mu, \sigma)\). Each sample takes \texttt{sample\_size} individuals, with \texttt{num\_samples} unique samples. For each sample \texttt{i}, the t-statistic is calculated and stored in \texttt{T\_sample{[}i{]}}. Fig. \ref{fig:t-stat-hist} shows the distribution of \texttt{T\_sample} (the histogram) with the corresponding t-distribution (df=\texttt{sample\_size\ -\ 1}) as the solid line and a standard normal distribution as the dotted line. Play with the values for \texttt{sample\_size} below to see how the shapes change.
 
@@ -4079,7 +4079,7 @@ A binomially distributed variable has \textbf{mean} = \(n*p\) and \textbf{varian
 
 The Poisson distribution for a sample is defined as follows:
 
-\(P(x) = \frac{\bar{x}^x e^{-x}}{x!}\)
+\(P(x) = \frac{\bar{y}^x e^{-\bar{y}}}{x!}\)
 
 where \(\bar{x}\) is the sample mean and \(x\) is the value (count) of interest.
 

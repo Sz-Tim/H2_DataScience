@@ -447,7 +447,7 @@ As a rough guideline, a normal approximation is reasonable if $\lambda \geq 30$.
 
 *Q104. For a Poisson distribution* $y \sim Pois(40)$ *define the normal approximation in the standard way.*
 
-*Q105. Using R and referring Practical \@ref(bin_pois), calculate* $P(y_i \leq 35)$ *from* $y \sim Pois(40)$ *(Ans = 0.242)*
+*Q105. Using R and referring Practical* \@ref(binpois)*, calculate* $P(y_i \leq 35)$ *from* $y \sim Pois(40)$ *(Ans = 0.242)*
 
 *Q106. Using R, calculate* $P(y_i < 35)$ *from the above normal approximation of the Poisson distribution (Ans = 0.215).*
 
@@ -465,7 +465,7 @@ What is the point of this? Well, if you have a binomially distributed variable w
 
 Turtles lay clutches of 40 eggs. We might be interested in predicting the number of male and female offspring. Assume the proportion that are male is 0.5. Our investigation stems from the observation that several clutches of eggs, on a particular island, contained only 10 males. We might wonder how unlikely this was by chance, assuming $P(male)=0.5$.
 
-*Q109. Referring to Practical \@ref{bin_pois} if necessary, use the binomial model, calculate how unusual (i.e. the probability) it is to get* $\leq 10$ *males.*
+*Q109. Referring to Practical* \@ref(binpois) *if necessary, use the binomial model, calculate how unusual (i.e. the probability) it is to get* $\leq 10$ *males.*
 
 *Q110. Plot your probability (i.e. from 0 – 40 males) as a bar graph. Comment on its shape.*
 

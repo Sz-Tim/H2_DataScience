@@ -180,7 +180,7 @@ par(mfrow=c(1,1))
 ```
 *Q1. Search the `plot` help page for 'title', then add an appropriate title to your plot.*
 
-*Q2. `?points` opens the help page for points, search the help page for 'pch' and change the symbol of your plot*
+*Q2. `?points` opens the help page for points. Search the help page for 'pch' and change the symbol of your plot*
 
 *Q3. In relation to the cars dataset, plot stopping distance by speed, using indexing to show only those cars where speed_mph\>20*
 
@@ -208,7 +208,7 @@ boxplot(mpg ~ cyl, data = mtcars)
 
 Reproduce the plot shown in Fig. \@ref(fig:mplcyl-plot) (assume 1 gallon = 4.5 L). Remember you can learn about these data with `?mtcars`. You will need to generate a new variable (miles per litre) and label your boxplot appropriately. You can limit the extent of the y-axis by adding the argument `ylim = c(a, b)` where `a` and `b` are the limits you want (e.g., `ylim = c(0, 100)`).
 
-*Q4. Use `?boxplot` to investigate what the box and whiskers in the boxplot acutally represent. Check you can reproduce the upper and lower adjacent values manually (see formula sheet)*
+*Q4. Use `?boxplot` to investigate what the box and whiskers in the boxplot acutally represent. Check you can reproduce the upper and lower adjacent values manually (see Chapter \@ref(appendix))*
 
 ### Line plots
 
@@ -295,7 +295,7 @@ par(mfrow = c(1, 1)) # reset the par setting.
 
 Which of these plots is the most useful? There is no definitive answer to this, but Plot 1 is very busy and Plot 4 fails to show relevant detail near 0; Plot 2 or 3 communicate the patterns in the data most clearly.
 
-As a general guideline, 5-15 breaks usually works well in a histogram.
+As a general guideline, 5-15 breaks usually work well in a histogram.
 
 ### Bar graphs
 

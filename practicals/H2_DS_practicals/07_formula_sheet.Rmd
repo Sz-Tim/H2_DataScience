@@ -93,7 +93,7 @@ A binomially distributed variable has **mean** = $n*p$ and **variance** = $n*p*q
 
 The Poisson distribution for a sample is defined as follows:
 
-$P(x) = \frac{\bar{x}^x e^{-x}}{x!}$
+$P(x) = \frac{\bar{y}^x e^{-\bar{y}}}{x!}$
 
 where $\bar{x}$ is the sample mean and $x$ is the value (count) of interest.
 
