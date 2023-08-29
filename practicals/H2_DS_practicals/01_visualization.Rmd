@@ -392,11 +392,11 @@ summary(cars2[, c("speed_mph", "dist_ft")])
 
 Often you'll wish to summarise your data across levels of certain factor. For example, levels of a certain treatment that you are applying. More complex summaries can be made using the `dplyr` package. We'll go into more detail later on some of the very powerful ways this package (and its friends in the *tidyverse*) can be used.
 
-First, you'll need to install it. The *tidyverse* is a collection of packages. Install all of them with `install.packages("tidyverse")` (see Section \@ref{R_intro}). 
+First, you'll need to install it. The *tidyverse* is a collection of packages. Install all of them with `install.packages("tidyverse")` (see Section \@ref(R_intro)). 
 
 We'll use the built-in dataset `InsectSprays`. Viewing your raw data can be an important check as well. You can open a spreadsheet-styled viewer in R using `View(YourDataFrame)`.
 
-```{r include=FALSE}
+```{r}
 library(tidyverse) 
 ```
 

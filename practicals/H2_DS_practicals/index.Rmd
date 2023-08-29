@@ -12,7 +12,6 @@ margin-left: 1in
 margin-right: 1in
 margin-top: 1in
 margin-bottom: 1in
-monofont: Consolas
 fontsize: 11pt
 monofontoptions:
 - Scale=0.8

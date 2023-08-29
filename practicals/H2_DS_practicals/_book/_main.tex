@@ -19,7 +19,6 @@
   \usepackage{unicode-math}
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-  \setmonofont[Scale=0.8]{Consolas}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -985,9 +984,15 @@ Different measures of central tendency and variability all have pros and cons an
 
 Often you'll wish to summarise your data across levels of certain factor. For example, levels of a certain treatment that you are applying. More complex summaries can be made using the \texttt{dplyr} package. We'll go into more detail later on some of the very powerful ways this package (and its friends in the \emph{tidyverse}) can be used.
 
-First, you'll need to install it. The \emph{tidyverse} is a collection of packages. Install all of them with \texttt{install.packages("tidyverse")} (see Section @ref\{R\_intro\}).
+First, you'll need to install it. The \emph{tidyverse} is a collection of packages. Install all of them with \texttt{install.packages("tidyverse")} (see Section @ref(R\_intro)).
 
 We'll use the built-in dataset \texttt{InsectSprays}. Viewing your raw data can be an important check as well. You can open a spreadsheet-styled viewer in R using \texttt{View(YourDataFrame)}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(tidyverse) }
+\end{Highlighting}
+\end{Shaded}
 
 \begin{Shaded}
 \begin{Highlighting}[]

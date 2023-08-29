@@ -306,9 +306,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>One-way ANOVA is a procedure we use to estimate the magnitude of differences between means of <span class="math inline">\(\geq\)</span> 2 groups. We also use it to put confidence intervals on those differences.</p>
 <p>The first example data is the yield in <span class="math inline">\(\mu g\)</span> C <span class="math inline">\(ml^{-1}\)</span> of a species of microalgae (<em>Isochrysis galbana</em>) in laboratory culture exposed to three light levels (low, medium and high). We are interested in these particular light levels because they represent the means of winter, spring, and summer Scottish sun intensity. The data are in worksheet ‘Microalgae’.</p>
 <p>Note: the function to conduct an ANOVA is <code>aov()</code>. The function <code>anova()</code> converts various statistical model outputs to the standard ANOVA-table output (including any from the GLM family).</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb186-1"><a href="glm.html#cb186-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb186-2"><a href="glm.html#cb186-2" aria-hidden="true" tabindex="-1"></a>algae_wide_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_5.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Microalgae&quot;</span>)</span>
-<span id="cb186-3"><a href="glm.html#cb186-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check these data as usual</span></span></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="glm.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb187-2"><a href="glm.html#cb187-2" aria-hidden="true" tabindex="-1"></a>algae_wide_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_5.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Microalgae&quot;</span>)</span>
+<span id="cb187-3"><a href="glm.html#cb187-3" aria-hidden="true" tabindex="-1"></a><span class="co"># check these data as usual</span></span></code></pre></div>
 <p><em>Q158. What is your objective in this type of experiment? What are you interested in estimating?</em></p>
 <p><em>Q159. What assumptions should be met prior to undertaking parametric ANOVA?</em></p>
 <p><em>Q160. Under which circumstances could you begin to relax the assumption that the data are normally distributed (think central limit theorem)?</em></p>
@@ -316,21 +316,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><em>Q162. Are the data normally distributed (be careful how you word your answer to this question, see the following question)?</em></p>
 <p><em>Q163. Is it reasonable to assume that these data are drawn from a population that is normally distributed?</em></p>
 <p>We can check the homoscedasticity assumption using Bartlett’s test. Before we can use this test we need to rearrange the data so that the data is in a single indexed column. We’ll use the <em>tidyverse</em> as before.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb187-1"><a href="glm.html#cb187-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb187-2"><a href="glm.html#cb187-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(algae_wide_df, <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="glm.html#cb188-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb188-2"><a href="glm.html#cb188-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(algae_wide_df, <span class="dv">2</span>)</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 3
 ##     low medium  high
 ##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
 ## 1  13.1   12    14.2
 ## 2  11.5   11.5  13.1</code></pre>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="glm.html#cb189-1" aria-hidden="true" tabindex="-1"></a>algae_df <span class="ot">&lt;-</span> algae_wide_df <span class="sc">|&gt;</span></span>
-<span id="cb189-2"><a href="glm.html#cb189-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">&quot;Treatment&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Yield&quot;</span>)</span>
-<span id="cb189-3"><a href="glm.html#cb189-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(algae_df, <span class="at">width=</span><span class="dv">80</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="glm.html#cb190-1" aria-hidden="true" tabindex="-1"></a>algae_df <span class="ot">&lt;-</span> algae_wide_df <span class="sc">|&gt;</span></span>
+<span id="cb190-2"><a href="glm.html#cb190-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">&quot;Treatment&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;Yield&quot;</span>)</span>
+<span id="cb190-3"><a href="glm.html#cb190-3" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(algae_df, <span class="at">width=</span><span class="dv">80</span>)</span></code></pre></div>
 <pre><code>## Rows: 15
 ## Columns: 2
 ## $ Treatment &lt;chr&gt; &quot;low&quot;, &quot;medium&quot;, &quot;high&quot;, &quot;low&quot;, &quot;medium&quot;, &quot;high&quot;, &quot;low&quot;, &quot;me…
 ## $ Yield     &lt;dbl&gt; 13.07599, 12.00000, 14.20000, 11.53923, 11.50000, 13.10000, …</code></pre>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="glm.html#cb191-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(Yield <span class="sc">~</span> Treatment, <span class="at">data =</span> algae_df) <span class="co">#?bartlett.test</span></span></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="glm.html#cb192-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(Yield <span class="sc">~</span> Treatment, <span class="at">data =</span> algae_df) <span class="co">#?bartlett.test</span></span></code></pre></div>
 <pre><code>## 
 ##  Bartlett test of homogeneity of variances
 ## 
@@ -340,10 +340,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>A more elegant (and much better) way of checking model assumptions is to check residual patterns. A ‘residual’ is the difference between an actual data value and that predicted by the model. Here we have randomly assigned five cultures each of the same species to three specific treatments (light levels).</p>
 <p><em>Q165. What type of experiment is this (how many factors, are they fixed or random)?</em></p>
 <p>Next to conduct the analysis:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="glm.html#cb193-1" aria-hidden="true" tabindex="-1"></a>algae_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Treatment, <span class="at">data =</span> algae_df) <span class="co"># ?aov</span></span></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="glm.html#cb194-1" aria-hidden="true" tabindex="-1"></a>algae_aov <span class="ot">&lt;-</span> <span class="fu">aov</span>(Yield <span class="sc">~</span> Treatment, <span class="at">data =</span> algae_df) <span class="co"># ?aov</span></span></code></pre></div>
 <p>Before we look at the output, let’s assess the assumptions using the residuals. The default residual plots created by R are shown in Fig. <a href="glm.html#fig:algae-aov">5.1</a> and enables us to rapidly assess whether the model assumptions are reasonable.</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="glm.html#cb194-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>)) </span>
-<span id="cb194-2"><a href="glm.html#cb194-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(algae_aov) </span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="glm.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>)) </span>
+<span id="cb195-2"><a href="glm.html#cb195-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(algae_aov) </span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:algae-aov"></span>
 <img src="_main_files/figure-html/algae-aov-1.png" alt="Residual plots from one-way ANOVA." width="50%" height="50%" />
 <p class="caption">
@@ -365,17 +365,17 @@ Figure 5.1: Residual plots from one-way ANOVA.
 <p><em>Q167. Are your effects fixed or random?</em></p>
 <p><em>Q168. Assuming you have chosen</em> <span class="math inline">\(\alpha = 0.05\)</span><em>, what might you be interested in going on to test next? Hint: you are testing to see whether the means of three populations are different.</em></p>
 <p>Everything looks ok, so we can then look at the results of the ANOVA.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="glm.html#cb195-1" aria-hidden="true" tabindex="-1"></a><span class="co"># anova(algae_aov) # outputs an anova-type table, but unnecessary with aov()</span></span>
-<span id="cb195-2"><a href="glm.html#cb195-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(algae_aov)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="glm.html#cb196-1" aria-hidden="true" tabindex="-1"></a><span class="co"># anova(algae_aov) # outputs an anova-type table, but unnecessary with aov()</span></span>
+<span id="cb196-2"><a href="glm.html#cb196-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(algae_aov)</span></code></pre></div>
 <pre><code>##             Df Sum Sq Mean Sq F value Pr(&gt;F)  
 ## Treatment    2 10.050   5.025   6.487 0.0123 *
 ## Residuals   12  9.296   0.775                 
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Reporting that there are ‘significant’ differences between means is not enough. What your readers should be interested in is what the differences between the means actually are, and how confident you are in your assessment. This can be provided by the Tukey test in R.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="glm.html#cb197-1" aria-hidden="true" tabindex="-1"></a>algae_grp_diffs <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(<span class="at">x =</span> algae_aov, <span class="at">conf.level =</span> <span class="fl">0.95</span>) </span>
-<span id="cb197-2"><a href="glm.html#cb197-2" aria-hidden="true" tabindex="-1"></a><span class="co"># HSD stands for &#39;honestly significant difference&#39;</span></span>
-<span id="cb197-3"><a href="glm.html#cb197-3" aria-hidden="true" tabindex="-1"></a>algae_grp_diffs</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="glm.html#cb198-1" aria-hidden="true" tabindex="-1"></a>algae_grp_diffs <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(<span class="at">x =</span> algae_aov, <span class="at">conf.level =</span> <span class="fl">0.95</span>) </span>
+<span id="cb198-2"><a href="glm.html#cb198-2" aria-hidden="true" tabindex="-1"></a><span class="co"># HSD stands for &#39;honestly significant difference&#39;</span></span>
+<span id="cb198-3"><a href="glm.html#cb198-3" aria-hidden="true" tabindex="-1"></a>algae_grp_diffs</span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -415,25 +415,25 @@ Figure 5.1: Residual plots from one-way ANOVA.
 <h3><span class="header-section-number">5.2.2</span> Linear regression in R<a href="glm.html#linear-regression-in-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>In R we can use a variety of techniques to conduct linear regression. The easiest is to use <code>lm()</code>. It is worth noting that <code>lm()</code> would also work for all your other general linear models (e.g. ANOVA). They are, in fact, the same model, it is just the default output (and necessary input formatting) that differs. Try reproducing the ANOVAs above with <code>anova(lm(...))</code>.</p>
 <p>Import data and begin:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="glm.html#cb199-1" aria-hidden="true" tabindex="-1"></a>beetle_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_6.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Beetles&quot;</span>)</span>
-<span id="cb199-2"><a href="glm.html#cb199-2" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect the dataframe, then make a scatter plot</span></span>
-<span id="cb199-3"><a href="glm.html#cb199-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb199-4"><a href="glm.html#cb199-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(WeightLoss_Mg <span class="sc">~</span> Humidity, <span class="at">data =</span> beetle_df) </span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="glm.html#cb200-1" aria-hidden="true" tabindex="-1"></a>beetle_df <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;data/practical_6.xlsx&quot;</span>, <span class="at">sheet =</span> <span class="st">&quot;Beetles&quot;</span>)</span>
+<span id="cb200-2"><a href="glm.html#cb200-2" aria-hidden="true" tabindex="-1"></a><span class="co"># inspect the dataframe, then make a scatter plot</span></span>
+<span id="cb200-3"><a href="glm.html#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb200-4"><a href="glm.html#cb200-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(WeightLoss_Mg <span class="sc">~</span> Humidity, <span class="at">data =</span> beetle_df) </span></code></pre></div>
 <p><img src="_main_files/figure-html/beetle-scatter-1.png" width="40%" height="50%" style="display: block; margin: auto;" /></p>
 <p>An aside on plotting: you can provide <code>plot()</code> with either a vector for the x-axis and a vector for the y-axis (i.e., <code>plot(x_var, y_var)</code>) <em>or</em> you can use a formula, specifying the dataframe (i.e., <code>plot(y ~ x, data=data_df)</code>). Just be aware of which variable is on which axis.</p>
 <p>Now we have explored and plotted the data we can conduct the regression analysis.</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="glm.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="co"># weightloss is modelled as (~) a function of humidity</span></span>
-<span id="cb200-2"><a href="glm.html#cb200-2" aria-hidden="true" tabindex="-1"></a>beetle_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(WeightLoss_Mg <span class="sc">~</span> Humidity, <span class="at">data =</span> beetle_df) </span>
-<span id="cb200-3"><a href="glm.html#cb200-3" aria-hidden="true" tabindex="-1"></a><span class="co"># beetle_lm</span></span>
-<span id="cb200-4"><a href="glm.html#cb200-4" aria-hidden="true" tabindex="-1"></a><span class="co"># str(beetle_lm) # lm outputs are complex structures</span></span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="glm.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="co"># weightloss is modelled as (~) a function of humidity</span></span>
+<span id="cb201-2"><a href="glm.html#cb201-2" aria-hidden="true" tabindex="-1"></a>beetle_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(WeightLoss_Mg <span class="sc">~</span> Humidity, <span class="at">data =</span> beetle_df) </span>
+<span id="cb201-3"><a href="glm.html#cb201-3" aria-hidden="true" tabindex="-1"></a><span class="co"># beetle_lm</span></span>
+<span id="cb201-4"><a href="glm.html#cb201-4" aria-hidden="true" tabindex="-1"></a><span class="co"># str(beetle_lm) # lm outputs are complex structures</span></span></code></pre></div>
 <p>Before we go on and interpret the model output we need to assess the model assumptions. This is done in the same way as for ANOVA with the same commands.</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="glm.html#cb201-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>)) <span class="co"># set up 4 in 1 plot.</span></span>
-<span id="cb201-2"><a href="glm.html#cb201-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(beetle_lm) <span class="co"># plot the regresssion residuals.</span></span></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="glm.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="at">mar=</span><span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>)) <span class="co"># set up 4 in 1 plot.</span></span>
+<span id="cb202-2"><a href="glm.html#cb202-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(beetle_lm) <span class="co"># plot the regresssion residuals.</span></span></code></pre></div>
 <p><img src="_main_files/figure-html/beetle-diag-1.png" width="50%" height="50%" style="display: block; margin: auto;" /></p>
 <p>The small sample size here (<span class="math inline">\(n=9\)</span>) makes a proper analysis of the residuals difficult. The plot should be assessed in the same way as for the ANOVA residuals. Basically, any pattern is bad. The upper left (Residuals v Fitted) doesn’t cause any major concern, thought upper right (Normal QQ) indicates a possible problem. Scale-Location (lower left) is difficult to interpret but no obvious pattern is present. The Residuals v. leverage (lower right) indicates a potential issue as well. A point with a large residual (i.e. where it is very different to that expected by the model) and with a high leverage (i.e. at the extreme ends of the predictors range) has a large Cook’s distance and has a disproportionate effect on the slope and intercept. These points should be examined in more detail.</p>
 <p><em>Q172. Which point has the largest Cook’s distance?</em></p>
 <p>We will now proceed to looking at the linear regression analysis results on the basis that the residuals do not raise any concerns.</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb202-1"><a href="glm.html#cb202-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(beetle_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="glm.html#cb203-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(beetle_lm)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = WeightLoss_Mg ~ Humidity, data = beetle_df)
@@ -462,7 +462,7 @@ Figure 5.1: Residual plots from one-way ANOVA.
 <p>The P values allow us to assess if the slope and the intercept are likely different from zero.</p>
 <p><em>Q176. Given the very high</em> <span class="math inline">\(R^2\)</span> <em>(and looking at your plot) would you expect the regression model to be significantly better than the null model in explaining the variance in weight loss?</em></p>
 <p><em>Q177. With</em> <span class="math inline">\(\alpha = 0.05\)</span><em>, do you reject or accept the null hypothesis? What would you wish to report in relation to the slope coefficient if you were reporting the results from this analysis?</em></p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="glm.html#cb204-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(beetle_lm)</span></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="glm.html#cb205-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(beetle_lm)</span></code></pre></div>
 <pre><code>##                   2.5 %      97.5 %
 ## (Intercept)  8.25104923  9.15700538
 ## Humidity    -0.06092143 -0.04552287</code></pre>
@@ -471,14 +471,14 @@ Figure 5.1: Residual plots from one-way ANOVA.
 <div id="plotting-the-regression-line-and-confidence-intervals" class="section level3 hasAnchor" number="5.2.3">
 <h3><span class="header-section-number">5.2.3</span> Plotting the regression line and confidence intervals<a href="glm.html#plotting-the-regression-line-and-confidence-intervals" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>A regression model (i.e. the linear relationship between the predictor and response variables) allows us to predict values for any value of the predictor, along with confidence levels. We can plot this regression line without too much effort.</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb206-1"><a href="glm.html#cb206-1" aria-hidden="true" tabindex="-1"></a>beetle_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(beetle_lm, <span class="at">interval =</span> <span class="st">&quot;confidence&quot;</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb206-2"><a href="glm.html#cb206-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb206-3"><a href="glm.html#cb206-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
-<span id="cb206-4"><a href="glm.html#cb206-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(WeightLoss_Mg <span class="sc">~</span> Humidity, <span class="at">data =</span> beetle_df, </span>
-<span id="cb206-5"><a href="glm.html#cb206-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Relative humidity (%)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Weight loss (mg)&quot;</span>) </span>
-<span id="cb206-6"><a href="glm.html#cb206-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(beetle_df<span class="sc">$</span>Humidity, beetle_pred[, <span class="st">&quot;fit&quot;</span>])</span>
-<span id="cb206-7"><a href="glm.html#cb206-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(beetle_df<span class="sc">$</span>Humidity, beetle_pred[, <span class="st">&quot;lwr&quot;</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
-<span id="cb206-8"><a href="glm.html#cb206-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(beetle_df<span class="sc">$</span>Humidity, beetle_pred[, <span class="st">&quot;upr&quot;</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="glm.html#cb207-1" aria-hidden="true" tabindex="-1"></a>beetle_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(beetle_lm, <span class="at">interval =</span> <span class="st">&quot;confidence&quot;</span>, <span class="at">level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb207-2"><a href="glm.html#cb207-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb207-3"><a href="glm.html#cb207-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb207-4"><a href="glm.html#cb207-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(WeightLoss_Mg <span class="sc">~</span> Humidity, <span class="at">data =</span> beetle_df, </span>
+<span id="cb207-5"><a href="glm.html#cb207-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">&quot;Relative humidity (%)&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Weight loss (mg)&quot;</span>) </span>
+<span id="cb207-6"><a href="glm.html#cb207-6" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(beetle_df<span class="sc">$</span>Humidity, beetle_pred[, <span class="st">&quot;fit&quot;</span>])</span>
+<span id="cb207-7"><a href="glm.html#cb207-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(beetle_df<span class="sc">$</span>Humidity, beetle_pred[, <span class="st">&quot;lwr&quot;</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb207-8"><a href="glm.html#cb207-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(beetle_df<span class="sc">$</span>Humidity, beetle_pred[, <span class="st">&quot;upr&quot;</span>], <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:beetle-regline"></span>
 <img src="_main_files/figure-html/beetle-regline-1.png" alt="Regression line (solid) with upper and lower 95\% CI (dashed)" width="50%" height="50%" />
 <p class="caption">
@@ -491,18 +491,18 @@ Figure 5.2: Regression line (solid) with upper and lower 95% CI (dashed)
 <p><em>Q180. If not, what does this suggest about the degree of confidence you have in values predicted at various points along the line?</em></p>
 <p><em>Q181. At what value of relative humidity are your predictions of weight loss likely most accurate?</em></p>
 <p>We can make predictions based on our regression line, and put confidence intervals on those predictions. Say we had a relative humidity of 50% in the above example. You could ask for the model-predicted weight loss and you’d want confidence intervals on that prediction.</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb207-1"><a href="glm.html#cb207-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict() needs a data.frame with the same predictors used in beetle_lm</span></span>
-<span id="cb207-2"><a href="glm.html#cb207-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(beetle_lm, </span>
-<span id="cb207-3"><a href="glm.html#cb207-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Humidity =</span> <span class="dv">50</span>), </span>
-<span id="cb207-4"><a href="glm.html#cb207-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">&quot;predict&quot;</span>, </span>
-<span id="cb207-5"><a href="glm.html#cb207-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb208-1"><a href="glm.html#cb208-1" aria-hidden="true" tabindex="-1"></a><span class="co"># predict() needs a data.frame with the same predictors used in beetle_lm</span></span>
+<span id="cb208-2"><a href="glm.html#cb208-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(beetle_lm, </span>
+<span id="cb208-3"><a href="glm.html#cb208-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Humidity =</span> <span class="dv">50</span>), </span>
+<span id="cb208-4"><a href="glm.html#cb208-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">&quot;predict&quot;</span>, </span>
+<span id="cb208-5"><a href="glm.html#cb208-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##       fit      lwr      upr
 ## 1 6.04292 5.303471 6.782368</code></pre>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="glm.html#cb209-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or more fully:</span></span>
-<span id="cb209-2"><a href="glm.html#cb209-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(beetle_lm, </span>
-<span id="cb209-3"><a href="glm.html#cb209-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Humidity =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by=</span><span class="dv">25</span>)), </span>
-<span id="cb209-4"><a href="glm.html#cb209-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">&quot;predict&quot;</span>, </span>
-<span id="cb209-5"><a href="glm.html#cb209-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb210-1"><a href="glm.html#cb210-1" aria-hidden="true" tabindex="-1"></a><span class="co"># or more fully:</span></span>
+<span id="cb210-2"><a href="glm.html#cb210-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(beetle_lm, </span>
+<span id="cb210-3"><a href="glm.html#cb210-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">Humidity =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by=</span><span class="dv">25</span>)), </span>
+<span id="cb210-4"><a href="glm.html#cb210-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">interval =</span> <span class="st">&quot;predict&quot;</span>, </span>
+<span id="cb210-5"><a href="glm.html#cb210-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">level =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <pre><code>##        fit      lwr      upr
 ## 1 8.704027 7.868990 9.539064
 ## 2 7.373474 6.608630 8.138317
@@ -511,7 +511,7 @@ Figure 5.2: Regression line (solid) with upper and lower 95% CI (dashed)
 ## 5 3.381812 2.549540 4.214084</code></pre>
 <p>These are prediction intervals and they are broader than confidence intervals. The confidence intervals express your confidence about where the mean regression line would lie (if you went back in time and were somehow able to repeatedly sample from the same population). The prediction interval expresses your confidence about where the <em>values</em> would lie if you went back and repeatedly took an individual of the population at a given value of the predictor (e.g. 50% humidity).
 For more kicks, import PhosphateCalibration (1st year practical data) into R and duplicate the following plots and confidence intervals.</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="glm.html#cb211-1" aria-hidden="true" tabindex="-1"></a>phosphate_df <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;data/Practical_6.xlsx&quot;</span>, <span class="st">&quot;PhosphateCalibration&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb212-1"><a href="glm.html#cb212-1" aria-hidden="true" tabindex="-1"></a>phosphate_df <span class="ot">&lt;-</span> <span class="fu">read_xlsx</span>(<span class="st">&quot;data/Practical_6.xlsx&quot;</span>, <span class="st">&quot;PhosphateCalibration&quot;</span>)</span></code></pre></div>
 <p><img src="_main_files/figure-html/unnamed-chunk-80-1.png" width="50%" height="50%" style="display: block; margin: auto;" /></p>
 <p><img src="_main_files/figure-html/unnamed-chunk-81-1.png" width="50%" height="50%" style="display: block; margin: auto;" /></p>
 <pre><code>## 
