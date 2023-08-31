@@ -3470,7 +3470,7 @@ For the non-metric NMDS workflow, we'll start by simulating some data. Then, we'
 
 For the PCA workflow, we'll have a look at some environmental data using PCA. Throughout this practical, we'll illustrate some coding techniques which will help you practice wrangling your data to make it suitable for analysis. As we've discussed, data wrangling is a time-consuming and crucial part of data analysis so familiarity with this is essential.
 
-Recall from Section @ref\{normal\} that the \texttt{\^{}} operator raises each element in a vector to a power. For example, say we create a vector \texttt{obs\_values\ \textless{}-\ c(1,\ 10,\ 35)}. We can calculate a fourth-root transformation of the whole vector with \texttt{obs\_values\^{}(1/4)}. Remember from previous courses that this is identical to \texttt{sqrt(sqrt(obs\_values))}.
+Recall from Practical \ref{normal} that the \texttt{\^{}} operator raises each element in a vector to a power. For example, say we create a vector \texttt{obs\_values\ \textless{}-\ c(1,\ 10,\ 35)}. We can calculate a fourth-root transformation of the whole vector with \texttt{obs\_values\^{}(1/4)}. Remember from previous courses that this is identical to \texttt{sqrt(sqrt(obs\_values))}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3761,7 +3761,7 @@ Instead, we want all of our variables to be treated `equally'. You can do all th
 
 A basic, and very friendly, introduction to PCA is given in Chapter 4 of \href{https://www.primer-e.com/wp-content/uploads/2018/10/Change-in-Marine-Communities-3rd-ed.pdf}{Clarke et al.~2014}.
 
-The data set we'll look at here is from SAMS Professor Tom Wilding's PhD thesis. He set up an experiment to examine the relative leach\_dfing of trace metals from concrete, granite, and a control (artificial seawater). Concrete contains cement which is enriched in vanadium and molybdenum, and these elements could leach\_df out in dangerous amounts. Granite, the main constituent of this concrete, might also leach\_df some trace elements. He suspended concrete and granite powder in artificial water, constantly agitated it, and measured the leach\_dfate concentrations over 100 days \href{https://doi.org/10.1006/jmsc.2002.1267}{Wilding and Sayer 2002}.
+The data set we'll look at here is from SAMS Professor Tom Wilding's PhD thesis. He set up an experiment to examine the relative leaching of trace metals from concrete, granite, and a control (artificial seawater). Concrete contains cement which is enriched in vanadium and molybdenum, and these elements could leach out in dangerous amounts. Granite, the main constituent of this concrete, might also leach some trace elements. He suspended concrete and granite powder in artificial water, constantly agitated it, and measured the leachate concentrations over 100 days \href{https://doi.org/10.1006/jmsc.2002.1267}{Wilding and Sayer 2002}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
