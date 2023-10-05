@@ -10,6 +10,45 @@ library(tidyverse); theme_set(theme_classic())
 
 
 
+
+# R tip: plot -------------------------------------------------------------
+
+x <- seq(1, 10, length.out=10)
+y <- rnorm(n=10, mean=0, sd=1)
+plot(x, y)
+plot(y ~ x)
+
+str(Loblolly) # Growth of Loblolly pine trees with height, age, and seed source
+par(mfrow=c(1,2))
+
+# x: numeric
+# y: numeric
+plot(Loblolly$age, Loblolly$height, main="plot(Loblolly$age, Loblolly$height)")
+plot(height ~ age, data=Loblolly, main="plot(height ~ age, data=Loblolly)")
+
+
+str(PlantGrowth) # Plant DW under control, treatment 1, and treatment 2; N=10
+plant_df <- PlantGrowth
+plant_df$group_chr <- as.character(plant_df$group)
+str(plant_df)
+
+par(mfrow=c(2,2))
+# x: factor
+# y: numeric
+plot(weight ~ group, data=plant_df, main="plot(weight ~ group, data=plant_df)")
+plot(plant_df$group, plant_df$weight, main="plot(plant_df$group, plant_df$weight)")
+boxplot(weight ~ group, data=plant_df, main="boxplot(weight ~ group, data=plant_df)")
+boxplot(plant_df$group, plant_df$weight, main="boxplot(plant_df$group, plant_df$weight)")
+
+# x: character
+# y: numeric
+plot(weight ~ group_chr, data=plant_df, main="plot(weight ~ group_chr, data=plant_df)")
+plot(plant_df$group_chr, plant_df$weight, main="plot(plant_df$group_chr, plant_df$weight)")
+boxplot(weight ~ group_chr, data=plant_df, main="boxplot(weight ~ group_chr, data=plant_df)")
+boxplot(plant_df$group_chr, plant_df$weight, main="boxplot(plant_df$group_chr, plant_df$weight)")
+
+
+
 # poisson shape -----------------------------------------------------------
 
 pois_df <- expand_grid(lambda=c(0.5, 2, 5, 10),

@@ -8,11 +8,50 @@ library(tidyverse); theme_set(theme_classic())
 
 
 
+# R tip: vectorization ----------------------------------------------------
+
+a_vector <- -2:2
+another_vector <- round(runif(n=10, min=0, max=10), 2)
+a_matrix <- matrix(1:6, ncol=2)
+
+# Vectorized functions apply the operation to each element in an object
+a_vector * 2
+exp(a_vector) # e^(a_vector)
+another_vector - mean(another_vector)
+(another_vector - mean(another_vector))^2
+sum( (another_vector - mean(another_vector))^2 )
+
+# In some cases, this works with a matrix as well
+a_matrix * 2
+exp(a_matrix)
+
+# For more complex functions, a specific argument can be vectorized
+# Pr(0 heads | 4 flips, p=0.5)
+dbinom(x=0, size=4, prob=0.5)
+# Pr(0:4 heads | 4 flips, p=0.5) 
+dbinom(x=0:4, size=4, prob=0.5)
+# Pr(0 heads | 1:4 flips)
+dbinom(x=0, size=1:4, prob=0.5)
+# Pr(0 heads | 4 flips, p=c(0, 0.5, 1))
+dbinom(x=0, size=4, prob=c(0, 0.5, 1))
+
+# Useful for columns in a dataframe
+a_df <- data.frame(x=0:4,
+                   size=4,
+                   p=0.5)
+a_df$prob_x_heads <- dbinom(x=a_df$x, size=a_df$size, p=a_df$p)
+a_df$pct_x_heads <- a_df$prob_x_heads * 100
+
+# Note that three vectors were provided to dbinom() to define prob_x_heads.
+# In this case, R steps through the elements of each vector together (that is,
+# element 1 of each, then element 2 of each, then element 3 of each, etc.)
+# If one vector is shorter, R will repeat it as needed.
+
 
 # example 1 ---------------------------------------------------------------
 
 p_heads <- 0.5
-n_flips <- 10
+n_flips <- 20
 
 flip_set <- rbinom(n=n_flips, size=1, prob=p_heads)
 flip_set
@@ -48,27 +87,27 @@ ggsave("figs/L05_coinflip_theoretical.png", width=3.5, height=3, dpi=300)
 
 # flip break --------------------------------------------------------------
 
-obs_df <- tibble(
-  Simulated=c(),
-  Observed=c()
-) |>
-  mutate(student=row_number())
+obs_df <- data.frame(
+  Simulated=c(11, 10, 11, 9, 8, 8, 10, 11, 11, 11, 10, 10),
+  Observed=c(9, 10, 10, 12, 13, 10, 8, 8, 9, 9, 11, 9)
+)
+obs_df$student <- 1:nrow(obs_df)
 
 summary(obs_df)
 
 obs_df |>
   pivot_longer(1:2, names_to="Source", values_to="n_heads") |>
   ggplot(aes(n_heads)) +
-  geom_bar() + 
+  geom_bar() + xlim(0, 20) +
   facet_wrap(~Source) +
   labs(x="Number of heads out of 10 flips", 
        y="Frequency") 
 
 obs_df |>
   pivot_longer(1:2, names_to="Source", values_to="n_heads") |>
-  mutate(p_hat=n_heads/10) |>
+  mutate(p_hat=n_heads/20) |>
   ggplot(aes(p_hat)) +
-  geom_bar() + 
+  geom_bar() + xlim(0, 1) +
   facet_wrap(~Source) +
   labs(x="Proportion heads", 
        y="Frequency") 
@@ -81,6 +120,37 @@ obs_df |>
 
 factorial(52)/(factorial(5)*factorial(47))
 
+
+
+
+
+
+# calculations ------------------------------------------------------------
+
+# P(6 | k=10, p=0.5)
+dbinom(x=6, size=10, p=0.5)
+
+# P(≥6 | k=10, p=0.5)
+dbinom(x=6:10, size=10, p=0.5)
+sum(dbinom(x=6:10, size=10, p=0.5))
+# pbinom() gives cumulative probability
+1 - pbinom(5, size=10, prob=0.5)
+
+tibble(x=0:10,
+       dbinom=dbinom(0:10, 10, 0.5),
+       pbinom=pbinom(0:10, 10, 0.5),
+       cumul_dbinom=cumsum(dbinom(0:10, 10, 0.5)))
+
+# P(>6 | k=10, p=0.5)
+1 - pbinom(6, size=10, prob=0.5)
+
+# P(≥6 | k=10, p=0.5)
+1 - pbinom(5, size=10, prob=0.5)
+
+# P(6 | k=?, p=0.5) > 0.9
+data.frame(k=6:20,
+           P_0to5=pbinom(5, size=6:20, prob=0.5)) |>
+  mutate(P_6orMore=1-P_0to5)
 
 
 

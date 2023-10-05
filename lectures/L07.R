@@ -7,6 +7,17 @@ library(tidyverse); theme_set(theme_classic())
 
 
 
+
+# R tip: expand.grid ------------------------------------------------------
+
+
+
+
+
+
+
+
+
 # normal ------------------------------------------------------------------
 
 norm_df <- tibble(x=seq(-4, 4, by=0.01)) |>
@@ -45,3 +56,22 @@ ggplot(norm_df) +
             nudge_y=0.02, parse=TRUE, size=5) + 
   geom_point(data=norm_obs, aes(x, density), shape=1, size=2)
 ggsave("figs/L07_norm_examp3.png", width=4, height=2.5)
+
+
+
+
+
+# sd away from mean -------------------------------------------------------
+
+n_kelp <- 100000
+wt_mu <- 200
+wt_sigma <- 50
+
+kelp_wt_df <- data.frame(kelp_id=1:n_kelp,
+                         dry_wt=rnorm(n=n_kelp, mean=wt_mu, sd=wt_sigma))
+summary(kelp_wt_df)
+
+lo_bound <- wt_mu - wt_sigma
+hi_bound <- wt_mu + wt_sigma
+
+mean(kelp_wt_df$dry_wt > lo_bound & kelp_wt_df$dry_wt < hi_bound)
